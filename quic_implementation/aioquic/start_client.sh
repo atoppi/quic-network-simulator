@@ -1,6 +1,8 @@
 # Set up the routing needed for the simulation.
 /setup.sh
 
+trap "exit" SIGINT SIGTERM
+
 # The following variables are available for use:
 # - ROLE contains the role of this execution context, client or server
 # - SERVER_PARAMS contains user-supplied command line parameters
@@ -11,7 +13,7 @@ if [ -n "$QLOGDIR" ]; then
     LOG_PARAMS="$LOG_PARAMS --quic-log $QLOGDIR"
 fi
 if [ -n "$SSLKEYLOGFILE" ]; then
-    LOG_PARAMS="$LOG_PARAMS --secrets-log /logs/$SSLKEYLOGFILE"
+    LOG_PARAMS="$LOG_PARAMS --secrets-log $SSLKEYLOGFILE"
 fi
 
 if [ -n "$TESTCASE" ]; then
@@ -61,7 +63,7 @@ run_client() {
         --verbose \
         $LOG_PARAMS \
         $CLIENT_PARAMS \
-        $@ 1>> /logs/stout.log
+        $@ 2>> /logs/stout.log
 }
 
 if [ "$ROLE" = "client" ]; then
@@ -75,17 +77,21 @@ if [ "$ROLE" = "client" ]; then
             echo $req
             run_client $req
         done
+        kill 1
         ;;
     "resumption"|"zerortt")
-        arr=($REQUESTS)
-        echo ${arr[0]}
-  #      run_client ${arr[0]}
-        echo ${arr[@]}
- #       run_client ${arr[@]:1}
+        echo "Running test $TESTCASE to server $REQUESTS with $CLIENT_PARAMS (1/2)"
+        run_client $REQUESTS
+        echo "Session file generated. Resuming session (2/2)"
+        run_client $REQUESTS
+        echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
+        kill 1
         ;;
     *)
-        echo "Running test $TESTCASE to server $REQUEST"
+        echo "Running test $TESTCASE to server $REQUESTS"
         run_client $REQUESTS
+        echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
+        kill 1
         ;;
     esac
 fi

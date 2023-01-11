@@ -8,10 +8,7 @@
 
 LOG_PARAMS=""
 if [ -n "$QLOGDIR" ]; then
-    LOG_PARAMS="$LOG_PARAMS --quic-log $QLOGDIR"
-fi
-if [ -n "$SSLKEYLOGFILE" ]; then
-    LOG_PARAMS="$LOG_PARAMS --secrets-log /logs/$SSLKEYLOGFILE"
+    LOG_PARAMS="$LOG_PARAMS --qlog-dir=$QLOGDIR"
 fi
 
 if [ -n "$TESTCASE" ]; then
@@ -49,45 +46,23 @@ if [ -n "$TESTCASE" ]; then
     if [ "$ROLE" = "server" ]; then
         export STATIC_ROOT=/www
     fi
-fi 
+else
+    # network simulator
+    REQUESTS="https://193.167.100.100:4000/"
+fi
 
-# network simulator
-REQUESTS="https://193.167.100.100:4000/"
+if [ "$ROLE" = "server" ]; then
+    echo "Starting server active on $(hostname -I | cut -f1 -d" "):4000"
+    echo "QLOG DIR: $QLOGDIR"
+    echo "SSL FILE: $SSLKEYLOGFILE"
 
-run_client() {
-    python3 examples/http3_client.py \
-        --ca-certs tests/pycacert.pem \
-        --output-dir /downloads \
-        --verbose \
+    ./server $(hostname -I | cut -f1 -d" ") 4000 \
+        cert.key \
+        cert.crt \
+        --show-secret \
+        --verify-client \
         $LOG_PARAMS \
-        $CLIENT_PARAMS \
-        $@ 1>> /logs/stout.log
-}
-
-if [ "$ROLE" = "client" ]; then
-    # Wait for the simulator to start up.
-    /wait-for-it.sh sim:57832 -s -t 30
-
-    echo "Starting client"
-    case "$TESTCASE" in
-    "multiconnect")
-        for req in $REQUESTS; do
-            echo $req
-            run_client $req
-        done
-        ;;
-    "resumption"|"zerortt")
-        arr=($REQUESTS)
-        echo ${arr[0]}
-  #      run_client ${arr[0]}
-        echo ${arr[@]}
- #       run_client ${arr[@]:1}
-        ;;
-    *)
-        echo "Running test $TESTCASE to server $REQUEST"
-        run_client $REQUESTS
-        ;;
-    esac
+        $SERVER_PARAMS 2>> /logs/stout.log
 fi
 
 /bin/bash

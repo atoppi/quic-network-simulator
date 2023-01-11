@@ -24,14 +24,15 @@ services:
         ipv6_address: fd00:cafe:cafe:100::2
 
   server:
-    build: ./$SERVER
+    build: ./quic_implementation/$SERVER
     image: $SERVER
     container_name: server
     hostname: server
     stdin_open: true
     tty: true
+    init: true
     volumes:
-      - ./logs/server:/logs
+      - ./logs/server/$SERVER:/logs
     environment:
       - TESTCASE=$TESTCASE
       - QLOGDIR=$QLOGDIR
@@ -55,14 +56,15 @@ services:
       - "client46:fd00:cafe:cafe:0::100"
 
   client:
-    build: ./$CLIENT
+    build: ./quic_implementation/$CLIENT
     image: $CLIENT
     container_name: client
     hostname: client
     stdin_open: true
     tty: true
+    init: true
     volumes:
-      - ./logs/client:/logs
+      - ./logs/client/$CLIENT:/logs
     environment:
       - TESTCASE=$TESTCASE
       - QLOGDIR=$QLOGDIR
@@ -82,9 +84,8 @@ services:
       - "server6:fd00:cafe:cafe:100::100"
       - "server46:193.167.100.100"
       - "server46:fd00:cafe:cafe:100::100"
-
   iperf_server:
-    image: martenseemann/quic-interop-iperf-endpoint
+    image: bruno200496/iperf
     container_name: iperf_server
     stdin_open: true
     tty: true
@@ -107,7 +108,7 @@ services:
       - "client46:fd00:cafe:cafe:0::100"
 
   iperf_client:
-    image: martenseemann/quic-interop-iperf-endpoint
+    image: bruno200496/iperf
     container_name: iperf_client
     stdin_open: true
     tty: true

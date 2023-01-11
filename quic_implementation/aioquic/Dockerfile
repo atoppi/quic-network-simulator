@@ -14,6 +14,9 @@ RUN mkdir /downloads
 COPY start_client.sh .
 RUN chmod +x start_client.sh
 
+COPY start_server.sh .
+RUN chmod +x start_server.sh
+
 COPY run_endpoint.sh .
 RUN chmod +x run_endpoint.sh
 
