@@ -47,6 +47,7 @@ if [ -n "$TESTCASE" ]; then
     esac
 
     if [ "$ROLE" = "server" ]; then
+        mkdir /www
         export STATIC_ROOT=/www
     fi
 else

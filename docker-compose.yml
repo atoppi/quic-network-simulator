@@ -22,7 +22,7 @@ services:
       rightnet:
         ipv4_address: 193.167.100.2
         ipv6_address: fd00:cafe:cafe:100::2
-
+  
   server:
     build: ./quic_implementation/$SERVER
     image: $SERVER
@@ -84,6 +84,7 @@ services:
       - "server6:fd00:cafe:cafe:100::100"
       - "server46:193.167.100.100"
       - "server46:fd00:cafe:cafe:100::100"
+
   iperf_server:
     image: bruno200496/iperf
     container_name: iperf_server
@@ -92,7 +93,8 @@ services:
     environment:
       - ROLE=server
       - CLIENT=client4
-      - IPERF_CONGESTION=$IPERF_CONGESTION
+      - IPERF_ACTIVATION=$IPERF_ACTIVATION
+      - IPERF_BAND=$IPERF_BAND
     depends_on:
       - sim
     cap_add: 
@@ -114,7 +116,8 @@ services:
     tty: true
     environment:
       - ROLE=client
-      - IPERF_CONGESTION=$IPERF_CONGESTION
+      - IPERF_ACTIVATION=$IPERF_ACTIVATION
+      - IPERF_BAND=$IPERF_BAND
     depends_on:
       - sim
     cap_add: 
@@ -148,3 +151,4 @@ networks:
       config:
         - subnet: 193.167.100.0/24
         - subnet: fd00:cafe:cafe:100::/64
+

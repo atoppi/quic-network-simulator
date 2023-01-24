@@ -69,7 +69,7 @@ run_client() {
 if [ "$ROLE" = "client" ]; then
     # Wait for the simulator to start up.
     /wait-for-it.sh sim:57832 -s -t 30
-
+    sleep 30s
     echo "Starting client"
     case "$TESTCASE" in
     "multiconnect")
