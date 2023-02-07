@@ -86,7 +86,8 @@ services:
       - "server46:fd00:cafe:cafe:100::100"
 
   iperf_server:
-    image: bruno200496/iperf
+    build: ./iperf
+    image: iperf_endpoint
     container_name: iperf_server
     stdin_open: true
     tty: true
@@ -104,13 +105,14 @@ services:
         ipv4_address: 193.167.100.110
         ipv6_address: fd00:cafe:cafe:100::110
     extra_hosts:
-      - "client4:193.167.0.90"
-      - "client6:fd00:cafe:cafe:0::100"
-      - "client46:193.167.0.90"
-      - "client46:fd00:cafe:cafe:0::100"
+      - "client4:193.167.0.110"
+      - "client6:fd00:cafe:cafe:0::110"
+      - "client46:193.167.0.110"
+      - "client46:fd00:cafe:cafe:0::110"
 
   iperf_client:
-    image: bruno200496/iperf
+    build: ./iperf
+    image: iperf_endpoint
     container_name: iperf_client
     stdin_open: true
     tty: true
@@ -124,8 +126,8 @@ services:
       - NET_ADMIN
     networks:
       leftnet:
-        ipv4_address: 193.167.0.90
-        ipv6_address: fd00:cafe:cafe:0::90
+        ipv4_address: 193.167.0.110
+        ipv6_address: fd00:cafe:cafe:0::110
     extra_hosts:
       - "server4:193.167.100.110"
       - "server6:fd00:cafe:cafe:100::110"

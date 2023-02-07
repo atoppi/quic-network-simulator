@@ -4,16 +4,16 @@ echo "Ciao, questo è un testbed automatizzato per QUIC implementation."
 echo -n "Quale test vuoi eseguire? (handshake, zerortt): "
 read -r TESTCASE
 
-case $TESTCASE in
-   "handshake")
-      ;;
-   "zerortt")
-      ;;
-   *)
-     echo "Scelta non valida..."
-     exit 0
-     ;;
-esac
+# case $TESTCASE in
+#    "handshake")
+#       ;;
+#    "zerortt")
+#       ;;
+#    *)
+#      echo "Scelta non valida..."
+#      exit 0
+#      ;;
+# esac
 
 echo -n "Vuoi attivare iperf per la congestione della rete? (y/n): "
 read -r IPERF_ACTIVATION
@@ -60,7 +60,7 @@ echo "Scenario: ritardo "$DELAY"ms | banda "$BANDWIDTH"Mbps | "$QUEUE" utenti in
 echo -n "Vuoi avviare il testbed? (y/n): "
 read -r RISPOSTA
 
-declare -a IMPLEMETATION=(aioquic ngtcp2)
+declare -a IMPLEMETATION=(picoquic)
 declare SCENARIO="simple-p2p --delay="$DELAY"ms --bandwidth="$BANDWIDTH"Mbps --queue="$QUEUE""
 
 case $RISPOSTA in
@@ -80,6 +80,7 @@ case $RISPOSTA in
          docker-compose up --abort-on-container-exit 2>/dev/null
 
          echo "Salvataggio risultati cattura... (directory risultati: /logs/)"
+         mkdir "./logs/captures" 2>/dev/null
          mkdir "./logs/captures/$impl" 2>/dev/null
          mkdir "./logs/captures/$impl/$TESTCASE" 2>/dev/null
          

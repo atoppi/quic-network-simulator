@@ -1,0 +1,236 @@
+f213351b5929bb34: No root crt list specified -- certificate will not be verified.
+
+f213351b5929bb34: Sending ALPN list (1): hq-interop
+f213351b5929bb34: Sending transport parameter TLS extension (83 bytes):
+f213351b5929bb34:     Extension list (83 bytes):
+f213351b5929bb34:         Extension type: 5 (max_stream_data_bidi_local), length 4, 80200000
+f213351b5929bb34:         Extension type: 4 (initial_max_data), length 4, 80100000
+f213351b5929bb34:         Extension type: 8 (max_streams_bidi), length 2, 4200
+f213351b5929bb34:         Extension type: 1 (idle_timeout), length 4, 80007530
+f213351b5929bb34:         Extension type: 3 (max_packet_size), length 2, 45a0
+f213351b5929bb34:         Extension type: 9 (max_streams_uni), length 2, 4200
+f213351b5929bb34:         Extension type: 6 (max_stream_data_bidi_remote), length 4, 80010063
+f213351b5929bb34:         Extension type: 7 (max_stream_data_uni), length 4, 8000ffff
+f213351b5929bb34:         Extension type: 14 (active_connection_id_limit), length 1, 08
+f213351b5929bb34:         Extension type: 11 (max_ack_delay), length 1, 0a
+f213351b5929bb34:         Extension type: 15 (hcid), length 8, 37405b7cfcd042be
+f213351b5929bb34:         Extension type: 7560 (unknown), length 2, 5335
+f213351b5929bb34:         Extension type: 4278378010 (min_ack_delay), length 2, 43e8
+f213351b5929bb34:         Extension type: 29016 (enable_time_stamp), length 1, 03
+f213351b5929bb34:         Extension type: 10930 (grease_quic_bit), length 0
+f213351b5929bb34: Sending packet type: 2 (initial), S0, Q1, Version 1,
+f213351b5929bb34:     <f213351b5929bb34>, <37405b7cfcd042be>, Seq: 124127, pl: 1226
+f213351b5929bb34:     Token length: 0
+f213351b5929bb34:     Prepared 1206 bytes
+f213351b5929bb34:     ping, 1 bytes
+f213351b5929bb34:     Crypto HS frame, offset 0, length 283: 010001170303d28c...
+f213351b5929bb34:     padding, 918 bytes
+
+f213351b5929bb34: Sending 1252 bytes to 193.167.100.100:4000 at T=0.020896 (5f40c754dbd07)
+f213351b5929bb34: Receiving 1252 bytes from 193.167.100.100:4000 at T=0.086581 (5f40c754ebd9c)
+f213351b5929bb34: Receiving packet type: 2 (initial), S0, Q0, Version 1,
+f213351b5929bb34:     <37405b7cfcd042be>, <52d8e4301f3e4432>, Seq: 75339, pl: 158
+f213351b5929bb34:     Token length: 0
+f213351b5929bb34:     Decrypted 138 bytes
+f213351b5929bb34:     ACK_ECN (nb=0), 124127, ect0=1, ect1=0, ce=0
+f213351b5929bb34:     Crypto HS frame, offset 0, length 123: 020000770303bdbc...
+
+f213351b5929bb34: Receiving packet type: 4 (handshake), S0, Q0, Version 1,
+f213351b5929bb34:     <37405b7cfcd042be>, <52d8e4301f3e4432>, Seq: 0, pl: 1043
+f213351b5929bb34:     Decrypted 1023 bytes
+f213351b5929bb34:     Crypto HS frame, offset 0, length 1019: 0800008500830000...
+
+f213351b5929bb34: Received transport parameter TLS extension (106 bytes):
+f213351b5929bb34:     Extension list (106 bytes):
+f213351b5929bb34:         Extension type: 5 (max_stream_data_bidi_local), length 4, 80200000
+f213351b5929bb34:         Extension type: 4 (initial_max_data), length 4, 80100000
+f213351b5929bb34:         Extension type: 8 (max_streams_bidi), length 2, 4200
+f213351b5929bb34:         Extension type: 1 (idle_timeout), length 4, 80007530
+f213351b5929bb34:         Extension type: 3 (max_packet_size), length 2, 45a0
+f213351b5929bb34:         Extension type: 9 (max_streams_uni), length 2, 4200
+f213351b5929bb34:         Extension type: 6 (max_stream_data_bidi_remote), length 4, 80010063
+f213351b5929bb34:         Extension type: 7 (max_stream_data_uni), length 4, 8000ffff
+f213351b5929bb34:         Extension type: 14 (active_connection_id_limit), length 1, 08
+f213351b5929bb34:         Extension type: 11 (max_ack_delay), length 1, 0a
+f213351b5929bb34:         Extension type: 15 (hcid), length 8, 52d8e4301f3e4432
+f213351b5929bb34:         Extension type: 0 (ocid), length 8, f213351b5929bb34
+f213351b5929bb34:         Extension type: 2 (stateless_reset_token), length 16, ebc74e69fb25cdbf25bb5c3cc02cf4f2
+f213351b5929bb34:         Extension type: 4278378010 (min_ack_delay), length 2, 43e8
+f213351b5929bb34:         Extension type: 29016 (enable_time_stamp), length 1, 03
+f213351b5929bb34:         Extension type: 10930 (grease_quic_bit), length 0
+f213351b5929bb34: Sending packet type: 4 (handshake), S0, Q0, Version 1,
+f213351b5929bb34:     <52d8e4301f3e4432>, <37405b7cfcd042be>, Seq: 0, pl: 28
+f213351b5929bb34:     Prepared 8 bytes
+f213351b5929bb34:     ACK_ECN (nb=0), 0, ect0=1, ect1=0, ce=0
+
+f213351b5929bb34: Sending 53 bytes to 193.167.100.100:4000 at T=0.086581 (5f40c754ebd9c)
+f213351b5929bb34: Receiving 735 bytes from 193.167.100.100:4000 at T=0.128191 (5f40c754f6026)
+f213351b5929bb34: Receiving packet type: 4 (handshake), S0, Q0, Version 1,
+f213351b5929bb34:     <37405b7cfcd042be>, <52d8e4301f3e4432>, Seq: 1, pl: 271
+f213351b5929bb34:     Decrypted 251 bytes
+f213351b5929bb34:     Crypto HS frame, offset 1019, length 246: 5cb255423579ed25...
+
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S0, Q1,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 0 (0), Phi: 0,
+f213351b5929bb34:     Decrypted 413 bytes
+f213351b5929bb34:     Crypto HS frame, offset 0, length 133: 04000081000186a0...
+f213351b5929bb34:     NEW TOKEN[50]: 0xa9b5f12cf044522bd2372c44cf6851a0...
+f213351b5929bb34:     NEW CONNECTION ID[1]: 0x2e32028706ad4032, 19b4eda39227ac7bbb56c6afdf97b0ed
+f213351b5929bb34:     NEW CONNECTION ID[2]: 0x119e3fbd7d7ed9cc, 977077c3991aa13c18498ed71b3aafd6
+f213351b5929bb34:     NEW CONNECTION ID[3]: 0x32100175159a3785, 652b9f06e409fd368ffdb0396bd14848
+f213351b5929bb34:     NEW CONNECTION ID[4]: 0xd466330767897c24, a4d8739183a939869687a32602f41e17
+f213351b5929bb34:     NEW CONNECTION ID[5]: 0x8d0903fca2308948, f0c487e12d0975f61839c871e44dda2e
+f213351b5929bb34:     NEW CONNECTION ID[6]: 0x26cb3edd2efbba33, ef04959e79608d633cd6f277cb8eefe3
+f213351b5929bb34:     NEW CONNECTION ID[7]: 0x65ec5eac1ec54d64, 9013401d07f90dbaa47b3834965ad9b5
+f213351b5929bb34:     padding, 28 bytes
+
+f213351b5929bb34: T= 0.128191, cwin: 15360,flight: 53,nb_ret: 0,rtt_min: 65685,rtt: 65685,rtt_var: 32842,max_ack_delay: 0,state: 10
+f213351b5929bb34: Negotiated ALPN: hq-interop
+f213351b5929bb34: Sending packet type: 4 (handshake), S0, Q0, Version 1,
+f213351b5929bb34:     <52d8e4301f3e4432>, <37405b7cfcd042be>, Seq: 1, pl: 67
+f213351b5929bb34:     Prepared 47 bytes
+f213351b5929bb34:     ACK_ECN (nb=0), 0-1, ect0=2, ect1=0, ce=0
+f213351b5929bb34:     Crypto HS frame, offset 0, length 36: 1400002005a34cdd...
+
+f213351b5929bb34: Sending packet type: 6 (1rtt protected), S1, Q0,
+f213351b5929bb34:     <52d8e4301f3e4432>, Seq: 0 (0), Phi: 0,
+f213351b5929bb34:     Prepared 285 bytes
+f213351b5929bb34:     NEW CONNECTION ID[1]: 0x99f2c43057eb970d, e2f18562079a203a45d675c976a85e3a
+f213351b5929bb34:     NEW CONNECTION ID[2]: 0xff1540429b947614, 46e57dc4740ee03592c42f753e9cfaf4
+f213351b5929bb34:     NEW CONNECTION ID[3]: 0x6a4cb379d48c7702, 8e9bc4f7f0f6462c086bfb04380221eb
+f213351b5929bb34:     NEW CONNECTION ID[4]: 0x3be74c17ae14e94a, 84d65f5f5d3e29532569d9433aecf290
+f213351b5929bb34:     NEW CONNECTION ID[5]: 0x205ba1707da83e3c, fb40bdef1bbc515b24207e2b26e7de21
+f213351b5929bb34:     NEW CONNECTION ID[6]: 0x051f3a109c347f8d, d330124b3bfd21200c15f935f029d9dd
+f213351b5929bb34:     NEW CONNECTION ID[7]: 0xd7d36b2a23d1ac70, e3f1c17be388f3d0838c9f599536dd02
+f213351b5929bb34:     padding, 89 bytes
+
+f213351b5929bb34: T= 0.128191, cwin: 15360,flight: 456,nb_ret: 0,rtt_min: 65685,rtt: 65685,rtt_var: 32842,max_ack_delay: 0,state: 13
+f213351b5929bb34: Sending 403 bytes to 193.167.100.100:4000 at T=0.128191 (5f40c754f6026)
+f213351b5929bb34: Connection established. Version = 1, I-CID: f213351b5929bb34, verified: 1
+f213351b5929bb34: Preparing GET on stream 0 for /index.html
+f213351b5929bb34: Receiving 1440 bytes from 193.167.100.100:4000 at T=0.140525 (5f40c754f9054)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S0, Q1,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 1 (1), Phi: 0,
+f213351b5929bb34:     Decrypted 1414 bytes
+f213351b5929bb34:     ping, 1 bytes
+f213351b5929bb34:     padding, 1413 bytes
+
+f213351b5929bb34: T= 0.140525, cwin: 15360,flight: 456,nb_ret: 0,rtt_min: 65685,rtt: 65685,rtt_var: 32842,max_ack_delay: 0,state: 13
+f213351b5929bb34: Sending packet type: 6 (1rtt protected), S1, Q1,
+f213351b5929bb34:     <52d8e4301f3e4432>, Seq: 1 (1), Phi: 0,
+f213351b5929bb34:     Prepared 157 bytes
+f213351b5929bb34:     Time Stamp: 17565
+f213351b5929bb34:     ACK_ECN (nb=0), 0-1, ect0=2, ect1=0, ce=0
+f213351b5929bb34:     Stream 0, offset 0, length 17, fin = 1: 474554202f696e64...
+f213351b5929bb34:     padding, 123 bytes
+
+f213351b5929bb34: T= 0.140525, cwin: 15360,flight: 639,nb_ret: 0,rtt_min: 65685,rtt: 65685,rtt_var: 32842,max_ack_delay: 0,state: 13
+f213351b5929bb34: Sending 183 bytes to 193.167.100.100:4000 at T=0.140525 (5f40c754f9054)
+f213351b5929bb34: Receiving 55 bytes from 193.167.100.100:4000 at T=0.156292 (5f40c754fcdeb)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S0, Q0,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 2 (2), Phi: 0,
+f213351b5929bb34:     Decrypted 29 bytes
+f213351b5929bb34:     ACK Frequency: S=0, P=2, uS=10000, Ignore order: 1
+f213351b5929bb34:     padding, 22 bytes
+
+f213351b5929bb34: T= 0.156292, cwin: 15360,flight: 639,nb_ret: 0,rtt_min: 65685,rtt: 65685,rtt_var: 32842,max_ack_delay: 0,state: 13
+f213351b5929bb34: Sending packet type: 6 (1rtt protected), S1, Q1,
+f213351b5929bb34:     <52d8e4301f3e4432>, Seq: 2 (2), Phi: 0,
+f213351b5929bb34:     Prepared 29 bytes
+f213351b5929bb34:     Time Stamp: 21004
+f213351b5929bb34:     ACK_ECN (nb=0), 0-2, ect0=3, ect1=0, ce=0
+f213351b5929bb34:     padding, 14 bytes
+
+f213351b5929bb34: T= 0.168038, cwin: 15360,flight: 694,nb_ret: 0,rtt_min: 65685,rtt: 65685,rtt_var: 32842,max_ack_delay: 0,state: 13
+f213351b5929bb34: Sending 55 bytes to 193.167.100.100:4000 at T=0.168038 (5f40c754ffbcd)
+f213351b5929bb34: Receiving 55 bytes from 193.167.100.100:4000 at T=0.185067 (5f40c75503e52)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S1, Q0,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 3 (3), Phi: 0,
+f213351b5929bb34:     Decrypted 29 bytes
+f213351b5929bb34:     handshake_done
+f213351b5929bb34:     padding, 28 bytes
+
+f213351b5929bb34: T= 0.185067, cwin: 15360,flight: 641,nb_ret: 0,rtt_min: 65685,rtt: 65685,rtt_var: 32842,max_ack_delay: 0,state: 14
+f213351b5929bb34: Sending packet type: 6 (1rtt protected), S0, Q1,
+f213351b5929bb34:     <52d8e4301f3e4432>, Seq: 3 (3), Phi: 0,
+f213351b5929bb34:     Prepared 29 bytes
+f213351b5929bb34:     ACK Frequency: S=0, P=2, uS=10000, Ignore order: 1
+f213351b5929bb34:     padding, 22 bytes
+
+f213351b5929bb34: T= 0.185067, cwin: 15360,flight: 696,nb_ret: 0,rtt_min: 65685,rtt: 65685,rtt_var: 32842,max_ack_delay: 0,state: 14
+f213351b5929bb34: Sending 55 bytes to 193.167.100.100:4000 at T=0.185067 (5f40c75503e52)
+f213351b5929bb34: Receiving 439 bytes from 193.167.100.100:4000 at T=0.192667 (5f40c75505c02)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S1, Q1,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 4 (4), Phi: 0,
+f213351b5929bb34:     Decrypted 413 bytes
+f213351b5929bb34:     Time Stamp: 16071
+f213351b5929bb34:     ACK_ECN (nb=0), 0-1, ect0=2, ect1=0, ce=0
+f213351b5929bb34:     Stream 0, offset 0, length 386, fin = 1: 3c21444f43545950...
+f213351b5929bb34:     padding, 11 bytes
+
+f213351b5929bb34: T= 0.192667, cwin: 15360,flight: 202,nb_ret: 0,rtt_min: 46957,rtt: 63992,rtt_var: 30609,max_ack_delay: 0,state: 14
+f213351b5929bb34: All done, Closing the connection.
+f213351b5929bb34: Receiving 55 bytes from 193.167.100.100:4000 at T=0.203138 (5f40c755084e9)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S1, Q0,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 5 (5), Phi: 0,
+f213351b5929bb34:     Decrypted 29 bytes
+f213351b5929bb34:     handshake_done
+f213351b5929bb34:     padding, 28 bytes
+
+f213351b5929bb34: Sending packet type: 6 (1rtt protected), S0, Q1,
+f213351b5929bb34:     <52d8e4301f3e4432>, Seq: 4 (4), Phi: 0,
+f213351b5929bb34:     Prepared 17 bytes
+f213351b5929bb34:     Time Stamp: 25392
+f213351b5929bb34:     ACK_ECN (nb=0), 2-5, ect0=6, ect1=0, ce=0
+f213351b5929bb34:     application_close, Error 0x0000, Reason length 0
+
+f213351b5929bb34: Sending 43 bytes to 193.167.100.100:4000 at T=0.203138 (5f40c755084e9)
+f213351b5929bb34: Receiving 439 bytes from 193.167.100.100:4000 at T=0.256118 (5f40c755153dd)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S1, Q1,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 6 (6), Phi: 0,
+f213351b5929bb34:     Decrypted 413 bytes
+f213351b5929bb34:     Stream 0, offset 0, length 386, fin = 1: 3c21444f43545950...
+f213351b5929bb34:     padding, 23 bytes
+
+f213351b5929bb34: Receiving 55 bytes from 193.167.100.100:4000 at T=0.257664 (5f40c755159e7)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S1, Q0,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 7 (7), Phi: 0,
+f213351b5929bb34:     Decrypted 29 bytes
+f213351b5929bb34:     handshake_done
+f213351b5929bb34:     padding, 28 bytes
+
+f213351b5929bb34: Receiving 55 bytes from 193.167.100.100:4000 at T=0.273224 (5f40c755196af)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S0, Q1,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 8 (8), Phi: 0,
+f213351b5929bb34:     Decrypted 29 bytes
+f213351b5929bb34:     Time Stamp: 19663
+f213351b5929bb34:     ACK_ECN (nb=0), 0-3, ect0=4, ect1=0, ce=0
+f213351b5929bb34:     padding, 15 bytes
+
+f213351b5929bb34: Sending packet type: 6 (1rtt protected), S0, Q0,
+f213351b5929bb34:     <52d8e4301f3e4432>, Seq: 5 (5), Phi: 0,
+f213351b5929bb34:     Prepared 3 bytes
+f213351b5929bb34:     application_close, Error 0x0000, Reason length 0
+
+f213351b5929bb34: Sending 29 bytes to 193.167.100.100:4000 at T=0.273224 (5f40c755196af)
+f213351b5929bb34: Receiving 439 bytes from 193.167.100.100:4000 at T=0.309185 (5f40c75522328)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S0, Q0,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 9 (9), Phi: 0,
+f213351b5929bb34:     Decrypted 413 bytes
+f213351b5929bb34:     Stream 0, offset 0, length 386, fin = 1: 3c21444f43545950...
+f213351b5929bb34:     padding, 23 bytes
+
+f213351b5929bb34: Receiving 55 bytes from 193.167.100.100:4000 at T=0.313869 (5f40c75523574)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S0, Q0,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 10 (10), Phi: 0,
+f213351b5929bb34:     Decrypted 29 bytes
+f213351b5929bb34:     handshake_done
+f213351b5929bb34:     padding, 28 bytes
+
+f213351b5929bb34: Receiving 30 bytes from 193.167.100.100:4000 at T=0.315782 (5f40c75523ced)
+f213351b5929bb34: Receiving packet type: 6 (1rtt protected), S0, Q0,
+f213351b5929bb34:     <37405b7cfcd042be>, Seq: 11 (11), Phi: 0,
+f213351b5929bb34:     Decrypted 4 bytes
+f213351b5929bb34:     connection_close, Error 0x0000, Reason length 0
+
+f213351b5929bb34: Received 386 bytes in 0.326057 seconds, 0.009471 Mbps.

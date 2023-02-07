@@ -55,7 +55,7 @@ fi
 
 # network simulator
 REQUESTS="https://193.167.100.100:4000/"
-
+REQUESTS2="https://193.167.100.100:4000/5000000"
 run_client() {
     python3 examples/http3_client.py \
         --ca-certs tests/pycacert.pem \
@@ -82,8 +82,8 @@ if [ "$ROLE" = "client" ]; then
     "resumption"|"zerortt")
         echo "Running test $TESTCASE to server $REQUESTS with $CLIENT_PARAMS (1/2)"
         run_client $REQUESTS
-        echo "Session file generated. Resuming session (2/2)"
-        run_client $REQUESTS
+        echo "Session file generated. Resuming session (2/2) to server $REQUESTS2 with $CLIENT_PARAMS "
+        run_client $REQUESTS2
         echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
         kill 1
         ;;

@@ -11,8 +11,8 @@
 if [ "$ROLE" == "client" ]; then
     # Wait for the simulator to start up.
     /wait-for-it.sh sim:57832 -s -t 30
-    ./start_client.sh
     echo "START QUIC CLIENT"
+    ./start_client.sh
 elif [ "$ROLE" == "server" ]; then
     echo "START QUIC SERVER"
     ./start_server.sh
