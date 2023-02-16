@@ -77,7 +77,7 @@ if [ "$ROLE" = "client" ]; then
             echo $req
             run_client $req
         done
-        kill 1
+        # kill 1
         ;;
     "resumption"|"zerortt")
         echo "Running test $TESTCASE to server $REQUESTS with $CLIENT_PARAMS (1/2)"
@@ -85,15 +85,15 @@ if [ "$ROLE" = "client" ]; then
         echo "Session file generated. Resuming session (2/2) to server $REQUESTS2 with $CLIENT_PARAMS "
         run_client $REQUESTS2
         echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
-        kill 1
+        # kill 1
         ;;
     *)
         echo "Running test $TESTCASE to server $REQUESTS"
         run_client $REQUESTS
         echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
-        kill 1
+        # kill 1
         ;;
     esac
 fi
 
-/bin/bash
+kill 1

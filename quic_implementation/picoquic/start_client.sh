@@ -107,6 +107,7 @@ if [ ! -z "$REQUESTS" ]; then
             fi
             mv $LOGFILE $L2
         fi
+        sleep 15s
         kill 1
 
     elif [ "$TESTCASE" == "multiconnect" ]; then

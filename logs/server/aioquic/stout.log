@@ -2186,3 +2186,1013 @@ OSError: [Errno 98] Address already in use
 2023-02-06 17:00:07,733 DEBUG quic [468d4975205c5926] Sending PING (probe) in packet 53
 2023-02-06 17:00:32,847 DEBUG quic [468d4975205c5926] Loss detection triggered
 2023-02-06 17:00:32,848 DEBUG quic [468d4975205c5926] Sending PING (probe) in packet 54
+2023-02-08 16:42:42,111 DEBUG asyncio Using selector: EpollSelector
+2023-02-08 16:43:10,541 DEBUG quic [ceed0328a2c9535e] Network path ('193.167.0.100', 55723) discovered
+2023-02-08 16:43:10,543 DEBUG quic [ceed0328a2c9535e] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-08 16:43:10,556 DEBUG quic [ceed0328a2c9535e] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-08 16:43:10,738 INFO quic [ceed0328a2c9535e] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-08 16:43:10,739 DEBUG quic [ceed0328a2c9535e] Scheduled CRYPTO data for retransmission
+2023-02-08 16:43:10,941 DEBUG quic [ceed0328a2c9535e] Loss detection triggered
+2023-02-08 16:43:10,942 DEBUG quic [ceed0328a2c9535e] Scheduled CRYPTO data for retransmission
+2023-02-08 16:43:10,967 DEBUG quic [ceed0328a2c9535e] Discarding epoch Epoch.INITIAL
+2023-02-08 16:43:10,968 DEBUG quic [ceed0328a2c9535e] Network path ('193.167.0.100', 55723) validated by handshake
+2023-02-08 16:43:11,012 DEBUG quic [ceed0328a2c9535e] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-08 16:43:11,013 DEBUG quic [ceed0328a2c9535e] Discarding epoch Epoch.HANDSHAKE
+2023-02-08 16:43:11,035 INFO quic [ceed0328a2c9535e] ALPN negotiated protocol h3
+2023-02-08 16:43:11,036 DEBUG quic [ceed0328a2c9535e] Stream 2 created by peer
+2023-02-08 16:43:11,036 DEBUG quic [ceed0328a2c9535e] Stream 6 created by peer
+2023-02-08 16:43:11,037 DEBUG quic [ceed0328a2c9535e] Stream 10 created by peer
+2023-02-08 16:43:11,037 DEBUG quic [ceed0328a2c9535e] Stream 0 created by peer
+2023-02-08 16:43:11,039 INFO quic [ceed0328a2c9535e] HTTP request GET /
+2023-02-08 16:43:11,041 INFO quic [ceed0328a2c9535e] HTTP request GET /style.css
+2023-02-08 16:43:11,147 DEBUG quic [ceed0328a2c9535e] Decryption key is not available
+2023-02-08 16:43:11,149 DEBUG quic [ceed0328a2c9535e] Decryption key is not available
+2023-02-08 16:43:11,266 DEBUG quic [ceed0328a2c9535e] Loss detection triggered
+2023-02-08 16:43:11,267 DEBUG quic [ceed0328a2c9535e] Scheduled CRYPTO data for retransmission
+2023-02-08 16:43:11,268 DEBUG quic [ceed0328a2c9535e] Sending PING (probe) in packet 20
+2023-02-08 16:43:11,349 DEBUG quic [ceed0328a2c9535e] Decryption key is not available
+2023-02-08 16:43:11,351 DEBUG quic [ceed0328a2c9535e] Decryption key is not available
+2023-02-08 16:43:11,352 DEBUG quic [ceed0328a2c9535e] Decryption key is not available
+2023-02-08 16:43:11,466 DEBUG quic [ceed0328a2c9535e] Stream 0 discarded
+2023-02-08 16:43:11,469 INFO quic [ceed0328a2c9535e] Connection close received (code 0x100, reason )
+2023-02-08 16:43:11,469 DEBUG quic [ceed0328a2c9535e] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-08 16:43:13,534 DEBUG quic [ceed0328a2c9535e] Discarding epoch Epoch.ONE_RTT
+2023-02-08 16:43:13,536 DEBUG quic [ceed0328a2c9535e] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-08 16:43:15,734 DEBUG quic [074f99499e79b397] Network path ('193.167.0.100', 44604) discovered
+2023-02-08 16:43:15,736 DEBUG quic [074f99499e79b397] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-08 16:43:15,742 DEBUG quic [074f99499e79b397] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-08 16:43:15,744 DEBUG quic [074f99499e79b397] Stream 0 created by peer
+2023-02-08 16:43:15,745 INFO quic [074f99499e79b397] HTTP request GET /5000000
+2023-02-08 16:43:15,936 INFO quic [074f99499e79b397] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-08 16:43:15,937 DEBUG quic [074f99499e79b397] Scheduled CRYPTO data for retransmission
+2023-02-08 16:43:16,138 DEBUG quic [074f99499e79b397] Loss detection triggered
+2023-02-08 16:43:16,139 DEBUG quic [074f99499e79b397] Scheduled CRYPTO data for retransmission
+2023-02-08 16:43:16,156 DEBUG quic [074f99499e79b397] Discarding epoch Epoch.INITIAL
+2023-02-08 16:43:16,157 DEBUG quic [074f99499e79b397] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-08 16:43:16,157 DEBUG quic [074f99499e79b397] Discarding epoch Epoch.HANDSHAKE
+2023-02-08 16:43:16,159 INFO quic [074f99499e79b397] ALPN negotiated protocol h3
+2023-02-08 16:43:16,160 DEBUG quic [074f99499e79b397] Network path ('193.167.0.100', 44604) validated by handshake
+2023-02-08 16:43:16,161 DEBUG quic [074f99499e79b397] Stream 2 created by peer
+2023-02-08 16:43:16,162 DEBUG quic [074f99499e79b397] Stream 6 created by peer
+2023-02-08 16:43:16,163 DEBUG quic [074f99499e79b397] Stream 10 created by peer
+2023-02-08 16:43:16,344 DEBUG quic [074f99499e79b397] Decryption key is not available
+2023-02-08 16:43:16,356 DEBUG quic [074f99499e79b397] Decryption key is not available
+2023-02-08 16:43:16,546 DEBUG quic [074f99499e79b397] Decryption key is not available
+2023-02-08 16:43:27,783 DEBUG quic [074f99499e79b397] Remote max_data raised to 2097152
+2023-02-08 16:43:27,786 DEBUG quic [074f99499e79b397] Stream 0 remote max_stream_data raised to 2097152
+2023-02-08 16:43:32,743 DEBUG quic [074f99499e79b397] Remote max_data raised to 4194304
+2023-02-08 16:43:32,744 DEBUG quic [074f99499e79b397] Stream 0 remote max_stream_data raised to 4194304
+2023-02-08 16:43:39,759 DEBUG quic [074f99499e79b397] Remote max_data raised to 8388608
+2023-02-08 16:43:39,760 DEBUG quic [074f99499e79b397] Stream 0 remote max_stream_data raised to 8388608
+2023-02-08 16:43:49,637 DEBUG quic [074f99499e79b397] Remote max_data raised to 16777216
+2023-02-08 16:43:49,638 DEBUG quic [074f99499e79b397] Stream 0 remote max_stream_data raised to 16777216
+2023-02-08 16:43:52,754 DEBUG quic [074f99499e79b397] Stream 0 discarded
+2023-02-08 16:43:52,769 INFO quic [074f99499e79b397] Connection close received (code 0x100, reason )
+2023-02-08 16:43:52,769 DEBUG quic [074f99499e79b397] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-08 16:43:54,102 DEBUG quic [074f99499e79b397] Discarding epoch Epoch.ONE_RTT
+2023-02-08 16:43:54,103 DEBUG quic [074f99499e79b397] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-08 16:50:38,495 DEBUG asyncio Using selector: EpollSelector
+2023-02-08 16:51:08,177 DEBUG quic [671df38c1423ad58] Network path ('193.167.0.100', 55866) discovered
+2023-02-08 16:51:08,179 DEBUG quic [671df38c1423ad58] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-08 16:51:08,193 DEBUG quic [671df38c1423ad58] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-08 16:51:08,204 DEBUG quic [671df38c1423ad58] Discarding epoch Epoch.INITIAL
+2023-02-08 16:51:08,204 DEBUG quic [671df38c1423ad58] Network path ('193.167.0.100', 55866) validated by handshake
+2023-02-08 16:51:08,242 DEBUG quic [671df38c1423ad58] Loss detection triggered
+2023-02-08 16:51:08,243 DEBUG quic [671df38c1423ad58] Scheduled CRYPTO data for retransmission
+2023-02-08 16:51:08,254 DEBUG quic [671df38c1423ad58] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-08 16:51:08,254 DEBUG quic [671df38c1423ad58] Discarding epoch Epoch.HANDSHAKE
+2023-02-08 16:51:08,255 INFO quic [671df38c1423ad58] ALPN negotiated protocol h3
+2023-02-08 16:51:08,256 DEBUG quic [671df38c1423ad58] Stream 2 created by peer
+2023-02-08 16:51:08,256 DEBUG quic [671df38c1423ad58] Stream 6 created by peer
+2023-02-08 16:51:08,256 DEBUG quic [671df38c1423ad58] Stream 10 created by peer
+2023-02-08 16:51:08,275 DEBUG quic [671df38c1423ad58] Decryption key is not available
+2023-02-08 16:51:08,276 DEBUG quic [671df38c1423ad58] Stream 0 created by peer
+2023-02-08 16:51:08,277 INFO quic [671df38c1423ad58] HTTP request GET /
+2023-02-08 16:51:08,277 INFO quic [671df38c1423ad58] HTTP request GET /style.css
+2023-02-08 16:51:08,290 DEBUG quic [671df38c1423ad58] Stream 0 discarded
+2023-02-08 16:51:08,291 INFO quic [671df38c1423ad58] Connection close received (code 0x100, reason )
+2023-02-08 16:51:08,291 DEBUG quic [671df38c1423ad58] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-08 16:51:08,431 DEBUG quic [671df38c1423ad58] Discarding epoch Epoch.ONE_RTT
+2023-02-08 16:51:08,431 DEBUG quic [671df38c1423ad58] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-08 17:03:39,039 DEBUG asyncio Using selector: EpollSelector
+2023-02-08 17:04:08,495 DEBUG quic [705ff775fcc26185] Network path ('193.167.0.100', 60669) discovered
+2023-02-08 17:04:08,498 DEBUG quic [705ff775fcc26185] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-08 17:04:08,507 DEBUG quic [705ff775fcc26185] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-08 17:04:08,518 DEBUG quic [705ff775fcc26185] Discarding epoch Epoch.INITIAL
+2023-02-08 17:04:08,519 DEBUG quic [705ff775fcc26185] Network path ('193.167.0.100', 60669) validated by handshake
+2023-02-08 17:04:08,556 DEBUG quic [705ff775fcc26185] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-08 17:04:08,557 DEBUG quic [705ff775fcc26185] Discarding epoch Epoch.HANDSHAKE
+2023-02-08 17:04:08,557 INFO quic [705ff775fcc26185] ALPN negotiated protocol h3
+2023-02-08 17:04:08,558 DEBUG quic [705ff775fcc26185] Stream 2 created by peer
+2023-02-08 17:04:08,559 DEBUG quic [705ff775fcc26185] Stream 6 created by peer
+2023-02-08 17:04:08,559 DEBUG quic [705ff775fcc26185] Stream 10 created by peer
+2023-02-08 17:04:08,561 DEBUG quic [705ff775fcc26185] Stream 0 created by peer
+2023-02-08 17:04:08,576 INFO quic [705ff775fcc26185] HTTP request GET /
+2023-02-08 17:04:08,577 INFO quic [705ff775fcc26185] HTTP request GET /style.css
+2023-02-08 17:04:08,589 DEBUG quic [705ff775fcc26185] Stream 0 discarded
+2023-02-08 17:04:08,590 INFO quic [705ff775fcc26185] Connection close received (code 0x100, reason )
+2023-02-08 17:04:08,591 DEBUG quic [705ff775fcc26185] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-08 17:04:08,745 DEBUG quic [705ff775fcc26185] Discarding epoch Epoch.ONE_RTT
+2023-02-08 17:04:08,746 DEBUG quic [705ff775fcc26185] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-08 17:10:29,409 DEBUG asyncio Using selector: EpollSelector
+2023-02-08 17:10:59,045 DEBUG quic [174667140307a4bf] Network path ('193.167.0.100', 34271) discovered
+2023-02-08 17:10:59,049 DEBUG quic [174667140307a4bf] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-08 17:10:59,097 DEBUG quic [174667140307a4bf] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-08 17:10:59,117 DEBUG quic [174667140307a4bf] Discarding epoch Epoch.INITIAL
+2023-02-08 17:10:59,144 DEBUG quic [174667140307a4bf] Network path ('193.167.0.100', 34271) validated by handshake
+2023-02-08 17:10:59,170 DEBUG quic [174667140307a4bf] Loss detection triggered
+2023-02-08 17:10:59,181 DEBUG quic [174667140307a4bf] Scheduled CRYPTO data for retransmission
+2023-02-08 17:10:59,308 DEBUG quic [174667140307a4bf] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-08 17:10:59,309 DEBUG quic [174667140307a4bf] Discarding epoch Epoch.HANDSHAKE
+2023-02-08 17:10:59,310 INFO quic [174667140307a4bf] ALPN negotiated protocol h3
+2023-02-08 17:10:59,311 DEBUG quic [174667140307a4bf] Stream 2 created by peer
+2023-02-08 17:10:59,311 DEBUG quic [174667140307a4bf] Stream 6 created by peer
+2023-02-08 17:10:59,312 DEBUG quic [174667140307a4bf] Stream 10 created by peer
+2023-02-08 17:10:59,335 DEBUG quic [174667140307a4bf] Decryption key is not available
+2023-02-08 17:10:59,338 DEBUG quic [174667140307a4bf] Stream 0 created by peer
+2023-02-08 17:10:59,339 INFO quic [174667140307a4bf] HTTP request GET /
+2023-02-08 17:10:59,340 INFO quic [174667140307a4bf] HTTP request GET /style.css
+2023-02-08 17:10:59,366 DEBUG quic [174667140307a4bf] Stream 0 discarded
+2023-02-08 17:10:59,367 INFO quic [174667140307a4bf] Connection close received (code 0x100, reason )
+2023-02-08 17:10:59,368 DEBUG quic [174667140307a4bf] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-08 17:10:59,705 DEBUG quic [174667140307a4bf] Discarding epoch Epoch.ONE_RTT
+2023-02-08 17:10:59,724 DEBUG quic [174667140307a4bf] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-08 17:14:20,190 DEBUG asyncio Using selector: EpollSelector
+2023-02-08 17:14:49,324 DEBUG quic [131a19f02ff82112] Network path ('193.167.0.100', 44531) discovered
+2023-02-08 17:14:49,326 DEBUG quic [131a19f02ff82112] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-08 17:14:49,334 DEBUG quic [131a19f02ff82112] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-08 17:14:49,344 DEBUG quic [131a19f02ff82112] Discarding epoch Epoch.INITIAL
+2023-02-08 17:14:49,345 DEBUG quic [131a19f02ff82112] Network path ('193.167.0.100', 44531) validated by handshake
+2023-02-08 17:14:49,375 DEBUG quic [131a19f02ff82112] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-08 17:14:49,376 DEBUG quic [131a19f02ff82112] Discarding epoch Epoch.HANDSHAKE
+2023-02-08 17:14:49,377 INFO quic [131a19f02ff82112] ALPN negotiated protocol h3
+2023-02-08 17:14:49,377 DEBUG quic [131a19f02ff82112] Stream 2 created by peer
+2023-02-08 17:14:49,377 DEBUG quic [131a19f02ff82112] Stream 6 created by peer
+2023-02-08 17:14:49,378 DEBUG quic [131a19f02ff82112] Stream 10 created by peer
+2023-02-08 17:14:49,379 DEBUG quic [131a19f02ff82112] Stream 0 created by peer
+2023-02-08 17:14:49,390 INFO quic [131a19f02ff82112] HTTP request GET /
+2023-02-08 17:14:49,391 INFO quic [131a19f02ff82112] HTTP request GET /style.css
+2023-02-08 17:14:49,403 DEBUG quic [131a19f02ff82112] Stream 0 discarded
+2023-02-08 17:14:49,403 INFO quic [131a19f02ff82112] Connection close received (code 0x100, reason )
+2023-02-08 17:14:49,404 DEBUG quic [131a19f02ff82112] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-08 17:14:49,538 DEBUG quic [131a19f02ff82112] Discarding epoch Epoch.ONE_RTT
+2023-02-08 17:14:49,538 DEBUG quic [131a19f02ff82112] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-08 17:18:24,731 DEBUG asyncio Using selector: EpollSelector
+2023-02-08 17:18:54,115 DEBUG quic [b2e060e7f16018c3] Network path ('193.167.0.100', 34987) discovered
+2023-02-08 17:18:54,117 DEBUG quic [b2e060e7f16018c3] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-08 17:18:54,127 DEBUG quic [b2e060e7f16018c3] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-08 17:18:54,314 INFO quic [b2e060e7f16018c3] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-08 17:18:54,315 DEBUG quic [b2e060e7f16018c3] Scheduled CRYPTO data for retransmission
+2023-02-08 17:18:54,516 DEBUG quic [b2e060e7f16018c3] Loss detection triggered
+2023-02-08 17:18:54,517 DEBUG quic [b2e060e7f16018c3] Scheduled CRYPTO data for retransmission
+2023-02-08 17:18:54,538 DEBUG quic [b2e060e7f16018c3] Discarding epoch Epoch.INITIAL
+2023-02-08 17:18:54,539 DEBUG quic [b2e060e7f16018c3] Network path ('193.167.0.100', 34987) validated by handshake
+2023-02-08 17:18:54,571 DEBUG quic [b2e060e7f16018c3] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-08 17:18:54,571 DEBUG quic [b2e060e7f16018c3] Discarding epoch Epoch.HANDSHAKE
+2023-02-08 17:18:54,584 INFO quic [b2e060e7f16018c3] ALPN negotiated protocol h3
+2023-02-08 17:18:54,585 DEBUG quic [b2e060e7f16018c3] Stream 2 created by peer
+2023-02-08 17:18:54,586 DEBUG quic [b2e060e7f16018c3] Stream 6 created by peer
+2023-02-08 17:18:54,586 DEBUG quic [b2e060e7f16018c3] Stream 10 created by peer
+2023-02-08 17:18:54,587 DEBUG quic [b2e060e7f16018c3] Stream 0 created by peer
+2023-02-08 17:18:54,587 INFO quic [b2e060e7f16018c3] HTTP request GET /
+2023-02-08 17:18:54,588 INFO quic [b2e060e7f16018c3] HTTP request GET /style.css
+2023-02-08 17:18:54,721 DEBUG quic [b2e060e7f16018c3] Decryption key is not available
+2023-02-08 17:18:54,722 DEBUG quic [b2e060e7f16018c3] Decryption key is not available
+2023-02-08 17:18:54,800 DEBUG quic [b2e060e7f16018c3] Loss detection triggered
+2023-02-08 17:18:54,801 DEBUG quic [b2e060e7f16018c3] Scheduled CRYPTO data for retransmission
+2023-02-08 17:18:54,802 DEBUG quic [b2e060e7f16018c3] Sending PING (probe) in packet 20
+2023-02-08 17:18:54,924 DEBUG quic [b2e060e7f16018c3] Decryption key is not available
+2023-02-08 17:18:54,926 DEBUG quic [b2e060e7f16018c3] Decryption key is not available
+2023-02-08 17:18:54,927 DEBUG quic [b2e060e7f16018c3] Decryption key is not available
+2023-02-08 17:18:55,000 DEBUG quic [b2e060e7f16018c3] Stream 0 discarded
+2023-02-08 17:18:55,002 INFO quic [b2e060e7f16018c3] Connection close received (code 0x100, reason )
+2023-02-08 17:18:55,002 DEBUG quic [b2e060e7f16018c3] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-08 17:18:57,057 DEBUG quic [b2e060e7f16018c3] Discarding epoch Epoch.ONE_RTT
+2023-02-08 17:18:57,058 DEBUG quic [b2e060e7f16018c3] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-08 17:18:59,073 DEBUG quic [81f8bb955f0e52fe] Network path ('193.167.0.100', 43779) discovered
+2023-02-08 17:18:59,074 DEBUG quic [81f8bb955f0e52fe] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-08 17:18:59,078 DEBUG quic [81f8bb955f0e52fe] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-08 17:18:59,080 DEBUG quic [81f8bb955f0e52fe] Stream 0 created by peer
+2023-02-08 17:18:59,080 INFO quic [81f8bb955f0e52fe] HTTP request GET /5000000
+2023-02-08 17:18:59,275 INFO quic [81f8bb955f0e52fe] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-08 17:18:59,276 DEBUG quic [81f8bb955f0e52fe] Scheduled CRYPTO data for retransmission
+2023-02-08 17:18:59,476 DEBUG quic [81f8bb955f0e52fe] Loss detection triggered
+2023-02-08 17:18:59,477 DEBUG quic [81f8bb955f0e52fe] Scheduled CRYPTO data for retransmission
+2023-02-08 17:18:59,491 DEBUG quic [81f8bb955f0e52fe] Discarding epoch Epoch.INITIAL
+2023-02-08 17:18:59,493 DEBUG quic [81f8bb955f0e52fe] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-08 17:18:59,493 DEBUG quic [81f8bb955f0e52fe] Discarding epoch Epoch.HANDSHAKE
+2023-02-08 17:18:59,494 INFO quic [81f8bb955f0e52fe] ALPN negotiated protocol h3
+2023-02-08 17:18:59,494 DEBUG quic [81f8bb955f0e52fe] Network path ('193.167.0.100', 43779) validated by handshake
+2023-02-08 17:18:59,495 DEBUG quic [81f8bb955f0e52fe] Stream 2 created by peer
+2023-02-08 17:18:59,495 DEBUG quic [81f8bb955f0e52fe] Stream 6 created by peer
+2023-02-08 17:18:59,496 DEBUG quic [81f8bb955f0e52fe] Stream 10 created by peer
+2023-02-08 17:18:59,682 DEBUG quic [81f8bb955f0e52fe] Decryption key is not available
+2023-02-08 17:18:59,885 DEBUG quic [81f8bb955f0e52fe] Decryption key is not available
+2023-02-08 17:18:59,887 DEBUG quic [81f8bb955f0e52fe] Decryption key is not available
+2023-02-08 17:19:11,154 DEBUG quic [81f8bb955f0e52fe] Remote max_data raised to 2097152
+2023-02-08 17:19:11,155 DEBUG quic [81f8bb955f0e52fe] Stream 0 remote max_stream_data raised to 2097152
+2023-02-08 17:19:16,090 DEBUG quic [81f8bb955f0e52fe] Remote max_data raised to 4194304
+2023-02-08 17:19:16,091 DEBUG quic [81f8bb955f0e52fe] Stream 0 remote max_stream_data raised to 4194304
+2023-02-08 17:19:23,050 DEBUG quic [81f8bb955f0e52fe] Remote max_data raised to 8388608
+2023-02-08 17:19:23,051 DEBUG quic [81f8bb955f0e52fe] Stream 0 remote max_stream_data raised to 8388608
+2023-02-08 17:19:32,882 DEBUG quic [81f8bb955f0e52fe] Remote max_data raised to 16777216
+2023-02-08 17:19:32,883 DEBUG quic [81f8bb955f0e52fe] Stream 0 remote max_stream_data raised to 16777216
+2023-02-08 17:19:36,051 DEBUG quic [81f8bb955f0e52fe] Stream 0 discarded
+2023-02-08 17:19:36,052 INFO quic [81f8bb955f0e52fe] Connection close received (code 0x100, reason )
+2023-02-08 17:19:36,052 DEBUG quic [81f8bb955f0e52fe] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-08 17:19:37,385 DEBUG quic [81f8bb955f0e52fe] Discarding epoch Epoch.ONE_RTT
+2023-02-08 17:19:37,386 DEBUG quic [81f8bb955f0e52fe] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 10:58:43,909 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 10:59:13,375 DEBUG quic [20f1a80f32dc67e0] Network path ('193.167.0.100', 52361) discovered
+2023-02-09 10:59:13,385 DEBUG quic [20f1a80f32dc67e0] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 10:59:13,463 DEBUG quic [20f1a80f32dc67e0] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 10:59:13,571 INFO quic [20f1a80f32dc67e0] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 10:59:13,573 DEBUG quic [20f1a80f32dc67e0] Scheduled CRYPTO data for retransmission
+2023-02-09 10:59:13,777 DEBUG quic [20f1a80f32dc67e0] Loss detection triggered
+2023-02-09 10:59:13,779 DEBUG quic [20f1a80f32dc67e0] Scheduled CRYPTO data for retransmission
+2023-02-09 10:59:13,931 DEBUG quic [20f1a80f32dc67e0] Discarding epoch Epoch.INITIAL
+2023-02-09 10:59:13,933 DEBUG quic [20f1a80f32dc67e0] Network path ('193.167.0.100', 52361) validated by handshake
+2023-02-09 10:59:13,982 DEBUG quic [20f1a80f32dc67e0] Loss detection triggered
+2023-02-09 10:59:13,984 DEBUG quic [20f1a80f32dc67e0] Scheduled CRYPTO data for retransmission
+2023-02-09 10:59:14,129 DEBUG quic [20f1a80f32dc67e0] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 10:59:14,131 DEBUG quic [20f1a80f32dc67e0] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 10:59:14,133 INFO quic [20f1a80f32dc67e0] ALPN negotiated protocol h3
+2023-02-09 10:59:14,135 DEBUG quic [20f1a80f32dc67e0] Stream 2 created by peer
+2023-02-09 10:59:14,136 DEBUG quic [20f1a80f32dc67e0] Stream 6 created by peer
+2023-02-09 10:59:14,138 DEBUG quic [20f1a80f32dc67e0] Stream 10 created by peer
+2023-02-09 10:59:14,139 DEBUG quic [20f1a80f32dc67e0] Stream 0 created by peer
+2023-02-09 10:59:14,141 INFO quic [20f1a80f32dc67e0] HTTP request GET /
+2023-02-09 10:59:14,145 INFO quic [20f1a80f32dc67e0] HTTP request GET /style.css
+2023-02-09 10:59:14,165 DEBUG quic [20f1a80f32dc67e0] Decryption key is not available
+2023-02-09 10:59:14,183 DEBUG quic [20f1a80f32dc67e0] Decryption key is not available
+2023-02-09 10:59:14,194 DEBUG quic [20f1a80f32dc67e0] Decryption key is not available
+2023-02-09 10:59:14,199 DEBUG quic [20f1a80f32dc67e0] Decryption key is not available
+2023-02-09 10:59:14,341 DEBUG quic [20f1a80f32dc67e0] Decryption key is not available
+2023-02-09 10:59:14,429 DEBUG quic [20f1a80f32dc67e0] Loss detection triggered
+2023-02-09 10:59:14,431 DEBUG quic [20f1a80f32dc67e0] Scheduled CRYPTO data for retransmission
+2023-02-09 10:59:14,433 DEBUG quic [20f1a80f32dc67e0] Sending PING (probe) in packet 23
+2023-02-09 10:59:14,456 DEBUG quic [20f1a80f32dc67e0] Decryption key is not available
+2023-02-09 10:59:14,461 DEBUG quic [20f1a80f32dc67e0] Decryption key is not available
+2023-02-09 10:59:14,553 DEBUG quic [20f1a80f32dc67e0] Sending PING (ACK-of-ACK trigger) in packet 24
+2023-02-09 10:59:14,575 DEBUG quic [20f1a80f32dc67e0] Stream 0 discarded
+2023-02-09 10:59:14,586 INFO quic [20f1a80f32dc67e0] Connection close received (code 0x100, reason )
+2023-02-09 10:59:14,587 DEBUG quic [20f1a80f32dc67e0] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 10:59:16,926 DEBUG quic [20f1a80f32dc67e0] Discarding epoch Epoch.ONE_RTT
+2023-02-09 10:59:16,927 DEBUG quic [20f1a80f32dc67e0] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 10:59:19,147 DEBUG quic [8182d6bbf236587d] Network path ('193.167.0.100', 42305) discovered
+2023-02-09 10:59:19,151 DEBUG quic [8182d6bbf236587d] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 10:59:19,170 DEBUG quic [8182d6bbf236587d] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 10:59:19,175 DEBUG quic [8182d6bbf236587d] Stream 0 created by peer
+2023-02-09 10:59:19,177 INFO quic [8182d6bbf236587d] HTTP request GET /5000000
+2023-02-09 10:59:19,351 INFO quic [8182d6bbf236587d] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 10:59:19,352 DEBUG quic [8182d6bbf236587d] Scheduled CRYPTO data for retransmission
+2023-02-09 10:59:19,553 DEBUG quic [8182d6bbf236587d] Loss detection triggered
+2023-02-09 10:59:19,555 DEBUG quic [8182d6bbf236587d] Scheduled CRYPTO data for retransmission
+2023-02-09 10:59:19,598 DEBUG quic [8182d6bbf236587d] Discarding epoch Epoch.INITIAL
+2023-02-09 10:59:19,602 DEBUG quic [8182d6bbf236587d] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 10:59:19,603 DEBUG quic [8182d6bbf236587d] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 10:59:19,605 INFO quic [8182d6bbf236587d] ALPN negotiated protocol h3
+2023-02-09 10:59:19,606 DEBUG quic [8182d6bbf236587d] Network path ('193.167.0.100', 42305) validated by handshake
+2023-02-09 10:59:19,608 DEBUG quic [8182d6bbf236587d] Stream 2 created by peer
+2023-02-09 10:59:19,609 DEBUG quic [8182d6bbf236587d] Stream 6 created by peer
+2023-02-09 10:59:19,610 DEBUG quic [8182d6bbf236587d] Stream 10 created by peer
+2023-02-09 10:59:19,763 DEBUG quic [8182d6bbf236587d] Decryption key is not available
+2023-02-09 10:59:19,800 DEBUG quic [8182d6bbf236587d] Decryption key is not available
+2023-02-09 10:59:19,971 DEBUG quic [8182d6bbf236587d] Decryption key is not available
+2023-02-09 10:59:31,377 DEBUG quic [8182d6bbf236587d] Remote max_data raised to 2097152
+2023-02-09 10:59:31,379 DEBUG quic [8182d6bbf236587d] Stream 0 remote max_stream_data raised to 2097152
+2023-02-09 10:59:36,432 DEBUG quic [8182d6bbf236587d] Remote max_data raised to 4194304
+2023-02-09 10:59:36,433 DEBUG quic [8182d6bbf236587d] Stream 0 remote max_stream_data raised to 4194304
+2023-02-09 10:59:43,571 DEBUG quic [8182d6bbf236587d] Remote max_data raised to 8388608
+2023-02-09 10:59:43,572 DEBUG quic [8182d6bbf236587d] Stream 0 remote max_stream_data raised to 8388608
+2023-02-09 10:59:53,689 DEBUG quic [8182d6bbf236587d] Remote max_data raised to 16777216
+2023-02-09 10:59:53,689 DEBUG quic [8182d6bbf236587d] Stream 0 remote max_stream_data raised to 16777216
+2023-02-09 10:59:57,033 DEBUG quic [8182d6bbf236587d] Stream 0 discarded
+2023-02-09 10:59:57,061 INFO quic [8182d6bbf236587d] Connection close received (code 0x100, reason )
+2023-02-09 10:59:57,062 DEBUG quic [8182d6bbf236587d] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 10:59:58,427 DEBUG quic [8182d6bbf236587d] Discarding epoch Epoch.ONE_RTT
+2023-02-09 10:59:58,429 DEBUG quic [8182d6bbf236587d] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:03:35,404 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 11:04:05,073 DEBUG quic [264d18145979a212] Network path ('193.167.0.100', 55269) discovered
+2023-02-09 11:04:05,076 DEBUG quic [264d18145979a212] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:04:05,096 DEBUG quic [264d18145979a212] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:04:05,129 DEBUG quic [264d18145979a212] Discarding epoch Epoch.INITIAL
+2023-02-09 11:04:05,130 DEBUG quic [264d18145979a212] Network path ('193.167.0.100', 55269) validated by handshake
+2023-02-09 11:04:05,189 DEBUG quic [264d18145979a212] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:04:05,190 DEBUG quic [264d18145979a212] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:04:05,190 INFO quic [264d18145979a212] ALPN negotiated protocol h3
+2023-02-09 11:04:05,192 DEBUG quic [264d18145979a212] Stream 2 created by peer
+2023-02-09 11:04:05,192 DEBUG quic [264d18145979a212] Stream 6 created by peer
+2023-02-09 11:04:05,193 DEBUG quic [264d18145979a212] Stream 10 created by peer
+2023-02-09 11:04:05,194 DEBUG quic [264d18145979a212] Stream 0 created by peer
+2023-02-09 11:04:05,195 INFO quic [264d18145979a212] HTTP request GET /
+2023-02-09 11:04:05,228 INFO quic [264d18145979a212] HTTP request GET /style.css
+2023-02-09 11:04:05,267 DEBUG quic [264d18145979a212] Stream 0 discarded
+2023-02-09 11:04:05,270 INFO quic [264d18145979a212] Connection close received (code 0x100, reason )
+2023-02-09 11:04:05,270 DEBUG quic [264d18145979a212] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:04:05,567 DEBUG quic [264d18145979a212] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:04:05,569 DEBUG quic [264d18145979a212] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:04:06,590 DEBUG quic [49896cb2fe086d4a] Network path ('193.167.0.100', 46963) discovered
+2023-02-09 11:04:06,594 DEBUG quic [49896cb2fe086d4a] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:04:06,619 DEBUG quic [49896cb2fe086d4a] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:04:06,624 DEBUG quic [49896cb2fe086d4a] Stream 0 created by peer
+2023-02-09 11:04:06,627 INFO quic [49896cb2fe086d4a] HTTP request GET /5000000
+2023-02-09 11:04:06,719 DEBUG quic [49896cb2fe086d4a] Discarding epoch Epoch.INITIAL
+2023-02-09 11:04:06,723 DEBUG quic [49896cb2fe086d4a] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:04:06,725 DEBUG quic [49896cb2fe086d4a] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:04:06,727 INFO quic [49896cb2fe086d4a] ALPN negotiated protocol h3
+2023-02-09 11:04:06,728 DEBUG quic [49896cb2fe086d4a] Network path ('193.167.0.100', 46963) validated by handshake
+2023-02-09 11:04:06,732 DEBUG quic [49896cb2fe086d4a] Stream 2 created by peer
+2023-02-09 11:04:06,733 DEBUG quic [49896cb2fe086d4a] Stream 6 created by peer
+2023-02-09 11:04:06,735 DEBUG quic [49896cb2fe086d4a] Stream 10 created by peer
+2023-02-09 11:04:07,505 DEBUG quic [49896cb2fe086d4a] Remote max_data raised to 2097152
+2023-02-09 11:04:07,506 DEBUG quic [49896cb2fe086d4a] Stream 0 remote max_stream_data raised to 2097152
+2023-02-09 11:04:09,104 DEBUG quic [49896cb2fe086d4a] Remote max_data raised to 4194304
+2023-02-09 11:04:09,104 DEBUG quic [49896cb2fe086d4a] Stream 0 remote max_stream_data raised to 4194304
+2023-02-09 11:04:10,450 DEBUG quic [49896cb2fe086d4a] Remote max_data raised to 8388608
+2023-02-09 11:04:10,451 DEBUG quic [49896cb2fe086d4a] Stream 0 remote max_stream_data raised to 8388608
+2023-02-09 11:04:13,490 DEBUG quic [49896cb2fe086d4a] Remote max_data raised to 16777216
+2023-02-09 11:04:13,490 DEBUG quic [49896cb2fe086d4a] Stream 0 remote max_stream_data raised to 16777216
+2023-02-09 11:04:14,378 DEBUG quic [49896cb2fe086d4a] Stream 0 discarded
+2023-02-09 11:04:14,403 INFO quic [49896cb2fe086d4a] Connection close received (code 0x100, reason )
+2023-02-09 11:04:14,404 DEBUG quic [49896cb2fe086d4a] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:04:15,935 DEBUG quic [49896cb2fe086d4a] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:04:15,937 DEBUG quic [49896cb2fe086d4a] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:08:55,669 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 11:09:25,233 DEBUG quic [52aa8e23495093dd] Network path ('193.167.0.100', 36773) discovered
+2023-02-09 11:09:25,250 DEBUG quic [52aa8e23495093dd] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:09:25,310 DEBUG quic [52aa8e23495093dd] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:09:25,365 DEBUG quic [52aa8e23495093dd] Discarding epoch Epoch.INITIAL
+2023-02-09 11:09:25,369 DEBUG quic [52aa8e23495093dd] Network path ('193.167.0.100', 36773) validated by handshake
+2023-02-09 11:09:25,461 DEBUG quic [52aa8e23495093dd] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:09:25,462 DEBUG quic [52aa8e23495093dd] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:09:25,463 INFO quic [52aa8e23495093dd] ALPN negotiated protocol h3
+2023-02-09 11:09:25,464 DEBUG quic [52aa8e23495093dd] Stream 2 created by peer
+2023-02-09 11:09:25,465 DEBUG quic [52aa8e23495093dd] Stream 6 created by peer
+2023-02-09 11:09:25,465 DEBUG quic [52aa8e23495093dd] Stream 10 created by peer
+2023-02-09 11:09:25,466 DEBUG quic [52aa8e23495093dd] Stream 0 created by peer
+2023-02-09 11:09:25,467 INFO quic [52aa8e23495093dd] HTTP request GET /
+2023-02-09 11:09:25,497 INFO quic [52aa8e23495093dd] HTTP request GET /style.css
+2023-02-09 11:09:25,534 DEBUG quic [52aa8e23495093dd] Stream 0 discarded
+2023-02-09 11:09:25,537 INFO quic [52aa8e23495093dd] Connection close received (code 0x100, reason )
+2023-02-09 11:09:25,538 DEBUG quic [52aa8e23495093dd] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:09:25,930 DEBUG quic [52aa8e23495093dd] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:09:25,932 DEBUG quic [52aa8e23495093dd] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:09:27,158 DEBUG quic [c8881942d89bcc12] Network path ('193.167.0.100', 55578) discovered
+2023-02-09 11:09:27,160 DEBUG quic [c8881942d89bcc12] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:09:27,171 DEBUG quic [c8881942d89bcc12] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:09:27,174 DEBUG quic [c8881942d89bcc12] Stream 0 created by peer
+2023-02-09 11:09:27,175 INFO quic [c8881942d89bcc12] HTTP request GET /5000000
+2023-02-09 11:09:27,221 DEBUG quic [c8881942d89bcc12] Discarding epoch Epoch.INITIAL
+2023-02-09 11:09:27,223 DEBUG quic [c8881942d89bcc12] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:09:27,224 DEBUG quic [c8881942d89bcc12] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:09:27,225 INFO quic [c8881942d89bcc12] ALPN negotiated protocol h3
+2023-02-09 11:09:27,226 DEBUG quic [c8881942d89bcc12] Network path ('193.167.0.100', 55578) validated by handshake
+2023-02-09 11:09:27,228 DEBUG quic [c8881942d89bcc12] Stream 2 created by peer
+2023-02-09 11:09:27,229 DEBUG quic [c8881942d89bcc12] Stream 6 created by peer
+2023-02-09 11:09:27,230 DEBUG quic [c8881942d89bcc12] Stream 10 created by peer
+2023-02-09 11:09:28,229 DEBUG quic [c8881942d89bcc12] Remote max_data raised to 2097152
+2023-02-09 11:09:28,230 DEBUG quic [c8881942d89bcc12] Stream 0 remote max_stream_data raised to 2097152
+2023-02-09 11:09:28,850 DEBUG quic [c8881942d89bcc12] Remote max_data raised to 4194304
+2023-02-09 11:09:28,851 DEBUG quic [c8881942d89bcc12] Stream 0 remote max_stream_data raised to 4194304
+2023-02-09 11:09:30,577 DEBUG quic [c8881942d89bcc12] Remote max_data raised to 8388608
+2023-02-09 11:09:30,578 DEBUG quic [c8881942d89bcc12] Stream 0 remote max_stream_data raised to 8388608
+2023-02-09 11:09:34,931 DEBUG quic [c8881942d89bcc12] Remote max_data raised to 16777216
+2023-02-09 11:09:34,933 DEBUG quic [c8881942d89bcc12] Stream 0 remote max_stream_data raised to 16777216
+2023-02-09 11:09:36,588 DEBUG quic [c8881942d89bcc12] Stream 0 discarded
+2023-02-09 11:09:36,643 INFO quic [c8881942d89bcc12] Connection close received (code 0x100, reason )
+2023-02-09 11:09:36,644 DEBUG quic [c8881942d89bcc12] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:09:38,806 DEBUG quic [c8881942d89bcc12] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:09:38,808 DEBUG quic [c8881942d89bcc12] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:15:41,518 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 11:16:17,575 DEBUG quic [4aaf89a643a4df0b] Network path ('193.167.0.100', 42002) discovered
+2023-02-09 11:16:17,581 DEBUG quic [4aaf89a643a4df0b] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:16:17,615 DEBUG quic [4aaf89a643a4df0b] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:16:17,619 INFO quic [4aaf89a643a4df0b] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:16:17,620 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:17,631 INFO quic [4aaf89a643a4df0b] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:16:17,825 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:17,830 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:18,235 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:18,236 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:19,041 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:19,049 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:20,654 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:20,655 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:22,553 INFO quic [4aaf89a643a4df0b] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:16:25,761 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:25,764 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:26,989 DEBUG quic [4aaf89a643a4df0b] Discarding epoch Epoch.INITIAL
+2023-02-09 11:16:26,991 DEBUG quic [4aaf89a643a4df0b] Network path ('193.167.0.100', 42002) validated by handshake
+2023-02-09 11:16:27,195 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:27,203 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:27,553 DEBUG quic [4aaf89a643a4df0b] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:16:27,554 DEBUG quic [4aaf89a643a4df0b] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:16:27,555 INFO quic [4aaf89a643a4df0b] ALPN negotiated protocol h3
+2023-02-09 11:16:27,556 DEBUG quic [4aaf89a643a4df0b] Stream 2 created by peer
+2023-02-09 11:16:27,557 DEBUG quic [4aaf89a643a4df0b] Stream 6 created by peer
+2023-02-09 11:16:27,557 DEBUG quic [4aaf89a643a4df0b] Stream 10 created by peer
+2023-02-09 11:16:27,558 DEBUG quic [4aaf89a643a4df0b] Stream 0 created by peer
+2023-02-09 11:16:27,560 INFO quic [4aaf89a643a4df0b] HTTP request GET /
+2023-02-09 11:16:27,566 INFO quic [4aaf89a643a4df0b] HTTP request GET /style.css
+2023-02-09 11:16:27,803 DEBUG quic [4aaf89a643a4df0b] Decryption key is not available
+2023-02-09 11:16:27,814 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:27,817 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:27,819 DEBUG quic [4aaf89a643a4df0b] Sending PING (probe) in packet 41
+2023-02-09 11:16:28,219 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:28,220 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:28,221 DEBUG quic [4aaf89a643a4df0b] Sending PING (probe) in packet 42
+2023-02-09 11:16:28,977 DEBUG quic [4aaf89a643a4df0b] Decryption key is not available
+2023-02-09 11:16:29,023 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:29,026 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:29,033 DEBUG quic [4aaf89a643a4df0b] Sending PING (probe) in packet 43
+2023-02-09 11:16:29,953 DEBUG quic [4aaf89a643a4df0b] Decryption key is not available
+2023-02-09 11:16:29,954 DEBUG quic [4aaf89a643a4df0b] Decryption key is not available
+2023-02-09 11:16:30,633 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:30,636 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:30,639 DEBUG quic [4aaf89a643a4df0b] Sending PING (probe) in packet 44
+2023-02-09 11:16:32,772 DEBUG quic [4aaf89a643a4df0b] Decryption key is not available
+2023-02-09 11:16:33,841 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:33,842 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:33,844 DEBUG quic [4aaf89a643a4df0b] Sending PING (probe) in packet 45
+2023-02-09 11:16:40,249 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:16:40,250 DEBUG quic [4aaf89a643a4df0b] Scheduled CRYPTO data for retransmission
+2023-02-09 11:16:40,254 DEBUG quic [4aaf89a643a4df0b] Sending PING (probe) in packet 46
+2023-02-09 11:16:40,312 DEBUG quic [4aaf89a643a4df0b] Decryption key is not available
+2023-02-09 11:16:45,924 DEBUG quic [4aaf89a643a4df0b] Received PING (probe) response
+2023-02-09 11:16:52,926 DEBUG quic [4aaf89a643a4df0b] Decryption key is not available
+2023-02-09 11:17:02,968 DEBUG quic [4aaf89a643a4df0b] Loss detection triggered
+2023-02-09 11:17:02,971 DEBUG quic [4aaf89a643a4df0b] Sending PING (probe) in packet 49
+2023-02-09 11:17:10,111 DEBUG quic [4aaf89a643a4df0b] Received PING (probe) response
+2023-02-09 11:17:12,894 DEBUG quic [4aaf89a643a4df0b] Stream 0 discarded
+2023-02-09 11:17:12,900 INFO quic [4aaf89a643a4df0b] Connection close received (code 0x100, reason )
+2023-02-09 11:17:12,900 DEBUG quic [4aaf89a643a4df0b] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:17:14,054 DEBUG quic [ac2ecb176fdf4770] Network path ('193.167.0.100', 41493) discovered
+2023-02-09 11:17:14,058 DEBUG quic [ac2ecb176fdf4770] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:17:14,072 DEBUG quic [ac2ecb176fdf4770] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:17:14,075 DEBUG quic [ac2ecb176fdf4770] Stream 0 created by peer
+2023-02-09 11:17:14,077 INFO quic [ac2ecb176fdf4770] HTTP request GET /5000000
+2023-02-09 11:17:14,299 INFO quic [ac2ecb176fdf4770] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:17:14,300 DEBUG quic [ac2ecb176fdf4770] Scheduled CRYPTO data for retransmission
+2023-02-09 11:17:14,501 DEBUG quic [ac2ecb176fdf4770] Loss detection triggered
+2023-02-09 11:17:14,502 DEBUG quic [ac2ecb176fdf4770] Scheduled CRYPTO data for retransmission
+2023-02-09 11:17:14,743 INFO quic [ac2ecb176fdf4770] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:17:14,905 DEBUG quic [ac2ecb176fdf4770] Loss detection triggered
+2023-02-09 11:17:14,910 DEBUG quic [ac2ecb176fdf4770] Scheduled CRYPTO data for retransmission
+2023-02-09 11:17:15,717 DEBUG quic [ac2ecb176fdf4770] Loss detection triggered
+2023-02-09 11:17:15,719 DEBUG quic [ac2ecb176fdf4770] Scheduled CRYPTO data for retransmission
+2023-02-09 11:17:15,950 INFO quic [ac2ecb176fdf4770] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:17:17,320 DEBUG quic [ac2ecb176fdf4770] Loss detection triggered
+2023-02-09 11:17:17,321 DEBUG quic [ac2ecb176fdf4770] Scheduled CRYPTO data for retransmission
+2023-02-09 11:17:18,063 DEBUG quic [ac2ecb176fdf4770] Discarding epoch Epoch.INITIAL
+2023-02-09 11:17:18,066 DEBUG quic [ac2ecb176fdf4770] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:17:18,066 DEBUG quic [ac2ecb176fdf4770] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:17:18,068 INFO quic [ac2ecb176fdf4770] ALPN negotiated protocol h3
+2023-02-09 11:17:18,069 DEBUG quic [ac2ecb176fdf4770] Network path ('193.167.0.100', 41493) validated by handshake
+2023-02-09 11:17:18,070 DEBUG quic [ac2ecb176fdf4770] Stream 2 created by peer
+2023-02-09 11:17:18,071 DEBUG quic [ac2ecb176fdf4770] Stream 6 created by peer
+2023-02-09 11:17:18,072 DEBUG quic [ac2ecb176fdf4770] Stream 10 created by peer
+2023-02-09 11:17:18,139 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:18,159 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:18,267 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:18,398 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:18,718 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:18,797 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:19,157 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:20,240 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:22,126 DEBUG quic [ac2ecb176fdf4770] Loss detection triggered
+2023-02-09 11:17:22,449 DEBUG quic [ac2ecb176fdf4770] Decryption key is not available
+2023-02-09 11:17:45,212 DEBUG quic [4aaf89a643a4df0b] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:17:45,214 DEBUG quic [4aaf89a643a4df0b] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:17:46,437 DEBUG quic [ac2ecb176fdf4770] Loss detection triggered
+2023-02-09 11:17:46,443 DEBUG quic [ac2ecb176fdf4770] Sending PING (probe) in packet 43
+2023-02-09 11:18:09,826 DEBUG quic [ac2ecb176fdf4770] Loss detection triggered
+2023-02-09 11:18:09,827 DEBUG quic [ac2ecb176fdf4770] Sending PING (probe) in packet 45
+2023-02-09 11:18:56,578 DEBUG quic [ac2ecb176fdf4770] Loss detection triggered
+2023-02-09 11:18:56,580 DEBUG quic [ac2ecb176fdf4770] Sending PING (probe) in packet 46
+2023-02-09 11:19:00,066 DEBUG quic [ac2ecb176fdf4770] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:19:00,067 DEBUG quic [ac2ecb176fdf4770] QuicConnectionState.CONNECTED -> QuicConnectionState.TERMINATED
+2023-02-09 11:32:12,318 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 11:32:41,518 DEBUG quic [0663b4d107508b52] Network path ('193.167.0.100', 54357) discovered
+2023-02-09 11:32:41,524 DEBUG quic [0663b4d107508b52] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:32:41,564 DEBUG quic [0663b4d107508b52] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:32:41,718 INFO quic [0663b4d107508b52] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:32:41,721 DEBUG quic [0663b4d107508b52] Scheduled CRYPTO data for retransmission
+2023-02-09 11:32:41,925 DEBUG quic [0663b4d107508b52] Loss detection triggered
+2023-02-09 11:32:41,928 DEBUG quic [0663b4d107508b52] Scheduled CRYPTO data for retransmission
+2023-02-09 11:32:41,994 DEBUG quic [0663b4d107508b52] Discarding epoch Epoch.INITIAL
+2023-02-09 11:32:41,995 DEBUG quic [0663b4d107508b52] Network path ('193.167.0.100', 54357) validated by handshake
+2023-02-09 11:32:42,131 DEBUG quic [0663b4d107508b52] Loss detection triggered
+2023-02-09 11:32:42,133 DEBUG quic [0663b4d107508b52] Scheduled CRYPTO data for retransmission
+2023-02-09 11:32:42,222 DEBUG quic [0663b4d107508b52] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:32:42,224 DEBUG quic [0663b4d107508b52] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:32:42,226 INFO quic [0663b4d107508b52] ALPN negotiated protocol h3
+2023-02-09 11:32:42,229 DEBUG quic [0663b4d107508b52] Stream 2 created by peer
+2023-02-09 11:32:42,230 DEBUG quic [0663b4d107508b52] Stream 6 created by peer
+2023-02-09 11:32:42,232 DEBUG quic [0663b4d107508b52] Stream 10 created by peer
+2023-02-09 11:32:42,233 DEBUG quic [0663b4d107508b52] Stream 0 created by peer
+2023-02-09 11:32:42,236 INFO quic [0663b4d107508b52] HTTP request GET /
+2023-02-09 11:32:42,240 INFO quic [0663b4d107508b52] HTTP request GET /style.css
+2023-02-09 11:32:42,270 DEBUG quic [0663b4d107508b52] Decryption key is not available
+2023-02-09 11:32:42,298 DEBUG quic [0663b4d107508b52] Decryption key is not available
+2023-02-09 11:32:42,343 DEBUG quic [0663b4d107508b52] Decryption key is not available
+2023-02-09 11:32:42,348 DEBUG quic [0663b4d107508b52] Decryption key is not available
+2023-02-09 11:32:42,405 DEBUG quic [0663b4d107508b52] Decryption key is not available
+2023-02-09 11:32:42,515 DEBUG quic [0663b4d107508b52] Loss detection triggered
+2023-02-09 11:32:42,517 DEBUG quic [0663b4d107508b52] Scheduled CRYPTO data for retransmission
+2023-02-09 11:32:42,519 DEBUG quic [0663b4d107508b52] Sending PING (probe) in packet 23
+2023-02-09 11:32:42,627 DEBUG quic [0663b4d107508b52] Decryption key is not available
+2023-02-09 11:32:42,633 DEBUG quic [0663b4d107508b52] Decryption key is not available
+2023-02-09 11:32:42,650 DEBUG quic [0663b4d107508b52] Sending PING (ACK-of-ACK trigger) in packet 24
+2023-02-09 11:32:42,679 DEBUG quic [0663b4d107508b52] Stream 0 discarded
+2023-02-09 11:32:42,704 INFO quic [0663b4d107508b52] Connection close received (code 0x100, reason )
+2023-02-09 11:32:42,706 DEBUG quic [0663b4d107508b52] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:32:45,053 DEBUG quic [0663b4d107508b52] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:32:45,055 DEBUG quic [0663b4d107508b52] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:32:47,703 DEBUG quic [ca8e6a3314bd622f] Network path ('193.167.0.100', 48117) discovered
+2023-02-09 11:32:47,710 DEBUG quic [ca8e6a3314bd622f] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:32:47,736 DEBUG quic [ca8e6a3314bd622f] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:32:47,744 DEBUG quic [ca8e6a3314bd622f] Stream 0 created by peer
+2023-02-09 11:32:47,746 INFO quic [ca8e6a3314bd622f] HTTP request GET /5000000
+2023-02-09 11:32:47,910 INFO quic [ca8e6a3314bd622f] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:32:47,912 DEBUG quic [ca8e6a3314bd622f] Scheduled CRYPTO data for retransmission
+2023-02-09 11:32:48,114 DEBUG quic [ca8e6a3314bd622f] Loss detection triggered
+2023-02-09 11:32:48,115 DEBUG quic [ca8e6a3314bd622f] Scheduled CRYPTO data for retransmission
+2023-02-09 11:32:48,173 DEBUG quic [ca8e6a3314bd622f] Discarding epoch Epoch.INITIAL
+2023-02-09 11:32:48,177 DEBUG quic [ca8e6a3314bd622f] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:32:48,178 DEBUG quic [ca8e6a3314bd622f] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:32:48,180 INFO quic [ca8e6a3314bd622f] ALPN negotiated protocol h3
+2023-02-09 11:32:48,181 DEBUG quic [ca8e6a3314bd622f] Network path ('193.167.0.100', 48117) validated by handshake
+2023-02-09 11:32:48,183 DEBUG quic [ca8e6a3314bd622f] Stream 2 created by peer
+2023-02-09 11:32:48,185 DEBUG quic [ca8e6a3314bd622f] Stream 6 created by peer
+2023-02-09 11:32:48,187 DEBUG quic [ca8e6a3314bd622f] Stream 10 created by peer
+2023-02-09 11:32:48,328 DEBUG quic [ca8e6a3314bd622f] Decryption key is not available
+2023-02-09 11:32:48,375 DEBUG quic [ca8e6a3314bd622f] Decryption key is not available
+2023-02-09 11:32:48,531 DEBUG quic [ca8e6a3314bd622f] Decryption key is not available
+2023-02-09 11:32:59,917 DEBUG quic [ca8e6a3314bd622f] Remote max_data raised to 2097152
+2023-02-09 11:32:59,918 DEBUG quic [ca8e6a3314bd622f] Stream 0 remote max_stream_data raised to 2097152
+2023-02-09 11:33:04,959 DEBUG quic [ca8e6a3314bd622f] Remote max_data raised to 4194304
+2023-02-09 11:33:04,960 DEBUG quic [ca8e6a3314bd622f] Stream 0 remote max_stream_data raised to 4194304
+2023-02-09 11:33:12,108 DEBUG quic [ca8e6a3314bd622f] Remote max_data raised to 8388608
+2023-02-09 11:33:12,110 DEBUG quic [ca8e6a3314bd622f] Stream 0 remote max_stream_data raised to 8388608
+2023-02-09 11:33:22,167 DEBUG quic [ca8e6a3314bd622f] Remote max_data raised to 16777216
+2023-02-09 11:33:22,170 DEBUG quic [ca8e6a3314bd622f] Stream 0 remote max_stream_data raised to 16777216
+2023-02-09 11:33:25,377 DEBUG quic [ca8e6a3314bd622f] Stream 0 discarded
+2023-02-09 11:33:25,423 INFO quic [ca8e6a3314bd622f] Connection close received (code 0x100, reason )
+2023-02-09 11:33:25,424 DEBUG quic [ca8e6a3314bd622f] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:33:26,739 DEBUG quic [ca8e6a3314bd622f] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:33:26,740 DEBUG quic [ca8e6a3314bd622f] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:48:16,893 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 11:48:48,651 DEBUG quic [08cdfab98e7c049c] Network path ('193.167.0.100', 37313) discovered
+2023-02-09 11:48:48,655 DEBUG quic [08cdfab98e7c049c] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:48:48,686 DEBUG quic [08cdfab98e7c049c] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:48:48,689 INFO quic [08cdfab98e7c049c] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:48:48,691 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:48,693 INFO quic [08cdfab98e7c049c] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:48:48,798 INFO quic [08cdfab98e7c049c] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:48:48,892 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:48,893 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:49,295 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:49,297 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:50,101 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:50,103 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:50,955 INFO quic [08cdfab98e7c049c] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:48:51,706 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:51,708 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:53,869 DEBUG quic [08cdfab98e7c049c] Discarding epoch Epoch.INITIAL
+2023-02-09 11:48:53,870 DEBUG quic [08cdfab98e7c049c] Network path ('193.167.0.100', 37313) validated by handshake
+2023-02-09 11:48:53,871 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:53,872 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:53,944 DEBUG quic [08cdfab98e7c049c] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:48:53,946 DEBUG quic [08cdfab98e7c049c] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:48:53,948 INFO quic [08cdfab98e7c049c] ALPN negotiated protocol h3
+2023-02-09 11:48:53,951 DEBUG quic [08cdfab98e7c049c] Stream 2 created by peer
+2023-02-09 11:48:53,953 DEBUG quic [08cdfab98e7c049c] Stream 6 created by peer
+2023-02-09 11:48:53,955 DEBUG quic [08cdfab98e7c049c] Stream 10 created by peer
+2023-02-09 11:48:53,957 DEBUG quic [08cdfab98e7c049c] Stream 0 created by peer
+2023-02-09 11:48:53,960 INFO quic [08cdfab98e7c049c] HTTP request GET /
+2023-02-09 11:48:53,969 INFO quic [08cdfab98e7c049c] HTTP request GET /style.css
+2023-02-09 11:48:54,005 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:54,033 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:54,037 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:54,042 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:54,132 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:54,263 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:54,265 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:54,267 DEBUG quic [08cdfab98e7c049c] Sending PING (probe) in packet 37
+2023-02-09 11:48:54,351 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:54,442 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:54,461 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:54,668 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:54,669 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:54,670 DEBUG quic [08cdfab98e7c049c] Sending PING (probe) in packet 38
+2023-02-09 11:48:54,978 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:55,235 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:55,236 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:55,471 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:55,472 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:55,473 DEBUG quic [08cdfab98e7c049c] Sending PING (probe) in packet 39
+2023-02-09 11:48:55,693 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:57,075 DEBUG quic [08cdfab98e7c049c] Loss detection triggered
+2023-02-09 11:48:57,077 DEBUG quic [08cdfab98e7c049c] Scheduled CRYPTO data for retransmission
+2023-02-09 11:48:57,078 DEBUG quic [08cdfab98e7c049c] Sending PING (probe) in packet 40
+2023-02-09 11:48:57,665 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:57,674 DEBUG quic [08cdfab98e7c049c] Decryption key is not available
+2023-02-09 11:48:57,928 DEBUG quic [08cdfab98e7c049c] Stream 0 discarded
+2023-02-09 11:48:57,940 INFO quic [08cdfab98e7c049c] Connection close received (code 0x100, reason )
+2023-02-09 11:48:57,941 DEBUG quic [08cdfab98e7c049c] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:49:19,733 DEBUG quic [08cdfab98e7c049c] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:49:19,735 DEBUG quic [08cdfab98e7c049c] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 11:49:39,566 DEBUG quic [9973db8bd7f331d0] Network path ('193.167.0.100', 41754) discovered
+2023-02-09 11:49:39,568 DEBUG quic [9973db8bd7f331d0] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 11:49:39,578 DEBUG quic [9973db8bd7f331d0] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 11:49:39,583 DEBUG quic [9973db8bd7f331d0] Stream 0 created by peer
+2023-02-09 11:49:39,584 INFO quic [9973db8bd7f331d0] HTTP request GET /5000000
+2023-02-09 11:49:39,634 INFO quic [9973db8bd7f331d0] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:49:39,635 DEBUG quic [9973db8bd7f331d0] Scheduled CRYPTO data for retransmission
+2023-02-09 11:49:39,773 INFO quic [9973db8bd7f331d0] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:49:39,836 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:49:39,837 DEBUG quic [9973db8bd7f331d0] Scheduled CRYPTO data for retransmission
+2023-02-09 11:49:40,062 INFO quic [9973db8bd7f331d0] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 11:49:40,238 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:49:40,240 DEBUG quic [9973db8bd7f331d0] Scheduled CRYPTO data for retransmission
+2023-02-09 11:49:40,869 DEBUG quic [9973db8bd7f331d0] Discarding epoch Epoch.INITIAL
+2023-02-09 11:49:40,871 DEBUG quic [9973db8bd7f331d0] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 11:49:40,872 DEBUG quic [9973db8bd7f331d0] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 11:49:40,873 INFO quic [9973db8bd7f331d0] ALPN negotiated protocol h3
+2023-02-09 11:49:40,874 DEBUG quic [9973db8bd7f331d0] Network path ('193.167.0.100', 41754) validated by handshake
+2023-02-09 11:49:40,875 DEBUG quic [9973db8bd7f331d0] Stream 2 created by peer
+2023-02-09 11:49:40,876 DEBUG quic [9973db8bd7f331d0] Stream 6 created by peer
+2023-02-09 11:49:40,877 DEBUG quic [9973db8bd7f331d0] Stream 10 created by peer
+2023-02-09 11:49:40,888 DEBUG quic [9973db8bd7f331d0] Decryption key is not available
+2023-02-09 11:49:41,082 DEBUG quic [9973db8bd7f331d0] Decryption key is not available
+2023-02-09 11:49:41,230 DEBUG quic [9973db8bd7f331d0] Decryption key is not available
+2023-02-09 11:49:41,593 DEBUG quic [9973db8bd7f331d0] Decryption key is not available
+2023-02-09 11:49:42,377 DEBUG quic [9973db8bd7f331d0] Decryption key is not available
+2023-02-09 11:49:48,494 DEBUG quic [9973db8bd7f331d0] Sending PING (ACK-of-ACK trigger) in packet 32
+2023-02-09 11:49:52,436 DEBUG quic [9973db8bd7f331d0] Received PING (probe) response
+2023-02-09 11:50:09,826 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:50:09,828 DEBUG quic [9973db8bd7f331d0] Sending PING (probe) in packet 39
+2023-02-09 11:50:40,784 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:50:40,786 DEBUG quic [9973db8bd7f331d0] Sending PING (probe) in packet 40
+2023-02-09 11:50:45,245 DEBUG quic [9973db8bd7f331d0] Received PING (probe) response
+2023-02-09 11:51:01,091 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:51:01,093 DEBUG quic [9973db8bd7f331d0] Sending PING (probe) in packet 45
+2023-02-09 11:51:32,787 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:51:32,788 DEBUG quic [9973db8bd7f331d0] Sending PING (probe) in packet 46
+2023-02-09 11:51:36,213 DEBUG quic [9973db8bd7f331d0] Received PING (probe) response
+2023-02-09 11:51:51,310 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:51:59,495 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:52:17,455 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:52:17,458 DEBUG quic [9973db8bd7f331d0] Sending PING (probe) in packet 83
+2023-02-09 11:52:21,861 DEBUG quic [9973db8bd7f331d0] Received PING (probe) response
+2023-02-09 11:52:40,260 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:53:03,929 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:53:08,850 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:54:03,704 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:54:03,706 DEBUG quic [9973db8bd7f331d0] Sending PING (probe) in packet 197
+2023-02-09 11:54:07,629 DEBUG quic [9973db8bd7f331d0] Received PING (probe) response
+2023-02-09 11:54:25,185 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:54:25,413 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:55:12,226 DEBUG quic [9973db8bd7f331d0] Remote max_data raised to 2097152
+2023-02-09 11:55:12,227 DEBUG quic [9973db8bd7f331d0] Stream 0 remote max_stream_data raised to 2097152
+2023-02-09 11:55:18,289 DEBUG quic [9973db8bd7f331d0] Remote max_data raised to 4194304
+2023-02-09 11:55:18,290 DEBUG quic [9973db8bd7f331d0] Stream 0 remote max_stream_data raised to 4194304
+2023-02-09 11:55:31,414 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:55:31,531 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:55:32,993 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:55:33,101 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:55:55,395 DEBUG quic [9973db8bd7f331d0] Loss detection triggered
+2023-02-09 11:56:07,800 DEBUG quic [9973db8bd7f331d0] Remote max_data raised to 8388608
+2023-02-09 11:56:07,801 DEBUG quic [9973db8bd7f331d0] Stream 0 remote max_stream_data raised to 8388608
+2023-02-09 11:56:59,837 DEBUG quic [9973db8bd7f331d0] Remote max_data raised to 16777216
+2023-02-09 11:56:59,838 DEBUG quic [9973db8bd7f331d0] Stream 0 remote max_stream_data raised to 16777216
+2023-02-09 11:57:06,779 DEBUG quic [9973db8bd7f331d0] Stream 0 discarded
+2023-02-09 11:57:06,806 INFO quic [9973db8bd7f331d0] Connection close received (code 0x100, reason )
+2023-02-09 11:57:06,807 DEBUG quic [9973db8bd7f331d0] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 11:57:08,330 DEBUG quic [9973db8bd7f331d0] Discarding epoch Epoch.ONE_RTT
+2023-02-09 11:57:08,330 DEBUG quic [9973db8bd7f331d0] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 15:37:04,657 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 15:37:33,907 DEBUG quic [fd59f9954acf8f99] Network path ('193.167.0.100', 56335) discovered
+2023-02-09 15:37:33,909 DEBUG quic [fd59f9954acf8f99] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 15:37:33,922 DEBUG quic [fd59f9954acf8f99] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 15:37:34,033 DEBUG quic [fd59f9954acf8f99] Discarding epoch Epoch.INITIAL
+2023-02-09 15:37:34,034 DEBUG quic [fd59f9954acf8f99] Network path ('193.167.0.100', 56335) validated by handshake
+2023-02-09 15:37:34,083 DEBUG quic [fd59f9954acf8f99] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 15:37:34,084 DEBUG quic [fd59f9954acf8f99] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 15:37:34,084 INFO quic [fd59f9954acf8f99] ALPN negotiated protocol h3
+2023-02-09 15:37:34,085 DEBUG quic [fd59f9954acf8f99] Stream 2 created by peer
+2023-02-09 15:37:34,085 DEBUG quic [fd59f9954acf8f99] Stream 6 created by peer
+2023-02-09 15:37:34,085 DEBUG quic [fd59f9954acf8f99] Stream 10 created by peer
+2023-02-09 15:37:34,085 DEBUG quic [fd59f9954acf8f99] Stream 0 created by peer
+2023-02-09 15:37:34,086 INFO quic [fd59f9954acf8f99] HTTP request GET /
+2023-02-09 15:37:34,102 INFO quic [fd59f9954acf8f99] HTTP request GET /style.css
+2023-02-09 15:37:34,211 DEBUG quic [fd59f9954acf8f99] Stream 0 discarded
+2023-02-09 15:37:34,213 INFO quic [fd59f9954acf8f99] Connection close received (code 0x100, reason )
+2023-02-09 15:37:34,214 DEBUG quic [fd59f9954acf8f99] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 15:37:34,810 DEBUG quic [fd59f9954acf8f99] Discarding epoch Epoch.ONE_RTT
+2023-02-09 15:37:34,811 DEBUG quic [fd59f9954acf8f99] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 15:37:35,514 DEBUG quic [5e1a64fb9de01254] Network path ('193.167.0.100', 55364) discovered
+2023-02-09 15:37:35,516 DEBUG quic [5e1a64fb9de01254] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 15:37:35,520 DEBUG quic [5e1a64fb9de01254] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 15:37:35,522 DEBUG quic [5e1a64fb9de01254] Stream 0 created by peer
+2023-02-09 15:37:35,522 INFO quic [5e1a64fb9de01254] HTTP request GET /5000000
+2023-02-09 15:37:35,635 DEBUG quic [5e1a64fb9de01254] Discarding epoch Epoch.INITIAL
+2023-02-09 15:37:35,636 DEBUG quic [5e1a64fb9de01254] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 15:37:35,637 DEBUG quic [5e1a64fb9de01254] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 15:37:35,637 INFO quic [5e1a64fb9de01254] ALPN negotiated protocol h3
+2023-02-09 15:37:35,638 DEBUG quic [5e1a64fb9de01254] Network path ('193.167.0.100', 55364) validated by handshake
+2023-02-09 15:37:35,639 DEBUG quic [5e1a64fb9de01254] Stream 2 created by peer
+2023-02-09 15:37:35,639 DEBUG quic [5e1a64fb9de01254] Stream 6 created by peer
+2023-02-09 15:37:35,639 DEBUG quic [5e1a64fb9de01254] Stream 10 created by peer
+2023-02-09 15:37:36,473 DEBUG quic [5e1a64fb9de01254] Remote max_data raised to 2097152
+2023-02-09 15:37:36,474 DEBUG quic [5e1a64fb9de01254] Stream 0 remote max_stream_data raised to 2097152
+2023-02-09 15:37:37,136 DEBUG quic [5e1a64fb9de01254] Remote max_data raised to 4194304
+2023-02-09 15:37:37,136 DEBUG quic [5e1a64fb9de01254] Stream 0 remote max_stream_data raised to 4194304
+2023-02-09 15:37:38,343 DEBUG quic [5e1a64fb9de01254] Remote max_data raised to 8388608
+2023-02-09 15:37:38,344 DEBUG quic [5e1a64fb9de01254] Stream 0 remote max_stream_data raised to 8388608
+2023-02-09 15:37:41,216 DEBUG quic [5e1a64fb9de01254] Remote max_data raised to 16777216
+2023-02-09 15:37:41,217 DEBUG quic [5e1a64fb9de01254] Stream 0 remote max_stream_data raised to 16777216
+2023-02-09 15:37:42,113 DEBUG quic [5e1a64fb9de01254] Stream 0 discarded
+2023-02-09 15:37:42,121 INFO quic [5e1a64fb9de01254] Connection close received (code 0x100, reason )
+2023-02-09 15:37:42,121 DEBUG quic [5e1a64fb9de01254] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 15:37:44,589 DEBUG quic [5e1a64fb9de01254] Discarding epoch Epoch.ONE_RTT
+2023-02-09 15:37:44,590 DEBUG quic [5e1a64fb9de01254] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 15:56:00,524 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 15:56:32,098 DEBUG quic [b165d58989244784] Network path ('193.167.0.100', 58005) discovered
+2023-02-09 15:56:32,102 DEBUG quic [b165d58989244784] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 15:56:32,145 DEBUG quic [b165d58989244784] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 15:56:32,148 INFO quic [b165d58989244784] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 15:56:32,150 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:32,156 INFO quic [b165d58989244784] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 15:56:32,276 INFO quic [b165d58989244784] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 15:56:32,353 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:32,354 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:32,755 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:32,758 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:33,562 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:33,562 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:34,574 INFO quic [b165d58989244784] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 15:56:35,164 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:35,165 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:35,503 DEBUG quic [b165d58989244784] Discarding epoch Epoch.INITIAL
+2023-02-09 15:56:35,504 DEBUG quic [b165d58989244784] Network path ('193.167.0.100', 58005) validated by handshake
+2023-02-09 15:56:35,505 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:35,506 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:35,564 DEBUG quic [b165d58989244784] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 15:56:35,565 DEBUG quic [b165d58989244784] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 15:56:35,567 INFO quic [b165d58989244784] ALPN negotiated protocol h3
+2023-02-09 15:56:35,568 DEBUG quic [b165d58989244784] Stream 2 created by peer
+2023-02-09 15:56:35,570 DEBUG quic [b165d58989244784] Stream 6 created by peer
+2023-02-09 15:56:35,571 DEBUG quic [b165d58989244784] Stream 10 created by peer
+2023-02-09 15:56:35,573 DEBUG quic [b165d58989244784] Stream 0 created by peer
+2023-02-09 15:56:35,575 INFO quic [b165d58989244784] HTTP request GET /
+2023-02-09 15:56:35,579 INFO quic [b165d58989244784] HTTP request GET /style.css
+2023-02-09 15:56:35,602 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:35,622 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:35,646 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:35,648 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:35,708 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:35,836 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:35,837 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:35,839 DEBUG quic [b165d58989244784] Sending PING (probe) in packet 37
+2023-02-09 15:56:35,992 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:36,137 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:36,139 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:36,240 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:36,241 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:36,243 DEBUG quic [b165d58989244784] Sending PING (probe) in packet 38
+2023-02-09 15:56:36,581 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:36,808 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:36,810 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:37,044 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:37,045 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:37,047 DEBUG quic [b165d58989244784] Sending PING (probe) in packet 39
+2023-02-09 15:56:38,507 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:38,647 DEBUG quic [b165d58989244784] Loss detection triggered
+2023-02-09 15:56:38,648 DEBUG quic [b165d58989244784] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:38,649 DEBUG quic [b165d58989244784] Sending PING (probe) in packet 40
+2023-02-09 15:56:38,698 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:38,704 DEBUG quic [b165d58989244784] Decryption key is not available
+2023-02-09 15:56:41,299 DEBUG quic [b165d58989244784] Stream 0 discarded
+2023-02-09 15:56:41,303 INFO quic [b165d58989244784] Connection close received (code 0x100, reason )
+2023-02-09 15:56:41,304 DEBUG quic [b165d58989244784] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 15:56:43,253 DEBUG quic [c803cb7ef5de5be7] Network path ('193.167.0.100', 51272) discovered
+2023-02-09 15:56:43,258 DEBUG quic [c803cb7ef5de5be7] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 15:56:43,277 DEBUG quic [c803cb7ef5de5be7] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 15:56:43,281 DEBUG quic [c803cb7ef5de5be7] Stream 0 created by peer
+2023-02-09 15:56:43,282 INFO quic [c803cb7ef5de5be7] HTTP request GET /5000000
+2023-02-09 15:56:43,468 INFO quic [c803cb7ef5de5be7] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 15:56:43,469 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:43,670 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:43,670 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:43,773 INFO quic [c803cb7ef5de5be7] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 15:56:44,071 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:44,086 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:44,127 INFO quic [c803cb7ef5de5be7] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 15:56:44,888 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:44,888 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:45,494 INFO quic [c803cb7ef5de5be7] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 15:56:45,836 DEBUG quic [c803cb7ef5de5be7] Discarding epoch Epoch.INITIAL
+2023-02-09 15:56:45,837 DEBUG quic [c803cb7ef5de5be7] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 15:56:45,837 DEBUG quic [c803cb7ef5de5be7] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 15:56:45,838 INFO quic [c803cb7ef5de5be7] ALPN negotiated protocol h3
+2023-02-09 15:56:45,838 DEBUG quic [c803cb7ef5de5be7] Network path ('193.167.0.100', 51272) validated by handshake
+2023-02-09 15:56:45,839 DEBUG quic [c803cb7ef5de5be7] Stream 2 created by peer
+2023-02-09 15:56:45,839 DEBUG quic [c803cb7ef5de5be7] Stream 6 created by peer
+2023-02-09 15:56:45,840 DEBUG quic [c803cb7ef5de5be7] Stream 10 created by peer
+2023-02-09 15:56:45,841 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:45,842 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:45,842 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 25
+2023-02-09 15:56:46,145 DEBUG quic [c803cb7ef5de5be7] Decryption key is not available
+2023-02-09 15:56:46,243 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:46,245 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:46,247 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 26
+2023-02-09 15:56:46,324 DEBUG quic [c803cb7ef5de5be7] Decryption key is not available
+2023-02-09 15:56:47,047 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:47,049 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:47,053 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 27
+2023-02-09 15:56:47,096 DEBUG quic [c803cb7ef5de5be7] Decryption key is not available
+2023-02-09 15:56:48,539 DEBUG quic [c803cb7ef5de5be7] Decryption key is not available
+2023-02-09 15:56:48,653 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:48,654 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:48,656 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 28
+2023-02-09 15:56:50,327 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:50,327 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:50,328 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 31
+2023-02-09 15:56:50,729 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:50,730 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:50,733 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 32
+2023-02-09 15:56:51,534 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:51,535 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:51,537 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 33
+2023-02-09 15:56:53,138 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:53,141 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:53,143 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 35
+2023-02-09 15:56:56,346 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:56:56,347 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:56:56,350 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 36
+2023-02-09 15:56:56,564 DEBUG quic [b165d58989244784] Discarding epoch Epoch.ONE_RTT
+2023-02-09 15:56:56,566 DEBUG quic [b165d58989244784] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 15:57:02,753 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:57:02,754 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:57:02,756 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 38
+2023-02-09 15:57:15,558 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:57:15,561 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:57:15,563 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 40
+2023-02-09 15:57:41,174 DEBUG quic [c803cb7ef5de5be7] Loss detection triggered
+2023-02-09 15:57:41,176 DEBUG quic [c803cb7ef5de5be7] Scheduled CRYPTO data for retransmission
+2023-02-09 15:57:41,178 DEBUG quic [c803cb7ef5de5be7] Sending PING (probe) in packet 41
+2023-02-09 15:58:12,716 DEBUG quic [c803cb7ef5de5be7] Discarding epoch Epoch.ONE_RTT
+2023-02-09 15:58:12,717 DEBUG quic [c803cb7ef5de5be7] QuicConnectionState.CONNECTED -> QuicConnectionState.TERMINATED
+2023-02-09 16:06:56,109 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 16:07:25,113 DEBUG quic [28645cdc492fde6f] Network path ('193.167.0.100', 48447) discovered
+2023-02-09 16:07:25,116 DEBUG quic [28645cdc492fde6f] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 16:07:25,132 DEBUG quic [28645cdc492fde6f] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 16:07:25,281 DEBUG quic [28645cdc492fde6f] Discarding epoch Epoch.INITIAL
+2023-02-09 16:07:25,283 DEBUG quic [28645cdc492fde6f] Network path ('193.167.0.100', 48447) validated by handshake
+2023-02-09 16:07:25,485 DEBUG quic [28645cdc492fde6f] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 16:07:25,485 DEBUG quic [28645cdc492fde6f] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 16:07:25,487 INFO quic [28645cdc492fde6f] ALPN negotiated protocol h3
+2023-02-09 16:07:25,488 DEBUG quic [28645cdc492fde6f] Stream 2 created by peer
+2023-02-09 16:07:25,489 DEBUG quic [28645cdc492fde6f] Stream 6 created by peer
+2023-02-09 16:07:25,490 DEBUG quic [28645cdc492fde6f] Stream 10 created by peer
+2023-02-09 16:07:25,490 DEBUG quic [28645cdc492fde6f] Stream 0 created by peer
+2023-02-09 16:07:25,492 INFO quic [28645cdc492fde6f] HTTP request GET /
+2023-02-09 16:07:25,519 INFO quic [28645cdc492fde6f] HTTP request GET /style.css
+2023-02-09 16:07:25,637 DEBUG quic [28645cdc492fde6f] Stream 0 discarded
+2023-02-09 16:07:25,641 INFO quic [28645cdc492fde6f] Connection close received (code 0x100, reason )
+2023-02-09 16:07:25,642 DEBUG quic [28645cdc492fde6f] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 16:07:26,604 DEBUG quic [28645cdc492fde6f] Discarding epoch Epoch.ONE_RTT
+2023-02-09 16:07:26,606 DEBUG quic [28645cdc492fde6f] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 16:07:27,623 DEBUG quic [1f615d820f58a190] Network path ('193.167.0.100', 51236) discovered
+2023-02-09 16:07:27,628 DEBUG quic [1f615d820f58a190] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 16:07:27,651 DEBUG quic [1f615d820f58a190] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 16:07:27,656 DEBUG quic [1f615d820f58a190] Stream 0 created by peer
+2023-02-09 16:07:27,659 INFO quic [1f615d820f58a190] HTTP request GET /5000000
+2023-02-09 16:07:27,848 INFO quic [1f615d820f58a190] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 16:07:27,849 DEBUG quic [1f615d820f58a190] Scheduled CRYPTO data for retransmission
+2023-02-09 16:07:28,049 DEBUG quic [1f615d820f58a190] Loss detection triggered
+2023-02-09 16:07:28,050 DEBUG quic [1f615d820f58a190] Scheduled CRYPTO data for retransmission
+2023-02-09 16:07:28,060 INFO quic [1f615d820f58a190] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 16:07:28,076 DEBUG quic [1f615d820f58a190] Discarding epoch Epoch.INITIAL
+2023-02-09 16:07:28,078 DEBUG quic [1f615d820f58a190] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 16:07:28,079 DEBUG quic [1f615d820f58a190] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 16:07:28,080 INFO quic [1f615d820f58a190] ALPN negotiated protocol h3
+2023-02-09 16:07:28,080 DEBUG quic [1f615d820f58a190] Network path ('193.167.0.100', 51236) validated by handshake
+2023-02-09 16:07:28,081 DEBUG quic [1f615d820f58a190] Stream 2 created by peer
+2023-02-09 16:07:28,083 DEBUG quic [1f615d820f58a190] Stream 6 created by peer
+2023-02-09 16:07:28,083 DEBUG quic [1f615d820f58a190] Stream 10 created by peer
+2023-02-09 16:07:28,138 DEBUG quic [1f615d820f58a190] Decryption key is not available
+2023-02-09 16:07:28,224 DEBUG quic [1f615d820f58a190] Decryption key is not available
+2023-02-09 16:07:28,247 DEBUG quic [1f615d820f58a190] Decryption key is not available
+2023-02-09 16:07:39,426 DEBUG quic [1f615d820f58a190] Remote max_data raised to 2097152
+2023-02-09 16:07:39,427 DEBUG quic [1f615d820f58a190] Stream 0 remote max_stream_data raised to 2097152
+2023-02-09 16:08:13,631 DEBUG quic [1f615d820f58a190] Remote max_data raised to 4194304
+2023-02-09 16:08:13,632 DEBUG quic [1f615d820f58a190] Stream 0 remote max_stream_data raised to 4194304
+2023-02-09 16:08:26,125 DEBUG quic [1f615d820f58a190] Remote max_data raised to 8388608
+2023-02-09 16:08:26,127 DEBUG quic [1f615d820f58a190] Stream 0 remote max_stream_data raised to 8388608
+2023-02-09 16:08:42,350 DEBUG quic [1f615d820f58a190] Loss detection triggered
+2023-02-09 16:09:12,209 DEBUG quic [1f615d820f58a190] Loss detection triggered
+2023-02-09 16:10:13,869 DEBUG quic [1f615d820f58a190] Loss detection triggered
+2023-02-09 16:10:16,439 DEBUG quic [1f615d820f58a190] Loss detection triggered
+2023-02-09 16:10:16,621 DEBUG quic [1f615d820f58a190] Loss detection triggered
+2023-02-09 16:10:37,701 DEBUG quic [1f615d820f58a190] Remote max_data raised to 16777216
+2023-02-09 16:10:37,702 DEBUG quic [1f615d820f58a190] Stream 0 remote max_stream_data raised to 16777216
+2023-02-09 16:10:53,320 DEBUG quic [1f615d820f58a190] Stream 0 discarded
+2023-02-09 16:10:53,346 INFO quic [1f615d820f58a190] Connection close received (code 0x100, reason )
+2023-02-09 16:10:53,347 DEBUG quic [1f615d820f58a190] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 16:10:54,363 DEBUG quic [1f615d820f58a190] Discarding epoch Epoch.ONE_RTT
+2023-02-09 16:10:54,364 DEBUG quic [1f615d820f58a190] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 16:17:25,603 DEBUG asyncio Using selector: EpollSelector
+2023-02-09 16:17:57,431 DEBUG quic [b991c8f6fec0dd8f] Network path ('193.167.0.100', 55402) discovered
+2023-02-09 16:17:57,438 DEBUG quic [b991c8f6fec0dd8f] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 16:17:57,479 DEBUG quic [b991c8f6fec0dd8f] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 16:17:57,485 INFO quic [b991c8f6fec0dd8f] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 16:17:57,487 DEBUG quic [b991c8f6fec0dd8f] Scheduled CRYPTO data for retransmission
+2023-02-09 16:17:57,491 INFO quic [b991c8f6fec0dd8f] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 16:17:57,690 DEBUG quic [b991c8f6fec0dd8f] Loss detection triggered
+2023-02-09 16:17:57,692 DEBUG quic [b991c8f6fec0dd8f] Scheduled CRYPTO data for retransmission
+2023-02-09 16:17:57,701 INFO quic [b991c8f6fec0dd8f] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 16:17:58,095 DEBUG quic [b991c8f6fec0dd8f] Loss detection triggered
+2023-02-09 16:17:58,097 DEBUG quic [b991c8f6fec0dd8f] Scheduled CRYPTO data for retransmission
+2023-02-09 16:17:58,901 DEBUG quic [b991c8f6fec0dd8f] Loss detection triggered
+2023-02-09 16:17:58,902 DEBUG quic [b991c8f6fec0dd8f] Scheduled CRYPTO data for retransmission
+2023-02-09 16:17:58,951 INFO quic [b991c8f6fec0dd8f] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 16:17:59,274 DEBUG quic [b991c8f6fec0dd8f] Discarding epoch Epoch.INITIAL
+2023-02-09 16:17:59,276 DEBUG quic [b991c8f6fec0dd8f] Network path ('193.167.0.100', 55402) validated by handshake
+2023-02-09 16:17:59,278 DEBUG quic [b991c8f6fec0dd8f] Loss detection triggered
+2023-02-09 16:17:59,279 DEBUG quic [b991c8f6fec0dd8f] Scheduled CRYPTO data for retransmission
+2023-02-09 16:17:59,541 DEBUG quic [b991c8f6fec0dd8f] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 16:17:59,543 DEBUG quic [b991c8f6fec0dd8f] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 16:17:59,545 INFO quic [b991c8f6fec0dd8f] ALPN negotiated protocol h3
+2023-02-09 16:17:59,548 DEBUG quic [b991c8f6fec0dd8f] Stream 2 created by peer
+2023-02-09 16:17:59,550 DEBUG quic [b991c8f6fec0dd8f] Stream 6 created by peer
+2023-02-09 16:17:59,552 DEBUG quic [b991c8f6fec0dd8f] Stream 10 created by peer
+2023-02-09 16:17:59,555 DEBUG quic [b991c8f6fec0dd8f] Stream 0 created by peer
+2023-02-09 16:17:59,558 INFO quic [b991c8f6fec0dd8f] HTTP request GET /
+2023-02-09 16:17:59,562 INFO quic [b991c8f6fec0dd8f] HTTP request GET /style.css
+2023-02-09 16:17:59,599 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:17:59,622 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:17:59,625 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:17:59,630 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:17:59,691 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:17:59,701 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:17:59,842 DEBUG quic [b991c8f6fec0dd8f] Loss detection triggered
+2023-02-09 16:17:59,844 DEBUG quic [b991c8f6fec0dd8f] Scheduled CRYPTO data for retransmission
+2023-02-09 16:17:59,846 DEBUG quic [b991c8f6fec0dd8f] Sending PING (probe) in packet 33
+2023-02-09 16:18:00,077 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:18:00,246 DEBUG quic [b991c8f6fec0dd8f] Loss detection triggered
+2023-02-09 16:18:00,247 DEBUG quic [b991c8f6fec0dd8f] Scheduled CRYPTO data for retransmission
+2023-02-09 16:18:00,248 DEBUG quic [b991c8f6fec0dd8f] Sending PING (probe) in packet 34
+2023-02-09 16:18:00,291 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:18:00,307 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:18:00,310 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:18:00,772 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:18:00,780 DEBUG quic [b991c8f6fec0dd8f] Decryption key is not available
+2023-02-09 16:18:01,050 DEBUG quic [b991c8f6fec0dd8f] Loss detection triggered
+2023-02-09 16:18:01,052 DEBUG quic [b991c8f6fec0dd8f] Scheduled CRYPTO data for retransmission
+2023-02-09 16:18:01,054 DEBUG quic [b991c8f6fec0dd8f] Sending PING (probe) in packet 35
+2023-02-09 16:18:01,119 DEBUG quic [b991c8f6fec0dd8f] Stream 0 discarded
+2023-02-09 16:18:01,135 INFO quic [b991c8f6fec0dd8f] Connection close received (code 0x100, reason )
+2023-02-09 16:18:01,137 DEBUG quic [b991c8f6fec0dd8f] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 16:18:09,607 DEBUG quic [b991c8f6fec0dd8f] Discarding epoch Epoch.ONE_RTT
+2023-02-09 16:18:09,608 DEBUG quic [b991c8f6fec0dd8f] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
+2023-02-09 16:18:14,315 DEBUG quic [dcd07c0e407b4543] Network path ('193.167.0.100', 59538) discovered
+2023-02-09 16:18:14,321 DEBUG quic [dcd07c0e407b4543] QuicConnectionState.FIRSTFLIGHT -> QuicConnectionState.CONNECTED
+2023-02-09 16:18:14,340 DEBUG quic [dcd07c0e407b4543] TLS State.SERVER_EXPECT_CLIENT_HELLO -> State.SERVER_EXPECT_FINISHED
+2023-02-09 16:18:14,345 DEBUG quic [dcd07c0e407b4543] Stream 0 created by peer
+2023-02-09 16:18:14,347 INFO quic [dcd07c0e407b4543] HTTP request GET /5000000
+2023-02-09 16:18:14,567 INFO quic [dcd07c0e407b4543] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 16:18:14,569 DEBUG quic [dcd07c0e407b4543] Scheduled CRYPTO data for retransmission
+2023-02-09 16:18:14,757 INFO quic [dcd07c0e407b4543] Duplicate CRYPTO data received for epoch Epoch.INITIAL
+2023-02-09 16:18:14,770 DEBUG quic [dcd07c0e407b4543] Loss detection triggered
+2023-02-09 16:18:14,771 DEBUG quic [dcd07c0e407b4543] Scheduled CRYPTO data for retransmission
+2023-02-09 16:18:14,946 DEBUG quic [dcd07c0e407b4543] Discarding epoch Epoch.INITIAL
+2023-02-09 16:18:14,948 DEBUG quic [dcd07c0e407b4543] TLS State.SERVER_EXPECT_FINISHED -> State.SERVER_POST_HANDSHAKE
+2023-02-09 16:18:14,948 DEBUG quic [dcd07c0e407b4543] Discarding epoch Epoch.HANDSHAKE
+2023-02-09 16:18:14,949 INFO quic [dcd07c0e407b4543] ALPN negotiated protocol h3
+2023-02-09 16:18:14,950 DEBUG quic [dcd07c0e407b4543] Network path ('193.167.0.100', 59538) validated by handshake
+2023-02-09 16:18:14,951 DEBUG quic [dcd07c0e407b4543] Stream 2 created by peer
+2023-02-09 16:18:14,951 DEBUG quic [dcd07c0e407b4543] Stream 6 created by peer
+2023-02-09 16:18:14,952 DEBUG quic [dcd07c0e407b4543] Stream 10 created by peer
+2023-02-09 16:18:15,080 DEBUG quic [dcd07c0e407b4543] Decryption key is not available
+2023-02-09 16:18:15,376 DEBUG quic [dcd07c0e407b4543] Decryption key is not available
+2023-02-09 16:18:15,378 DEBUG quic [dcd07c0e407b4543] Decryption key is not available
+2023-02-09 16:18:39,082 DEBUG quic [dcd07c0e407b4543] Remote max_data raised to 2097152
+2023-02-09 16:18:39,084 DEBUG quic [dcd07c0e407b4543] Stream 0 remote max_stream_data raised to 2097152
+2023-02-09 16:18:46,267 DEBUG quic [dcd07c0e407b4543] Remote max_data raised to 4194304
+2023-02-09 16:18:46,268 DEBUG quic [dcd07c0e407b4543] Stream 0 remote max_stream_data raised to 4194304
+2023-02-09 16:18:57,231 DEBUG quic [dcd07c0e407b4543] Remote max_data raised to 8388608
+2023-02-09 16:18:57,232 DEBUG quic [dcd07c0e407b4543] Stream 0 remote max_stream_data raised to 8388608
+2023-02-09 16:19:39,151 DEBUG quic [dcd07c0e407b4543] Remote max_data raised to 16777216
+2023-02-09 16:19:39,152 DEBUG quic [dcd07c0e407b4543] Stream 0 remote max_stream_data raised to 16777216
+2023-02-09 16:19:40,543 DEBUG quic [dcd07c0e407b4543] Loss detection triggered
+2023-02-09 16:19:40,561 DEBUG quic [dcd07c0e407b4543] Loss detection triggered
+2023-02-09 16:20:32,762 DEBUG quic [dcd07c0e407b4543] Loss detection triggered
+2023-02-09 16:20:32,775 DEBUG quic [dcd07c0e407b4543] Loss detection triggered
+2023-02-09 16:20:47,930 DEBUG quic [dcd07c0e407b4543] Stream 0 discarded
+2023-02-09 16:20:47,983 INFO quic [dcd07c0e407b4543] Connection close received (code 0x100, reason )
+2023-02-09 16:20:47,984 DEBUG quic [dcd07c0e407b4543] QuicConnectionState.CONNECTED -> QuicConnectionState.DRAINING
+2023-02-09 16:21:11,057 DEBUG quic [dcd07c0e407b4543] Discarding epoch Epoch.ONE_RTT
+2023-02-09 16:21:11,061 DEBUG quic [dcd07c0e407b4543] QuicConnectionState.DRAINING -> QuicConnectionState.TERMINATED
