@@ -55,12 +55,14 @@ if [ "$ROLE" = "server" ]; then
     echo "Starting server active on $(hostname -I | cut -f1 -d" "):4000"
     echo "QLOG DIR: $QLOGDIR"
     echo "SSL FILE: $SSLKEYLOGFILE"
+    echo "ROOT DIR: /www"
 
     ./server $(hostname -I | cut -f1 -d" ") 4000 \
         cert.key \
         cert.crt \
         --show-secret \
         --verify-client \
+        -d /www \
         $LOG_PARAMS \
         $SERVER_PARAMS 2>> /logs/stout.log
 fi

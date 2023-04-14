@@ -51,11 +51,13 @@ if [ -n "$TESTCASE" ]; then
 fi 
 
 # network simulator
-REQUESTS="193.167.100.100 4000"
+REQUESTS="https://193.167.100.100:4000/sample.txt"
+SERVER=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
 
 run_client() {
-    ./client \
+    ./client $SERVER 4000 \
         --show-secret \
+        --download /downloads \
         --key=key_client.pem \
         --cert=cert_client.pem \
         $LOG_PARAMS \
@@ -66,7 +68,7 @@ run_client() {
 if [ "$ROLE" = "client" ]; then
     # Wait for the simulator to start up.
     /wait-for-it.sh sim:57832 -s -t 30
-    sleep 30s
+ #   sleep 30s
     echo "Starting client"
     case "$TESTCASE" in
     "multiconnect")

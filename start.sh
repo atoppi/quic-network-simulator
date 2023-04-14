@@ -60,7 +60,7 @@ echo "Scenario: ritardo "$DELAY"ms | banda "$BANDWIDTH"Mbps | "$QUEUE" utenti in
 echo -n "Vuoi avviare il testbed? (y/n): "
 read -r RISPOSTA
 
-declare -a IMPLEMETATION=(picoquic aioquic quiche ngtcp2)
+declare -a IMPLEMETATION=(picoquic aioquic ngtcp2 quiche)
 declare SCENARIO="simple-p2p --delay="$DELAY"ms --bandwidth="$BANDWIDTH"Mbps --queue="$QUEUE""
 
 case $RISPOSTA in
@@ -96,6 +96,7 @@ case $RISPOSTA in
                 exit 0
                 ;;
             esac
+      cd .
       done
       ;;
 

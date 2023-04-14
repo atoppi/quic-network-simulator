@@ -71,7 +71,7 @@ check_testcase () {
 }
 
 REQUESTS="https://193.167.100.100:4000/sample.txt"
-REQUESTS2="https://193.167.100.100:4000/index.html"
+REQUESTS2="https://193.167.100.100:4000/sample.txt"
 
 run_quiche_client_tests () {
     case $1 in
@@ -87,6 +87,7 @@ run_quiche_client_tests () {
             echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"     
             ;;
         *)
+            echo "Running test $TESTCASE to server $REQUESTS with $CLIENT_PARAMS"
             $QUICHE_DIR/$QUICHE_CLIENT $QUICHE_CLIENT_OPT \
                 $CLIENT_PARAMS $REQUESTS >& $LOG
             ;;
@@ -105,6 +106,7 @@ mkdir -p $LOG_DIR
 if [ "$ROLE" == "client" ]; then
     # Wait for the simulator to start up.
     /wait-for-it.sh sim:57832 -s -t 30
+    sleep 30s
     echo "## Starting quiche client..."
     echo "## Client params: $CLIENT_PARAMS"
     echo "## Requests: $REQUESTS"

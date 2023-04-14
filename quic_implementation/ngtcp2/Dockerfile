@@ -44,6 +44,7 @@ RUN openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 \
 
 RUN mkdir /www
 RUN mkdir /downloads
+RUN openssl rand -out /www/sample.txt -base64 500000 ; truncate -s-1 /www/sample.txt
 
 COPY start_server.sh .
 RUN chmod +x start_server.sh
