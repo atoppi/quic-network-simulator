@@ -14,20 +14,13 @@ RUN mv /ns-allinone-$VERS/ns-$VERS /ns3
 WORKDIR /ns3
 
 RUN mkdir out/
-RUN ./waf configure --build-profile=release --out=out/
+RUN ./waf configure --build-profile=optimized --out=out/
 RUN ./waf build
 
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then cd / && \
+RUN cd / && \
       wget https://dl.google.com/go/go1.15.linux-amd64.tar.gz && \
       tar xfz go1.15.linux-amd64.tar.gz && \
-      rm go1.15.linux-amd64.tar.gz; \
-    fi
-
-RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then cd / && \
-      wget https://dl.google.com/go/go1.15.linux-arm64.tar.gz && \
-      tar xfz go1.15.linux-arm64.tar.gz && \
-      rm go1.15.linux-arm64.tar.gz; \
-    fi
+      rm go1.15.linux-amd64.tar.gz; 
 
 # make including of the QuicNetworkSimulatorHelper class possible
 COPY wscript.patch .
