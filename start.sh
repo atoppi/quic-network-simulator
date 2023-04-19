@@ -4,23 +4,24 @@ echo "Ciao, questo è un testbed automatizzato per QUIC implementation."
 echo -n "Quale test vuoi eseguire? (handshake, zerortt): "
 read -r TESTCASE
 
-# case $TESTCASE in
-#    "handshake")
-#       ;;
-#    "zerortt")
-#       ;;
-#    *)
-#      echo "Scelta non valida..."
-#      exit 0
-#      ;;
-# esac
+declare -a IMPLEMETATION=(picoquic aioquic quiche)
+case $TESTCASE in
+   "handshake")
+      ;;
+   "zerortt")
+      ;;
+   *)
+     echo "Scelta non valida..."
+     exit 0
+     ;;
+esac
 
 echo -n "Vuoi attivare iperf per la congestione della rete? (y/n): "
 read -r IPERF_ACTIVATION
 
 case $IPERF_ACTIVATION in
    "y")
-      echo -n "Setta il target bandwidth (k=Kbits/sec | m=Mbits/sec | K=KBytes/sec | M=MBytes/sec): "
+      echo -n "Setta il target bandwidth (specificato in Mbits/s): "
       read -r IPERF_BAND
       ;;
    "n")
@@ -39,28 +40,28 @@ read -r DELAY
 echo -n "Larghezza di banda (in Mbps): "
 read -r BANDWIDTH
 
-echo -n "Numero utenti in coda: "
+echo -n "Dimensione delle code (in numero di pacchetti): "
 read -r QUEUE
 
 echo
 echo "----------------RIEPILOGO----------------"
 echo "Testcase: $TESTCASE"
+echo "Implementazioni attive nel testbed: $IMPLEMENTATION"
 
 case $IPERF_ACTIVATION in
    "y")
-      echo "Iperf attivo con "$IPERF_BAND" di target bandwidth"
+      echo "Iperf attivo con "$IPERF_BAND"Mbps/s di target bandwidth"
       ;;
    "n")
       echo "Iperf non attivo"
       ;;
 esac
 
-echo "Scenario: ritardo "$DELAY"ms | banda "$BANDWIDTH"Mbps | "$QUEUE" utenti in coda"
+echo "Scenario: ritardo "$DELAY"ms | banda "$BANDWIDTH"Mbps | "$QUEUE" dimensione code buffer"
 
 echo -n "Vuoi avviare il testbed? (y/n): "
 read -r RISPOSTA
 
-declare -a IMPLEMETATION=(picoquic aioquic ngtcp2 quiche)
 declare SCENARIO="simple-p2p --delay="$DELAY"ms --bandwidth="$BANDWIDTH"Mbps --queue="$QUEUE""
 
 case $RISPOSTA in

@@ -16,10 +16,7 @@ void QuicPointToPointHelper::SetQueueSize(StringValue size) {
 
 NetDeviceContainer QuicPointToPointHelper::Install(Ptr<Node> a, Ptr<Node> b) {
 
-  PointToPointHelper p2ph;
-  p2ph.SetQueue ("ns3::DropTailQueue", "MaxSize", StringValue ("30000p"));
-  NetDeviceContainer devices = p2ph.Install (a,b);
-  //NetDeviceContainer devices = PointToPointHelper::Install(a, b);
+  NetDeviceContainer devices = PointToPointHelper::Install(a, b);
 
   // capture a pcap of all packets
   EnablePcap("/logs/trace_node_left.pcap", devices.Get(0), false, true);

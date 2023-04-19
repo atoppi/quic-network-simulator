@@ -55,7 +55,7 @@ ENV PATH="/ns3/src/fd-net-device/:${PATH}"
 ENV LD_LIBRARY_PATH="/ns3/lib"
 
 COPY run.sh .
-RUN chmod +x run.sh
+RUN sed -i 's/\r$//' run.sh && chmod +x run.sh
 RUN mkdir /logs
 
 ENTRYPOINT [ "./run.sh" ]

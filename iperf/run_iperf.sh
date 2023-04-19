@@ -6,9 +6,9 @@
 if [ "$IPERF_ACTIVATION" == "y" ]; then
   if [ "$ROLE" == "server" ]; then
     ./wait-for-it.sh $CLIENT:5001 -s -t 10
-    iperf -c $CLIENT -t 3600 -e -i 1
+    iperf -c $CLIENT -t 3600 -u -b $IPERF_BAND"m" -e -i 1
   else
-    iperf -i 1 -s -p 5001
+    iperf -i 1 -s -p 5001 -u
   fi
 else
   sleep infinity
