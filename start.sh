@@ -4,7 +4,7 @@ echo "Ciao, questo è un testbed automatizzato per QUIC implementation."
 echo -n "Quale test vuoi eseguire? (handshake, zerortt): "
 read -r TESTCASE
 
-declare -a IMPLEMETATION=(picoquic aioquic quiche)
+declare -a IMPLEMETATION=(aioquic lsquic ngtcp2 picoquic quiche)
 case $TESTCASE in
    "handshake")
       ;;
@@ -46,7 +46,7 @@ read -r QUEUE
 echo
 echo "----------------RIEPILOGO----------------"
 echo "Testcase: $TESTCASE"
-echo "Implementazioni attive nel testbed: $IMPLEMENTATION"
+echo "Implementazioni attive nel testbed: ${IMPLEMETATION[*]}"
 
 case $IPERF_ACTIVATION in
    "y")
