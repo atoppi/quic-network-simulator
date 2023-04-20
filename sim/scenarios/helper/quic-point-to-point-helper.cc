@@ -24,7 +24,7 @@ NetDeviceContainer QuicPointToPointHelper::Install(Ptr<Node> a, Ptr<Node> b) {
   
   TrafficControlHelper tch;
   tch.SetRootQueueDisc("ns3::PfifoFastQueueDisc", "MaxSize", queue_size_);
-  //tch.Install(devices);
+  tch.Install(devices);
 
   Ipv4AddressHelper ipv4;
   ipv4.SetBase("193.167.50.0", "255.255.255.0");
