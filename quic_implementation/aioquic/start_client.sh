@@ -54,8 +54,9 @@ if [ -n "$TESTCASE" ]; then
 fi 
 
 # network simulator
-REQUESTS="https://193.167.100.100:4000/"
-REQUESTS2="https://193.167.100.100:4000/5000000"
+REQUESTS="https://193.167.100.100:4000/$DIM_FILE"
+REQUESTS2="https://193.167.100.100:4000/$DIM_FILE"
+
 run_client() {
     python3 examples/http3_client.py \
         --ca-certs tests/pycacert.pem \

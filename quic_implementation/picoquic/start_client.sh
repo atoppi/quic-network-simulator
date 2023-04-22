@@ -58,7 +58,7 @@ if [ "$TESTCASE" == "v2" ]; then
 fi
 
 # network simulator
-REQUESTS="https://server4:4000/index.html"
+REQUESTS="https://server4:4000/$DIM_FILE"
 REQUESTS2="https://server4:4000/5000000"
 SERVER="server"
 

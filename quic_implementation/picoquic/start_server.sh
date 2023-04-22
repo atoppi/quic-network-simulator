@@ -27,7 +27,7 @@ TEST_PARAMS="$SERVER_PARAMS -w ./www -L -l /logs/server_log.txt"
 TEST_PARAMS="$TEST_PARAMS -k ./picoquic/certs/key.pem -c ./picoquic/certs/cert.pem"
 TEST_PARAMS="$TEST_PARAMS -q $QLOGDIR" 
 TEST_PARAMS="$TEST_PARAMS -p 4000 -V -0"
-ls /www
+
 
 case "$TESTCASE" in
     "retry") TEST_PARAMS="$TEST_PARAMS -r" ;;

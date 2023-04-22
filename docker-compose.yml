@@ -25,6 +25,73 @@ services:
         ipv6_address: fd00:cafe:cafe:100::2
 #    entrypoint: "tail -f /dev/null"
 
+  server:
+    build: ./quic_implementation/$SERVER
+    image: $SERVER
+    container_name: server
+    hostname: server
+    stdin_open: true
+    tty: true
+    init: true
+    volumes:
+      - ./logs/server/$SERVER:/logs
+    environment:
+      - TESTCASE=$TESTCASE
+      - QLOGDIR=$QLOGDIR
+      - SSLKEYLOGFILE=$SSLKEYLOGFILE
+      - ROLE=server
+      - SERVER_PARAMS=$SERVER_PARAMS
+      - DIM_FILE=$DIM_FILE
+    depends_on:
+      - sim
+    cap_add: 
+      - NET_ADMIN
+    expose:
+      - "4000"
+    networks:
+      rightnet:
+        ipv4_address: 193.167.100.100
+        ipv6_address: fd00:cafe:cafe:100::100
+    extra_hosts:
+      - "client4:193.167.0.100"
+      - "client6:fd00:cafe:cafe:0::100"
+      - "client46:193.167.0.100"
+      - "client46:fd00:cafe:cafe:0::100"
+    # entrypoint: "tail -f /dev/null"
+  
+  client:
+    build: ./quic_implementation/$CLIENT
+    image: $CLIENT
+    container_name: client
+    hostname: client
+    stdin_open: true
+    tty: true
+    init: true
+    volumes:
+      - ./logs/client/$CLIENT:/logs
+      - ./volume/vscode-server:$HOME/.vscode-server
+    environment:
+      - TESTCASE=$TESTCASE
+      - QLOGDIR=$QLOGDIR
+      - SSLKEYLOGFILE=$SSLKEYLOGFILE
+      - ROLE=client
+      - CLIENT_PARAMS=$CLIENT_PARAMS
+      - DIM_FILE=$DIM_FILE
+    depends_on:
+      - sim
+    cap_add: 
+      - NET_ADMIN
+    networks:
+      leftnet:
+        ipv4_address: 193.167.0.100
+        ipv6_address: fd00:cafe:cafe:0::100
+    extra_hosts:
+      - "server4:193.167.100.100"
+      - "server6:fd00:cafe:cafe:100::100"
+      - "server46:193.167.100.100"
+      - "server46:fd00:cafe:cafe:100::100"
+    # entrypoint: "tail -f /dev/null"
+
   iperf_server:
     build: ./iperf
     image: iperf_endpoint
@@ -49,69 +116,6 @@ services:
       - "client6:fd00:cafe:cafe:0::110"
       - "client46:193.167.0.110"
       - "client46:fd00:cafe:cafe:0::110"
-  server:
-    build: ./quic_implementation/$SERVER
-    image: $SERVER
-    container_name: server
-    hostname: server
-    stdin_open: true
-    tty: true
-    init: true
-    volumes:
-      - ./logs/server/$SERVER:/logs
-      - ./volume/vscode-server:$HOME/.vscode-server
-    environment:
-      - TESTCASE=$TESTCASE
-      - QLOGDIR=$QLOGDIR
-      - SSLKEYLOGFILE=$SSLKEYLOGFILE
-      - ROLE=server
-      - SERVER_PARAMS=$SERVER_PARAMS
-    depends_on:
-      - sim
-    cap_add: 
-      - NET_ADMIN
-    expose:
-      - "4000"
-    networks:
-      rightnet:
-        ipv4_address: 193.167.100.100
-        ipv6_address: fd00:cafe:cafe:100::100
-    extra_hosts:
-      - "client4:193.167.0.100"
-      - "client6:fd00:cafe:cafe:0::100"
-      - "client46:193.167.0.100"
-      - "client46:fd00:cafe:cafe:0::100"
-
-  client:
-    build: ./quic_implementation/$CLIENT
-    image: $CLIENT
-    container_name: client
-    hostname: client
-    stdin_open: true
-    tty: true
-    init: true
-    volumes:
-      - ./logs/client/$CLIENT:/logs
-      - ./volume/vscode-server:$HOME/.vscode-server
-    environment:
-      - TESTCASE=$TESTCASE
-      - QLOGDIR=$QLOGDIR
-      - SSLKEYLOGFILE=$SSLKEYLOGFILE
-      - ROLE=client
-      - CLIENT_PARAMS=$CLIENT_PARAMS
-    depends_on:
-      - sim
-    cap_add: 
-      - NET_ADMIN
-    networks:
-      leftnet:
-        ipv4_address: 193.167.0.100
-        ipv6_address: fd00:cafe:cafe:0::100
-    extra_hosts:
-      - "server4:193.167.100.100"
-      - "server6:fd00:cafe:cafe:100::100"
-      - "server46:193.167.100.100"
-      - "server46:fd00:cafe:cafe:100::100"
 
   iperf_client:
     build: ./iperf

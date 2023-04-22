@@ -47,6 +47,9 @@ if [ ! -z "$TESTCASE" ]; then
         *) exit 127 ;;
     esac
 fi
+
+dd if=/dev/urandom of=/www/sample.txt bs=1 count=$DIM_FILE
+
 echo SERVER_PARAMS: LSQUIC_FORCE_RETRY=$FORCE_RETRY $VERSIONS $ECN
 LSQUIC_FORCE_RETRY=$FORCE_RETRY ./http_server $VERSIONS $ECN \
     -c server,/certs/cert.pem,/certs/priv.key \

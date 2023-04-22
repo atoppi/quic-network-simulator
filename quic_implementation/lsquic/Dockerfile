@@ -34,7 +34,6 @@ WORKDIR /lsquic
 COPY --from=builder  src/lsquic/bin/http_client src/lsquic/bin/http_server ./
 
 RUN mkdir /www && mkdir /downloads && mkdir /certs && \
-    openssl rand -out /www/sample.txt -base64 524288000 ; truncate -s-1 /www/sample.txt && \
     openssl genrsa 2048 > /certs/priv.key && chmod 400 /certs/priv.key && \
     openssl req -new -x509 -nodes -sha256 -days 365 -subj "/C=IT/ST=Italy/L=Italy/O=Unina/OU=../CN=.." -key /certs/priv.key -out /certs/cert.crt && \
     cat /certs/priv.key > /certs/cert.pem && cat /certs/cert.crt >> /certs/cert.pem

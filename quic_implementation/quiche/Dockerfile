@@ -58,6 +58,4 @@ RUN chmod +x start_client.sh
 COPY run_endpoint.sh .
 RUN chmod +x run_endpoint.sh
 
-RUN openssl rand -out /www/sample.txt -base64 524288000 ; truncate -s-1 /www/sample.txt
-
 ENTRYPOINT [ "./run_endpoint.sh" ]

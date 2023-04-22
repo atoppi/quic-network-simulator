@@ -1,5 +1,7 @@
 #!/bin/bash
 
+trap "exit" SIGINT SIGTERM
+
 export REQUESTS="https://193.167.100.100:4000/sample.txt"
 
 eval $(perl <<'PERL'
@@ -24,6 +26,20 @@ PERL
 echo paths: $PATHS
 echo server: $SERVER
 echo port: $PORT
+
+function maybe_create_keylog() {
+    local NAME=/logs/keys.log
+    if ls /logs/*.keys; then
+        # There may be more than one of these, as one file is created per
+        # connection.
+        cat /logs/*.keys > $NAME
+    fi
+    if [ -f $NAME ]; then
+        echo $NAME exists
+    else
+        echo $NAME does not exit
+    fi
+}
 
 if [ ! -z "$TESTCASE" ]; then
     case "$TESTCASE" in
@@ -73,4 +89,4 @@ EXIT_CODE=$?
 maybe_create_keylog
 sync
 echo $EXIT_CODE
-exit $EXIT_CODE
+kill 1

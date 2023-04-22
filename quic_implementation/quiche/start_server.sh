@@ -84,5 +84,6 @@ if [ "$ROLE" == "server" ]; then
     echo "## QLOG dir: $QLOGDIR"
     echo "## SSL file: $SSLKEYLOGFILE"
     echo "## Test case: $TESTCASE"
+    dd if=/dev/urandom of=/www/sample.txt bs=1 count=$DIM_FILE
     run_quiche_server_tests
 fi

@@ -57,6 +57,8 @@ if [ "$ROLE" = "server" ]; then
     echo "SSL FILE: $SSLKEYLOGFILE"
     echo "ROOT DIR: /www"
 
+    dd if=/dev/urandom of=/www/sample.txt bs=1 count=$DIM_FILE
+
     ./server $(hostname -I | cut -f1 -d" ") 4000 \
         cert.key \
         cert.crt \
