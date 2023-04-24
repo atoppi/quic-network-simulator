@@ -78,6 +78,9 @@ SCENARIO="simple-p2p --delay="$DELAY"ms --bandwidth="$BANDWIDTH"Mbps --queue="$Q
 
 case $RISPOSTA in
    "y")
+      mkdir -p ./www
+      #dd if=/dev/urandom of=./www/sample.txt bs=1 count=$DIM_FILE
+      openssl rand -out ./www/sample.txt $DIM_FILE
       for impl in "${IMPLEMETATION[@]}" 
       do
          echo

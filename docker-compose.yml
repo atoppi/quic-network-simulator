@@ -35,6 +35,7 @@ services:
     init: true
     volumes:
       - ./logs/server/$SERVER:/logs
+      - ./www:/www
     environment:
       - TESTCASE=$TESTCASE
       - QLOGDIR=$QLOGDIR
