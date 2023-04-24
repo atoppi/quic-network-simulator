@@ -1,4 +1,5 @@
 #!/bin/bash
+chmod +x start.sh
 
 cd .
 
@@ -6,7 +7,7 @@ echo "Ciao, questo è un testbed automatizzato per QUIC implementation."
 echo -n "Quale test vuoi eseguire? ([h]andshake, [z]erortt): "
 read -r TESTCASE
 
-declare -a IMPLEMETATION=(aioquic lsquic ngtcp2 picoquic quiche)
+declare -a IMPLEMETATION=(aioquic picoquic quiche lsquic ngtcp2)
 case $TESTCASE in
    "handshake"|"h")
       TESTCASE="handshake"
@@ -47,14 +48,14 @@ read -r BANDWIDTH
 echo -n "Dimensione delle code (in numero di pacchetti): "
 read -r QUEUE
 
-echo -n "Dimensione del file da scambiare tra client e server (in bytes):"
+echo -n "Dimensione del file da scambiare tra client e server (in bytes): "
 read -r DIM_FILE
 
 echo
 echo "--------------------------------------------------------"
 echo "Testcase: $TESTCASE"
 echo "Implementazioni attive: ${IMPLEMETATION[*]}"
-echo "Dimensione file da scambiare: ${DIM_FILE} byte"
+echo "Dimensione file da scambiare: ${DIM_FILE} bytes"
 
 
 case $IPERF_ACTIVATION in
