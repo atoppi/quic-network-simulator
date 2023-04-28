@@ -89,30 +89,31 @@ case $RISPOSTA in
          echo "---------------------------------------------"
          echo
 
-         echo "Building dell'immagine dei QUIC endpoint"
-         CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
+         echo "Building dell'immagine di $impl per i QUIC endpoint"
+         CLIENT=$impl CLIENT_PARAMS="" SERVER=$impl SERVER_PARAMS="" TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
          IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO \
          docker-compose build
          
-         for iter in {1..25} 
+         for iter in {1..3} 
          do
-            echo "Avvio dello stack per il testing ----- Iterazione numero $iter"
+            echo "Avvio dello stack per il testing di $impl ----- Iterazione numero $iter"
             CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
             IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO \
             docker-compose up --abort-on-container-exit 2>/dev/null
 
             PCAP_FOLDER="./logs/captures/$impl/$TESTCASE"
+
             echo "Salvataggio risultati cattura... (directory risultati: $PCAP_FOLDER)"
             mkdir -p $PCAP_FOLDER 2>/dev/null
             
                case $IPERF_ACTIVATION in
                   "y")
-                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_iperf_"$IPERF_BAND".pcap
-                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_iperf_"$IPERF_BAND".pcap
+                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND".pcap
+                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND".pcap
                   ;;
                   "n")
-                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s").pcap
-                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s").pcap
+                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue.pcap
+                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue.pcap
                   ;;
                   *)
                   exit 0
@@ -120,6 +121,23 @@ case $RISPOSTA in
                esac
             cd .
          done
+
+         CLIENT_FOLDER="./logs/client/$impl"
+         SERVER_FOLDER="./logs/server/$impl"
+
+         case $IPERF_ACTIVATION in
+            "y")
+               mv $CLIENT_FOLDER/qlog/ $CLIENT_FOLDER/qlog_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND"
+               mv $SERVER_FOLDER/qlog/ $SERVER_FOLDER/qlog_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND"
+               ;;
+            "n")
+               mv $CLIENT_FOLDER/qlog/ $CLIENT_FOLDER/qlog_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue
+               mv $SERVER_FOLDER/qlog/ $SERVER_FOLDER/qlog_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue
+               ;;
+            *)
+               exit 0
+               ;;
+         esac
       done
       ;;
 
