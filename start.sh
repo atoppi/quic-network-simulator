@@ -94,29 +94,32 @@ case $RISPOSTA in
          IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO \
          docker-compose build
          
-         echo "Avvio dello stack per il testing"
-         CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
-         IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO \
-         docker-compose up --abort-on-container-exit 2>/dev/null
+         for iter in {1..25} 
+         do
+            echo "Avvio dello stack per il testing ----- Iterazione numero $iter"
+            CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
+            IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO \
+            docker-compose up --abort-on-container-exit 2>/dev/null
 
-         PCAP_FOLDER="./logs/captures/$impl/$TESTCASE"
-         echo "Salvataggio risultati cattura... (directory risultati: $PCAP_FOLDER)"
-         mkdir -p $PCAP_FOLDER 2>/dev/null
-         
-            case $IPERF_ACTIVATION in
-                "y")
-                cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_iperf_"$IPERF_BAND".pcap
-                cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_iperf_"$IPERF_BAND".pcap
-                ;;
-                "n")
-                cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s").pcap
-                cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s").pcap
-                ;;
-                *)
-                exit 0
-                ;;
-            esac
-      cd .
+            PCAP_FOLDER="./logs/captures/$impl/$TESTCASE"
+            echo "Salvataggio risultati cattura... (directory risultati: $PCAP_FOLDER)"
+            mkdir -p $PCAP_FOLDER 2>/dev/null
+            
+               case $IPERF_ACTIVATION in
+                  "y")
+                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_iperf_"$IPERF_BAND".pcap
+                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_iperf_"$IPERF_BAND".pcap
+                  ;;
+                  "n")
+                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s").pcap
+                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s").pcap
+                  ;;
+                  *)
+                  exit 0
+                  ;;
+               esac
+            cd .
+         done
       done
       ;;
 

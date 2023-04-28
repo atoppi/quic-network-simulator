@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set up the routing needed for the simulation.
-/setup.sh
+./setup.sh
 
 if [ "$ROLE" == "client" ]; then
     # Wait for the simulator to start up.

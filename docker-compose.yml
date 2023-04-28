@@ -3,7 +3,7 @@ version: "2.4"
 services:
   sim:
     image: sim
-    build: ./sim
+    # build: ./sim
     container_name: sim
     hostname: sim
     stdin_open: true
@@ -24,6 +24,33 @@ services:
         ipv4_address: 193.167.100.2
         ipv6_address: fd00:cafe:cafe:100::2
 #    entrypoint: "tail -f /dev/null"
+
+  # puppeteer:
+  #   image: puppeteer
+  #   build: ./puppeteer
+  #   container_name: puppeteer
+  #   volumes:
+  #     - ./logs/puppeteer:/logs
+  #   environment:
+  #     SSLKEYLOGFILE: $SSLKEYLOGFILE
+  #     PUPPETEER_EXECUTABLE_PATH: /bin/chromium
+  #     PUPPETEER_ARG_REMOTE_DEBUGGING_ADDRESS: chromium
+  #     PUPPETEER_ARG_REMOTE_DEBUGGING_PORT: 0
+  #     ALIAS_CHROMIUM: ssh chromium chromium
+  #   depends_on:
+  #     - sim
+  #   cap_add: 
+  #     - NET_ADMIN
+  #   networks:
+  #     leftnet:
+  #       ipv4_address: 193.167.0.120
+  #       ipv6_address: fd00:cafe:cafe:0::120
+  #   extra_hosts:
+  #     - "server4:193.167.100.100"
+  #     - "server6:fd00:cafe:cafe:100::100"
+  #     - "server46:193.167.100.100"
+  #     - "server46:fd00:cafe:cafe:100::100"
+  #   entrypoint: "tail -f /dev/null"
 
   server:
     build: ./quic_implementation/$SERVER
