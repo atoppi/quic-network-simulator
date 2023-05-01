@@ -108,12 +108,12 @@ case $RISPOSTA in
             
                case $IPERF_ACTIVATION in
                   "y")
-                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND".pcap
-                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND".pcap
+                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND"_$(date "+%s")_.pcap
+                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND"_$(date "+%s")_.pcap
                   ;;
                   "n")
-                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue.pcap
-                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue.pcap
+                  cp -r ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_.pcap
+                  cp -r ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_.pcap
                   ;;
                   *)
                   exit 0
