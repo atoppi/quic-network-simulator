@@ -9,13 +9,11 @@
 # - CLIENT_PARAMS contains user-supplied command line parameters
 
 if [ "$ROLE" == "client" ]; then
-    # Wait for the simulator to start up.
-    /wait-for-it.sh sim:57832 -s -t 30
-    echo "START QUIC CLIENT"
-    ./start_client.sh
+	# Wait for the simulator to start up.
+	/wait-for-it.sh sim:57832 -s -t 30
+	echo "START QUIC CLIENT"
+	./start_client.sh
 elif [ "$ROLE" == "server" ]; then
-    echo "START QUIC SERVER"
-    ./start_server.sh
+	echo "START QUIC SERVER"
+	./start_server.sh
 fi
-
-/bin/bash

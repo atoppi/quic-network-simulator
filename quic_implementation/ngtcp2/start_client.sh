@@ -1,96 +1,70 @@
 # Set up the routing needed for the simulation.
 /setup.sh
 
-trap "exit" SIGINT SIGTERM
+REQUESTS="https://193.167.100.100:4000/sample.txt"
+SERVER_HOST=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
+SERVER_PORT=$(echo ${REQUESTS} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
 
-# The following variables are available for use:
-# - ROLE contains the role of this execution context, client or server
-# - SERVER_PARAMS contains user-supplied command line parameters
-# - CLIENT_PARAMS contains user-supplied command line parameters
+LOG_FILE="/logs/stout.log"
 
-LOG_PARAMS=""
+QLOG_ARG=""
 if [ -n "$QLOGDIR" ]; then
-    LOG_PARAMS="$LOG_PARAMS --qlog-dir=$QLOGDIR"
+	QLOG_ARG="--qlog-dir=$QLOGDIR"
 fi
 
+CLIENT_BIN=""
+#CLIENT_CC_ARGS="--cc bbr2 --initial-rtt 100ms"
+CLIENT_ARGS="--key=key_client.pem --cert=cert_client.pem --download /downloads --show-secret --no-quic-dump --no-http-dump --exit-on-all-streams-close $QLOG_ARG $CLIENT_CC_ARGS"
+
 if [ -n "$TESTCASE" ]; then
-    # interop runner
-    case "$TESTCASE" in
-        "chacha20")
-            CLIENT_PARAMS="--cipher-suites CHACHA20_POLY1305_SHA256"
-            ;;
-        "handshake")
-            CLIENT_PARAMS=""
-            ;;
-        "http3")
-            ;;
-        "multiconnect")
-            CLIENT_PARAMS=""
-            ;;
-        "resumption")
-            CLIENT_PARAMS=" --session-ticket session.ticket"
-            ;;
-        "retry")
-            CLIENT_PARAMS=""
-            SERVER_PARAMS="--retry"
-            ;;
-        "transfer")
-            CLIENT_PARAMS="--max-data 262144 --max-stream-data 262144"
-            ;;
-        "zerortt")
-            CLIENT_PARAMS="--session-file=session_ticket.txt --tp-file=tp_file.txt"
-            ;;
-        *)
-            exit 127
-            ;;
-    esac
-
-    if [ "$ROLE" = "server" ]; then
-        export STATIC_ROOT=/www
-    fi
-fi 
-
-# network simulator
-REQUESTS="https://193.167.100.100:4000/sample.txt"
-SERVER=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
+	case "$TESTCASE" in
+			"ecn")
+			CLIENT_BIN="./h09client"
+			CLIENT_ARGS="CLIENT_ARGS -v 0x1 --no-pmtud"
+			;;
+		"handshake")
+			CLIENT_BIN="./h09client"
+			CLIENT_ARGS="$CLIENT_ARGS -v 0x1"
+			;;
+		"transfer")
+			CLIENT_BIN="./h09client"
+			CLIENT_ARGS="$CLIENT_ARGS -v 0x1"
+			;;
+		"versionnegotiation")
+			CLIENT_BIN="./h09client"
+			CLIENT_ARGS="$CLIENT_ARGS -v 0xaaaaaaaa"
+			;;
+		"zerortt")
+			CLIENT_BIN="./h09client"
+			CLIENT_ARGS="CLIENT_ARGS -v 0x1 --no-pmtud --session-file session.txt --tp-file tp.txt --wait-for-ticket"
+			;;
+		*)
+			exit 127
+			;;
+	esac
+fi
 
 run_client() {
-    ./client $SERVER 4000 \
-        --show-secret \
-        --download /downloads \
-        --key=key_client.pem \
-        --cert=cert_client.pem \
-        $LOG_PARAMS \
-        $CLIENT_PARAMS \
-        $@ 2>> /logs/stout.log
+	echo "$CLIENT_BIN $SERVER_HOST $SERVER_PORT $CLIENT_ARGS $CLIENT_PARAMS $@"
+	$CLIENT_BIN $SERVER_HOST $SERVER_PORT $CLIENT_ARGS $CLIENT_PARAMS $@ >> $LOG_FILE 2>&1
 }
 
 if [ "$ROLE" = "client" ]; then
-    # Wait for the simulator to start up.
-    /wait-for-it.sh sim:57832 -s -t 30
- #   sleep 30s
-    echo "Starting client"
-    case "$TESTCASE" in
-    "multiconnect")
-        for req in $REQUESTS; do
-            echo $req
-            run_client $req
-        done
-        kill 1
-        ;;
-    "resumption"|"zerortt")
-        echo "Running test $TESTCASE to server $REQUESTS with $CLIENT_PARAMS (1/2)"
-        run_client $REQUESTS
-        echo "Session file generated. Resuming session (2/2)"
-        run_client $REQUESTS
-        echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
-        kill 1
-        ;;
-    *)
-        echo "Running test $TESTCASE to server $REQUESTS"
-        run_client $REQUESTS
-        echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
-        kill 1
-        ;;
-    esac
+	# Wait for the simulator to start up.
+	/wait-for-it.sh sim:57832 -s -t 30
+	echo "Starting client ($TESTCASE)"
+
+	case "$TESTCASE" in
+	"zerortt")
+		run_client $REQUESTS
+		echo "Session file generated, resuming session"
+		run_client $REQUESTS
+		;;
+	*)
+		run_client $REQUESTS
+		;;
+	esac
+	
+	echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
 fi
+
