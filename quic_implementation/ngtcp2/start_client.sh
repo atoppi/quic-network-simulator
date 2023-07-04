@@ -2,23 +2,23 @@
 /setup.sh
 
 REQUESTS="https://193.167.100.100:4000/sample.txt"
+LOG_FILE="/logs/stout.log"
+
+LOG_ARGS=""
+if [ -n "$QLOGDIR" ]; then
+	LOG_ARGS="--qlog-dir=$QLOGDIR"
+fi
+
 SERVER_HOST=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
 SERVER_PORT=$(echo ${REQUESTS} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
 
-LOG_FILE="/logs/stout.log"
-
-QLOG_ARG=""
-if [ -n "$QLOGDIR" ]; then
-	QLOG_ARG="--qlog-dir=$QLOGDIR"
-fi
-
 CLIENT_BIN=""
 #CLIENT_CC_ARGS="--cc bbr2 --initial-rtt 100ms"
-CLIENT_ARGS="--key=key_client.pem --cert=cert_client.pem --download /downloads --show-secret --no-quic-dump --no-http-dump --exit-on-all-streams-close $QLOG_ARG $CLIENT_CC_ARGS"
+CLIENT_ARGS="$SERVER_HOST $SERVER_PORT --key=key_client.pem --cert=cert_client.pem --download /downloads --show-secret --no-quic-dump --no-http-dump --exit-on-all-streams-close $LOG_ARGS $CLIENT_CC_ARGS"
 
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
-			"ecn")
+		"ecn")
 			CLIENT_BIN="./h09client"
 			CLIENT_ARGS="CLIENT_ARGS -v 0x1 --no-pmtud"
 			;;
@@ -45,8 +45,8 @@ if [ -n "$TESTCASE" ]; then
 fi
 
 run_client() {
-	echo "$CLIENT_BIN $SERVER_HOST $SERVER_PORT $CLIENT_ARGS $CLIENT_PARAMS $@"
-	$CLIENT_BIN $SERVER_HOST $SERVER_PORT $CLIENT_ARGS $CLIENT_PARAMS $@ >> $LOG_FILE 2>&1
+	echo "$CLIENT_BIN $CLIENT_ARGS $@"
+	$CLIENT_BIN $CLIENT_ARGS $@ >> $LOG_FILE 2>&1
 }
 
 if [ "$ROLE" = "client" ]; then
@@ -64,7 +64,6 @@ if [ "$ROLE" = "client" ]; then
 		run_client $REQUESTS
 		;;
 	esac
-	
+
 	echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
 fi
-

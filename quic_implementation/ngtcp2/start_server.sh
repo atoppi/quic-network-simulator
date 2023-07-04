@@ -6,17 +6,16 @@ SERVER_PORT=4000
 KEY=cert.key
 CERT=cert.crt
 SERVER_HTDOCS=/www
-
 LOG_FILE="/logs/stout.log"
 
-QLOG_ARG=""
+LOG_ARGS=""
 if [ -n "$QLOGDIR" ]; then
-	QLOG_ARG="--qlog-dir=$QLOGDIR"
+	LOG_ARGS="--qlog-dir=$QLOGDIR"
 fi
 
 SERVER_BIN=""
 #SERVER_CC_ARGS="--cc bbr2 --initial-rtt 100ms"
-SERVER_ARGS="--htdocs $SERVER_HTDOCS --show-secret --verify-client $QLOG_ARG $SERVER_CC_ARGS"
+SERVER_ARGS="$SERVER_HOST $SERVER_PORT $KEY $CERT --htdocs $SERVER_HTDOCS --show-secret --verify-client $LOG_ARGS $SERVER_CC_ARGS"
 
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
@@ -47,8 +46,8 @@ if [ -n "$TESTCASE" ]; then
 fi
 
 run_server() {
-	echo "$SERVER_BIN $SERVER_HOST $SERVER_PORT $KEY $CERT $SERVER_ARGS $SERVER_PARAMS $@"
-	$SERVER_BIN $SERVER_HOST $SERVER_PORT $KEY $CERT $SERVER_ARGS $SERVER_PARAMS $@ >> $LOG_FILE 2>&1
+	echo "$SERVER_BIN $SERVER_ARGS $@"
+	$SERVER_BIN $SERVER_ARGS $@ >> $LOG_FILE 2>&1
 }
 
 if [ "$ROLE" = "server" ]; then

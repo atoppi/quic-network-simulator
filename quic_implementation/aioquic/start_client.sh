@@ -1,100 +1,71 @@
 # Set up the routing needed for the simulation.
 /setup.sh
 
-trap "exit" SIGINT SIGTERM
+REQUESTS="https://193.167.100.100:4000/$DIM_FILE"
+LOG_FILE="/logs/stout.log"
 
-# The following variables are available for use:
-# - ROLE contains the role of this execution context, client or server
-# - SERVER_PARAMS contains user-supplied command line parameters
-# - CLIENT_PARAMS contains user-supplied command line parameters
-
-LOG_PARAMS=""
+LOG_ARGS=""
 if [ -n "$QLOGDIR" ]; then
-    LOG_PARAMS="$LOG_PARAMS --quic-log $QLOGDIR"
+	LOG_ARGS="$LOG_ARGS --quic-log $QLOGDIR"
 fi
 if [ -n "$SSLKEYLOGFILE" ]; then
-    LOG_PARAMS="$LOG_PARAMS --secrets-log $SSLKEYLOGFILE"
+	LOG_ARGS="$LOG_ARGS --secrets-log $SSLKEYLOGFILE"
 fi
 
-if [ -n "$TESTCASE" ]; then
-    # interop runner
-    case "$TESTCASE" in
-        "chacha20")
-            CLIENT_PARAMS="--cipher-suites CHACHA20_POLY1305_SHA256"
-            ;;
-        "handshake")
-            CLIENT_PARAMS=""
-            ;;
-        "http3")
-            ;;
-        "multiconnect")
-            CLIENT_PARAMS=""
-            ;;
-        "resumption")
-            CLIENT_PARAMS=" --session-ticket session.ticket"
-            ;;
-        "retry")
-            CLIENT_PARAMS=""
-            SERVER_PARAMS="--retry"
-            ;;
-        "transfer")
-            CLIENT_PARAMS="--max-data 262144 --max-stream-data 262144"
-            ;;
-        "zerortt")
-            CLIENT_PARAMS="--session-ticket session.ticket --zero-rtt"
-            ;;
-        *)
-            exit 127
-            ;;
-    esac
+CLIENT_BIN="python3 examples/http3_client.py"
+CLIENT_ARGS="--insecure --output-dir /downloads --verbose $LOG_ARGS"
 
-    if [ "$ROLE" = "server" ]; then
-        export STATIC_ROOT=/www
-    fi
+if [ -n "$TESTCASE" ]; then
+	case "$TESTCASE" in
+		"chacha20")
+			CLIENT_ARGS="$CLIENT_ARGS --legacy-http --cipher-suites CHACHA20_POLY1305_SHA256"
+			;;
+		"handshake")
+			CLIENT_ARGS="$CLIENT_ARGS --legacy-http"
+			;;
+		"http3")
+			;;
+		"multiconnect")
+			CLIENT_ARGS="$CLIENT_ARGS --legacy-http"
+			;;
+		"resumption")
+			CLIENT_ARGS="$CLIENT_ARGS --legacy-http --session-ticket session.ticket"
+			;;
+		"retry")
+			CLIENT_ARGS="$CLIENT_ARGS --legacy-http"
+			;;
+		"transfer")
+			CLIENT_ARGS="$CLIENT_ARGS --legacy-http --max-data 262144 --max-stream-data 262144"
+			;;
+		"zerortt")
+			CLIENT_ARGS="$CLIENT_ARGS --legacy-http --session-ticket session.ticket --zero-rtt"
+			;;
+		*)
+			exit 127
+			;;
+	esac
 fi 
 
-# network simulator
-REQUESTS="https://193.167.100.100:4000/$DIM_FILE"
-REQUESTS2="https://193.167.100.100:4000/$DIM_FILE"
-
 run_client() {
-    python3 examples/http3_client.py \
-        --ca-certs tests/pycacert.pem \
-        --output-dir /downloads \
-        --verbose \
-        $LOG_PARAMS \
-        $CLIENT_PARAMS \
-        $@ 2>> /logs/stout.log
+	echo "$CLIENT_BIN $CLIENT_ARGS $@"
+	$CLIENT_BIN $CLIENT_ARGS $@ >> $LOG_FILE 2>&1
 }
 
 if [ "$ROLE" = "client" ]; then
-    # Wait for the simulator to start up.
-    /wait-for-it.sh sim:57832 -s -t 30
-    sleep 30s
-    echo "Starting client"
-    case "$TESTCASE" in
-    "multiconnect")
-        for req in $REQUESTS; do
-            echo $req
-            run_client $req
-        done
-        # kill 1
-        ;;
-    "resumption"|"zerortt")
-        echo "Running test $TESTCASE to server $REQUESTS with $CLIENT_PARAMS (1/2)"
-        run_client $REQUESTS
-        echo "Session file generated. Resuming session (2/2) to server $REQUESTS2 with $CLIENT_PARAMS "
-        run_client $REQUESTS2
-        echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
-        # kill 1
-        ;;
-    *)
-        echo "Running test $TESTCASE to server $REQUESTS"
-        run_client $REQUESTS
-        echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
-        # kill 1
-        ;;
-    esac
-fi
+	# Wait for the simulator to start up.
+	/wait-for-it.sh sim:57832 -s -t 30
+	echo "Starting client ($TESTCASE)"
 
-kill 1
+	case "$TESTCASE" in
+	"zerortt")
+		run_client $REQUESTS
+		echo "Session file generated, resuming session"
+		run_client $REQUESTS
+		;;
+	*)
+		run_client $REQUESTS
+		;;
+	esac
+
+	echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
+fi

@@ -17,5 +17,3 @@ elif [ "$ROLE" == "server" ]; then
     echo "START QUIC SERVER"
     ./start_server.sh
 fi
-
-/bin/bash

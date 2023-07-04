@@ -67,7 +67,6 @@ services:
       - QLOGDIR=$QLOGDIR
       - SSLKEYLOGFILE=$SSLKEYLOGFILE
       - ROLE=server
-      - SERVER_PARAMS=$SERVER_PARAMS
       - DIM_FILE=$DIM_FILE
     depends_on:
       - sim
@@ -100,7 +99,6 @@ services:
       - QLOGDIR=$QLOGDIR
       - SSLKEYLOGFILE=$SSLKEYLOGFILE
       - ROLE=client
-      - CLIENT_PARAMS=$CLIENT_PARAMS
       - DIM_FILE=$DIM_FILE
     depends_on:
       - sim

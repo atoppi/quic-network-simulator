@@ -5,7 +5,7 @@ echo -n "Quale test vuoi eseguire? ([h]andshake, [z]erortt, [t]ransfer): "
 read -r TESTCASE
 
 #declare -a IMPLEMETATION=(aioquic picoquic quiche lsquic ngtcp2)
-declare -a IMPLEMETATION=(ngtcp2)
+declare -a IMPLEMETATION=(aioquic ngtcp2)
 case $TESTCASE in
 	"handshake"|"h")
 		TESTCASE="handshake"
@@ -89,9 +89,14 @@ case $RISPOSTA in
 			echo "Testing implementazione $impl con $TESTCASE"
 			echo "---------------------------------------------"
 			echo
-
+			
+			CLIENT_LOGS_FOLDER="./logs/client/$impl"
+			SERVER_LOGS_FOLDER="./logs/server/$impl"
+			mkdir -p $CLIENT_LOGS_FOLDER 2>/dev/null
+			mkdir -p $SERVER_LOGS_FOLDER 2>/dev/null
+			
 			echo "Building dell'immagine di $impl per i QUIC endpoint"
-			CLIENT=$impl CLIENT_PARAMS="" SERVER=$impl SERVER_PARAMS="" TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
+			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
 				IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
 				DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker-compose build
 
@@ -99,9 +104,6 @@ case $RISPOSTA in
 			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
 				IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
 				DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker-compose up --abort-on-container-exit
-			
-			CLIENT_LOGS_FOLDER="./logs/client/$impl"
-			SERVER_LOGS_FOLDER="./logs/server/$impl"
 
 			PCAP_FOLDER="./logs/captures/$impl/$TESTCASE"
 			mkdir -p $PCAP_FOLDER 2>/dev/null
