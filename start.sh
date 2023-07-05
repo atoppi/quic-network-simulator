@@ -1,11 +1,21 @@
 #!/bin/bash
 
-echo "Ciao, questo è un testbed automatizzato per QUIC implementation."
-echo -n "Quale test vuoi eseguire? ([h]andshake, [z]erortt, [t]ransfer): "
-read -r TESTCASE
-
 #declare -a IMPLEMETATION=(aioquic picoquic quiche lsquic ngtcp2)
 declare -a IMPLEMETATION=(aioquic ngtcp2)
+
+DEFAULT_TESTCASE=transfer
+DEFAULT_IPERF_ACTIVATION=n
+DEFAULT_IPERF_BAND=5
+DEFAULT_DELAY=20
+DEFAULT_BANDWIDTH=10
+DEFAULT_LOSS=0
+DEFAULT_QUEUE=25
+DEFAULT_DIM_FILE=10M
+
+echo -n "Please select a testcase ([h]andshake, [z]erortt, [t]ransfer) (default=$DEFAULT_TESTCASE): "
+read -r TESTCASE
+TESTCASE=${TESTCASE:-$DEFAULT_TESTCASE}
+
 case $TESTCASE in
 	"handshake"|"h")
 		TESTCASE="handshake"
@@ -17,116 +27,131 @@ case $TESTCASE in
 		TESTCASE="zerortt"
 		;;
 	*)
-		echo "Scelta non valida..."
+		echo "Invalid testcase"
 		exit 0
 		;;
 esac
 
-echo -n "Vuoi attivare iperf per la congestione della rete? (y/n): "
+echo -n "Enable iperf for cross traffic [y/n] (default=$DEFAULT_IPERF_ACTIVATION): "
 read -r IPERF_ACTIVATION
+IPERF_ACTIVATION=${IPERF_ACTIVATION:-$DEFAULT_IPERF_ACTIVATION}
 
 case $IPERF_ACTIVATION in
-	"y")
-		echo -n "Setta il target bandwidth (specificato in Mbps): "
+	"y"|"yes")
+		echo -n "Set cross traffic bandwidth [Mbps]: "
 		read -r IPERF_BAND
+		IPERF_BAND=${IPERF_BAND:-$DEFAULT_IPERF_BAND}
 		;;
-	"n")
+	"n"|"no")
 		;;
 	*)
-		echo "Risposta non valida..."
+		echo "Invalid response"
 		exit 0
 		;;
 esac
 
-echo "Inserisci i parametri dello scenario"
-
-echo -n "Delay (in ms): "
+echo -n "Delay [ms] (default=$DEFAULT_DELAY): "
 read -r DELAY
+DELAY=${DELAY:-$DEFAULT_DELAY}
 
-echo -n "Larghezza di banda (in Mbps): "
+echo -n "Bandwidth [Mbps] (default=$DEFAULT_BANDWIDTH): "
 read -r BANDWIDTH
+BANDWIDTH=${BANDWIDTH:-$DEFAULT_BANDWIDTH}
 
-echo -n "Dimensione delle code (in numero di pacchetti): "
+echo -n "Packet loss (integer) [0-100] (default=$DEFAULT_LOSS): "
+read -r LOSS
+LOSS=${LOSS:-$DEFAULT_LOSS}
+
+echo -n "Queue size [packets] (default=$DEFAULT_QUEUE): "
 read -r QUEUE
+QUEUE=${QUEUE:-$DEFAULT_QUEUE}
 
-echo -n "Dimensione del file da scambiare tra client e server (in bytes): "
+echo -n "File to be transfered size [bytes] (default=$DEFAULT_DIM_FILE): "
 read -r DIM_FILE
+DIM_FILE=${DIM_FILE:-$DEFAULT_DIM_FILE}
+DIM_FILE=$(numfmt --from=auto $DIM_FILE)
 
 echo
 echo "--------------------------------------------------------"
-echo "Testcase: $TESTCASE"
-echo "Implementazioni attive: ${IMPLEMETATION[*]}"
-echo "Dimensione file da scambiare: ${DIM_FILE} bytes"
-
-
+echo -e "Testcase:\t ${TESTCASE}"
+echo -e "Implementations: ${IMPLEMETATION[*]}"
+echo -e "Delay:\t\t ${DELAY} ms"
+echo -e "Bandwidth:\t ${BANDWIDTH} Mbps"
+echo -e "Loss Rate:\t ${LOSS} %"
+echo -e "Queue size:\t ${QUEUE} pkts"
+echo -e "Transfer size:\t ${DIM_FILE} bytes"
 case $IPERF_ACTIVATION in
-	"y")
-		echo "Iperf: attivo ("$IPERF_BAND"Mbps)"
+	"y"|"yes")
+		echo -e "Iperf:\t\t enabled ($IPERF_BAND Mbps)"
 		;;
-	"n")
-		echo "Iperf: non attivo"
+	"n"|"no")
+		echo -e "Iperf:\t\t disabled"
 		;;
 esac
-
-echo "Scenario: ritardo "$DELAY"ms | banda "$BANDWIDTH"Mbps | coda "$QUEUE""
 echo "--------------------------------------------------------"
 echo
 
-echo -n "Vuoi avviare il testbed? (y/n): "
-read -r RISPOSTA
+echo -n "Do you want to start the testbed? (y/n): "
+read -r START
+START=${START:-n}
 
-SCENARIO="simple-p2p --delay="$DELAY"ms --bandwidth="$BANDWIDTH"Mbps --queue="$QUEUE""
-
-case $RISPOSTA in
-	"y")
+case $START in
+	"y"|"yes")
+		# Generate a random file to be tranfered (this is needed for some QUIC stacks)
 		mkdir -p ./www
-		#dd if=/dev/urandom of=./www/sample.txt bs=1 count=$DIM_FILE
 		openssl rand -out ./www/sample.txt $DIM_FILE
+		SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth=${BANDWIDTH}Mbps --queue=${QUEUE} --rate_to_client=${LOSS} --rate_to_server=${LOSS}"
 		for impl in "${IMPLEMETATION[@]}" 
 		do
 			echo
 			echo "---------------------------------------------"
-			echo "Testing implementazione $impl con $TESTCASE"
+			echo ">>> Starting test: $impl"
 			echo "---------------------------------------------"
 			echo
-			
-			CLIENT_LOGS_FOLDER="./logs/client/$impl"
-			SERVER_LOGS_FOLDER="./logs/server/$impl"
-			mkdir -p $CLIENT_LOGS_FOLDER 2>/dev/null
-			mkdir -p $SERVER_LOGS_FOLDER 2>/dev/null
-			
-			echo "Building dell'immagine di $impl per i QUIC endpoint"
-			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
-				IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
-				DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker-compose build
 
-			echo "Avvio dello stack per il testing di $impl"
-			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/qlog/" SSLKEYLOGFILE="/logs/sslkeylogfile" \
-				IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
-				DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker-compose up --abort-on-container-exit
-
-			PCAP_FOLDER="./logs/captures/$impl/$TESTCASE"
-			mkdir -p $PCAP_FOLDER 2>/dev/null
-			echo "Salvataggio risultati cattura... (directory risultati: $PCAP_FOLDER)"
-			
+			OUTPUT_FOLDER_NAME="$DELAY"ms_"$BANDWIDTH"Mbps_"$LOSS"loss_"$QUEUE"queue
+			IPERF_PROFILE=""
 			case $IPERF_ACTIVATION in
-				"y")
-					mv $CLIENT_LOGS_FOLDER/qlog/ $CLIENT_LOGS_FOLDER/qlog_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND"
-					mv $SERVER_LOGS_FOLDER/qlog/ $SERVER_LOGS_FOLDER/qlog_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND"
-					cp ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND"_$(date "+%s")_.pcap
-					cp ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_iperf_"$IPERF_BAND"_$(date "+%s")_.pcap
+				"y"|"yes")
+					OUTPUT_FOLDER_NAME=${OUTPUT_FOLDER_NAME}_with"$IPERF_BAND"Miperf
+					IPERF_PROFILE="--profile with_iperf"
 					;;
 				*)
-					mv $CLIENT_LOGS_FOLDER/qlog/ $CLIENT_LOGS_FOLDER/qlog_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue
-					mv $SERVER_LOGS_FOLDER/qlog/ $SERVER_LOGS_FOLDER/qlog_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue
-					cp ./logs/sim/trace_node_left.pcap $PCAP_FOLDER/client_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_.pcap
-					cp ./logs/sim/trace_node_right.pcap $PCAP_FOLDER/server_"$DELAY"ms_"$BANDWIDTH"Mbps_"$QUEUE"queue_$(date "+%s")_.pcap
 					;;
 			esac
+			CLIENT_FOLDER="./logs/client/$impl"
+			CLIENT_OUTPUT_FOLDER="$CLIENT_FOLDER/$OUTPUT_FOLDER_NAME"
+			CLIENT_QLOGS_FOLDER="$CLIENT_OUTPUT_FOLDER/qlog"
+			SERVER_FOLDER="./logs/server/$impl"
+			SERVER_OUTPUT_FOLDER="$SERVER_FOLDER/$OUTPUT_FOLDER_NAME"
+			SERVER_QLOGS_FOLDER="$SERVER_OUTPUT_FOLDER/qlog"
+
+			mkdir -p $CLIENT_QLOGS_FOLDER 2>/dev/null
+			mkdir -p $SERVER_QLOGS_FOLDER 2>/dev/null
+
+			echo "Building images"
+			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/$OUTPUT_FOLDER_NAME/qlog" SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
+				IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
+				DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE build
+
+			echo "Starting containers"
+			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/$OUTPUT_FOLDER_NAME/qlog" SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
+				IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
+				DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE up --abort-on-container-exit
+
+			echo "Saving packet captures"
+			cp ./logs/sim/trace_node_left.pcap $CLIENT_OUTPUT_FOLDER/client.pcap
+			cp ./logs/sim/trace_node_right.pcap $SERVER_OUTPUT_FOLDER/server.pcap
+
+			echo
+			echo "---------------------------------------------"
+			echo ">>> Completed test: $impl"
+			echo "---------------------------------------------"
+			echo
 		done
 		;;
 	*)
-		echo "Arrivederci"
+		echo "Goodbye!"
 		exit 0
 		;;
 esac

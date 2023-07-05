@@ -1,12 +1,10 @@
-# Set up the routing needed for the simulation.
-/setup.sh
-
 REQUESTS="https://193.167.100.100:4000/sample.txt"
-LOG_FILE="/logs/stout.log"
+LOG_FILE="client.log"
 
 LOG_ARGS=""
 if [ -n "$QLOGDIR" ]; then
 	LOG_ARGS="--qlog-dir=$QLOGDIR"
+	LOG_FILE="$(dirname "$QLOGDIR")"/$LOG_FILE
 fi
 
 SERVER_HOST=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
@@ -46,12 +44,13 @@ fi
 
 run_client() {
 	echo "$CLIENT_BIN $CLIENT_ARGS $@"
-	$CLIENT_BIN $CLIENT_ARGS $@ >> $LOG_FILE 2>&1
+	$CLIENT_BIN $CLIENT_ARGS $@ > $LOG_FILE 2>&1
 }
 
 if [ "$ROLE" = "client" ]; then
 	# Wait for the simulator to start up.
 	/wait-for-it.sh sim:57832 -s -t 30
+	sleep 5
 	echo "Starting client ($TESTCASE)"
 
 	case "$TESTCASE" in
@@ -65,5 +64,5 @@ if [ "$ROLE" = "client" ]; then
 		;;
 	esac
 
-	echo "Test Completed: qlog files in $QLOGDIR | secrets file in $SSLKEYLOGFILE"
+	echo "Client stopped"
 fi

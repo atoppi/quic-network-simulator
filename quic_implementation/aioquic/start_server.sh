@@ -1,16 +1,14 @@
-# Set up the routing needed for the simulation.
-/setup.sh
-
 SERVER_HOST=$(hostname -I | cut -f1 -d" ")
 SERVER_PORT=4000
 KEY=tests/ssl_key.pem
 CERT=tests/ssl_cert.pem
 SERVER_HTDOCS=/www
-LOG_FILE="/logs/stout.log"
+LOG_FILE="server.log"
 
 LOG_ARGS=""
 if [ -n "$QLOGDIR" ]; then
 	LOG_ARGS="$LOG_ARGS --quic-log $QLOGDIR"
+	LOG_FILE="$(dirname "$QLOGDIR")"/$LOG_FILE
 fi
 if [ -n "$SSLKEYLOGFILE" ]; then
 	LOG_ARGS="$LOG_ARGS --secrets-log $SSLKEYLOGFILE"
@@ -50,7 +48,7 @@ fi
 
 run_server() {
 	echo "$SERVER_BIN $SERVER_ARGS $@"
-	$SERVER_BIN $SERVER_ARGS $@ >> $LOG_FILE 2>&1
+	$SERVER_BIN $SERVER_ARGS $@ > $LOG_FILE 2>&1
 }
 
 if [ "$ROLE" = "server" ]; then

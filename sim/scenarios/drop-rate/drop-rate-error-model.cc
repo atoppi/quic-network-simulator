@@ -27,7 +27,7 @@ bool DropRateErrorModel::DoCorrupt(Ptr<Packet> p) {
     QuicPacket qp = QuicPacket(p);
 
     if (distr(*rng) >= rate) {
-        cout << "Forwarding packet (" << qp.GetUdpPayload().size() << " bytes) from " << qp.GetIpv4Header().GetSource() << endl;
+        //cout << "Forwarding packet (" << qp.GetUdpPayload().size() << " bytes) from " << qp.GetIpv4Header().GetSource() << endl;
         qp.ReassemblePacket();
         return false;
     }
