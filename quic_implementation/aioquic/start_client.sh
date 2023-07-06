@@ -66,5 +66,6 @@ if [ "$ROLE" = "client" ]; then
 		;;
 	esac
 
+	sleep 5
 	echo "Client stopped"
 fi
