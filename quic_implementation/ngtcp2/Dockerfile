@@ -49,12 +49,12 @@ RUN chmod +x start_server.sh
 COPY start_client.sh .
 RUN chmod +x start_client.sh
 
-COPY cert.crt .
-COPY cert.key .
+COPY certs /certs
 
 RUN mkdir /www
 RUN mkdir /downloads
 
 COPY run_endpoint.sh .
 RUN chmod +x run_endpoint.sh
+
 ENTRYPOINT [ "./run_endpoint.sh" ]

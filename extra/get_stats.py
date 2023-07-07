@@ -12,12 +12,14 @@ sent_count = 0
 recv_count = 0
 samples_rtt = 0
 sum_rtt = 0
+client_name = ""
+server_name = ""
 
 with open(client_qlog_path) as file_client:
 	if client_qlog_path.suffix == '.qlog':
 		data = json.load(file_client)
-		if "vantage_point" in data["traces"][0]:
-			client_name = (data["traces"][0]["vantage_point"]["type"]) + "-" + (data["traces"][0]["vantage_point"]["name"])
+		if "vantage_point" in data["traces"][0] and "name" in data["traces"][0]["vantage_point"]:
+			client_name = data["traces"][0]["vantage_point"]["name"]
 		events = data["traces"][0]["events"]
 		for event in events:
 			if "packet_received" in event["name"]:
@@ -31,8 +33,8 @@ with open(client_qlog_path) as file_client:
 			if not line:
 				break
 			event = json.loads(line)
-			if "trace" in event and "vantage_point" in event["trace"]:
-				client_name = (event["trace"]["vantage_point"]["type"]) + "-" + (event["trace"]["vantage_point"]["name"])
+			if "trace" in event and "vantage_point" in event["trace"] and "name" in event["trace"]["vantage_point"]:
+				client_name = event["trace"]["vantage_point"]["name"]
 			if "name" in event and "packet_received" in event["name"]:
 				recv_count += 1
 			if "data" in event and "latest_rtt" in event["data"]:
@@ -42,8 +44,8 @@ with open(client_qlog_path) as file_client:
 with open(server_qlog_path) as file_server:
 	if server_qlog_path.suffix == '.qlog':
 		data = json.load(file_server)
-		if "vantage_point" in data["traces"][0]:
-			server_name = (data["traces"][0]["vantage_point"]["type"]) + "-" + (data["traces"][0]["vantage_point"]["name"])
+		if "vantage_point" in data["traces"][0] and "name" in data["traces"][0]["vantage_point"]:
+			server_name = data["traces"][0]["vantage_point"]["name"]
 		events = data["traces"][0]["events"]
 		for event in events:
 			if "packet_sent" in event["name"]:
@@ -54,8 +56,8 @@ with open(server_qlog_path) as file_server:
 			if not line:
 				break
 			event = json.loads(line)
-			if "trace" in event and "vantage_point" in event["trace"]:
-				server_name = (event["trace"]["vantage_point"]["type"]) + "-" + (event["trace"]["vantage_point"]["name"])
+			if "trace" in event and "name" in event["trace"]["vantage_point"]:
+				server_name = event["trace"]["vantage_point"]["name"]
 			if "name" in event and "packet_sent" in event["name"]:
 				sent_count += 1
 
@@ -68,7 +70,8 @@ avg_rtt = round (sum_rtt / samples_rtt, 2)
 # Throughput
 throughput = os.popen('%s %s' % (os.path.join(pathlib.Path(__file__).parent.absolute(), 'get_throughput.sh'), client_pcap_path)).read().strip()
 
-print(client_name, server_name)
+#print("client name:", client_name)
+#print("server name:", server_name)
 print("loss:", packet_loss,"%")
 print("avg rtt:", avg_rtt, "ms")
 print("avg throughput:", throughput, "Mbps")

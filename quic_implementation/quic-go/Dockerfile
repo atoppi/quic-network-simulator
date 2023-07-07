@@ -25,10 +25,12 @@ RUN git clone https://github.com/quic-go/quic-go && \
 
 WORKDIR /quic-go
 
+ADD patches patches
+RUN git apply patches/*.patch
+
 RUN git rev-parse HEAD > commit.txt
 RUN go build -o server -ldflags="-X github.com/quic-go/quic-go/qlog.quicGoVersion=$(git describe --always --long --dirty)" interop/server/main.go
 RUN go build -o client -ldflags="-X github.com/quic-go/quic-go/qlog.quicGoVersion=$(git describe --always --long --dirty)" interop/client/main.go
-
 
 FROM martenseemann/quic-network-simulator-endpoint:latest
 
@@ -39,4 +41,15 @@ COPY --from=builder /quic-go/commit.txt /quic-go/server /quic-go/client ./
 COPY run_endpoint.sh .
 RUN chmod +x run_endpoint.sh
 
-# ENTRYPOINT [ "./run_endpoint.sh" ]
+COPY start_server.sh .
+RUN chmod +x start_server.sh
+
+COPY start_client.sh .
+RUN chmod +x start_client.sh
+
+COPY certs /certs
+
+RUN mkdir /www
+RUN mkdir /downloads
+
+ENTRYPOINT [ "./run_endpoint.sh" ]

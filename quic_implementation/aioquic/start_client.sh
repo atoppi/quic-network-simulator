@@ -1,4 +1,4 @@
-REQUESTS="https://193.167.100.100:4000/$DIM_FILE"
+REQUESTS="https://server4:443/$DIM_FILE"
 LOG_FILE="client.log"
 
 LOG_ARGS=""
@@ -53,7 +53,6 @@ if [ "$ROLE" = "client" ]; then
 	# Wait for the simulator to start up.
 	/wait-for-it.sh sim:57832 -s -t 30
 	sleep 5
-	echo "Starting client ($TESTCASE)"
 
 	case "$TESTCASE" in
 	"zerortt")

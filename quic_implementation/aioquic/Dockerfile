@@ -5,7 +5,10 @@ RUN apt-get install -y git-core libssl-dev python3-dev python3-pip
 RUN pip3 install asgiref dnslib "flask<2.2" httpbin starlette "werkzeug<2.1" wsproto
 RUN git clone https://github.com/aiortc/aioquic && cd /aioquic && git checkout 0.9.20
 WORKDIR /aioquic
-COPY demo.py examples/demo.py
+
+ADD patches patches
+RUN git apply patches/*.patch
+
 RUN pip3 install -e .
 
 RUN mkdir /www

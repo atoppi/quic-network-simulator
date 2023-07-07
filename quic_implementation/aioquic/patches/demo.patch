@@ -1,0 +1,14 @@
+diff --git a/examples/demo.py b/examples/demo.py
+index d948677..89d54d6 100644
+--- a/examples/demo.py
++++ b/examples/demo.py
+@@ -78,7 +78,8 @@ async def padding(request):
+     """
+     Dynamically generated data, maximum 50MB.
+     """
+-    size = min(50000000, request.path_params["size"])
++    #size = min(50000000, request.path_params["size"])
++    size = request.path_params["size"]
+     return PlainTextResponse("Z" * size)
+ 
+ 

@@ -1,7 +1,7 @@
 SERVER_HOST=$(hostname -I | cut -f1 -d" ")
-SERVER_PORT=4000
-KEY=cert.key
-CERT=cert.crt
+SERVER_PORT=443
+KEY=/certs/cert.key
+CERT=/certs/cert.crt
 SERVER_HTDOCS=/www
 LOG_FILE="server.log"
 
@@ -49,6 +49,5 @@ run_server() {
 }
 
 if [ "$ROLE" = "server" ]; then
-	echo "Starting server ($TESTCASE)"
 	run_server
 fi

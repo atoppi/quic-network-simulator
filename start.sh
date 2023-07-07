@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#declare -a IMPLEMETATION=(aioquic picoquic quiche lsquic ngtcp2)
-declare -a IMPLEMETATION=(aioquic ngtcp2)
+declare -a IMPLEMETATION=(aioquic ngtcp2 quic-go)
 
 DEFAULT_TESTCASE=transfer
 DEFAULT_IPERF_ACTIVATION=n
@@ -126,7 +125,9 @@ case $START in
 			SERVER_OUTPUT_FOLDER="$SERVER_FOLDER/$OUTPUT_FOLDER_NAME"
 			SERVER_QLOGS_FOLDER="$SERVER_OUTPUT_FOLDER/qlog"
 
+			echo "Creating dir $CLIENT_QLOGS_FOLDER"
 			mkdir -p $CLIENT_QLOGS_FOLDER 2>/dev/null
+			echo "Creating dir $SERVER_QLOGS_FOLDER"
 			mkdir -p $SERVER_QLOGS_FOLDER 2>/dev/null
 
 			echo "Building images"
@@ -143,9 +144,12 @@ case $START in
 			cp ./logs/sim/trace_node_left.pcap $CLIENT_OUTPUT_FOLDER/client.pcap
 			cp ./logs/sim/trace_node_right.pcap $SERVER_OUTPUT_FOLDER/server.pcap
 
+			RES=$(python3 extra/get_stats.py $CLIENT_QLOGS_FOLDER/* $SERVER_QLOGS_FOLDER/*)
 			echo
 			echo "---------------------------------------------"
 			echo ">>> Completed test: $impl"
+			echo
+			echo "$RES"
 			echo "---------------------------------------------"
 			echo
 		done
