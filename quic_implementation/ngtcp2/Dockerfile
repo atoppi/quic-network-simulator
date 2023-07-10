@@ -52,7 +52,6 @@ RUN chmod +x start_client.sh
 COPY certs /certs
 
 RUN mkdir /www
-RUN mkdir /downloads
 
 COPY run_endpoint.sh .
 RUN chmod +x run_endpoint.sh

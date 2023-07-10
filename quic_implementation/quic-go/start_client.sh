@@ -1,11 +1,9 @@
 REQUESTS="https://server4:443/sample.txt"
-LOG_FILE="client.log"
-
-if [ -n "$QLOGDIR" ]; then
-	LOG_FILE="$(dirname "$QLOGDIR")"/$LOG_FILE
-fi
+SERVER_HOST=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
+SERVER_PORT=$(echo ${REQUESTS} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
 
 CLIENT_BIN="./client"
+LOG_FILE="$(dirname "$QLOGDIR")/client.log"
 CLIENT_ARGS=""
 
 run_client() {
@@ -14,13 +12,11 @@ run_client() {
 }
 
 if [ "$ROLE" = "client" ]; then
-	# Wait for the simulator to start up.
-	/wait-for-it.sh sim:57832 -s -t 30
 	sleep 5
 
 	case "$TESTCASE" in
 	"zerortt")
-		REQUESTS=("https://server4:443/sample.txt" "https://server4:443/sample.txt")
+		REQUESTS=($REQUESTS $REQUESTS)
 		run_client $REQUESTS
 		;;
 	*)

@@ -1,19 +1,12 @@
 SERVER_HOST=$(hostname -I | cut -f1 -d" ")
 SERVER_PORT=443
-KEY=/certs/cert.key
-CERT=/certs/cert.crt
-SERVER_HTDOCS=/www
-LOG_FILE="server.log"
-
-LOG_ARGS=""
-if [ -n "$QLOGDIR" ]; then
-	LOG_ARGS="--qlog-dir=$QLOGDIR"
-	LOG_FILE="$(dirname "$QLOGDIR")"/$LOG_FILE
-fi
 
 SERVER_BIN=""
-#SERVER_CC_ARGS="--cc bbr2 --initial-rtt 100ms"
-SERVER_ARGS="$SERVER_HOST $SERVER_PORT $KEY $CERT --htdocs $SERVER_HTDOCS --show-secret --verify-client $LOG_ARGS $SERVER_CC_ARGS"
+LOG_FILE="$(dirname "$QLOGDIR")/server.log"
+LOG_ARGS="--qlog-dir=$QLOGDIR"
+### cubic|reno|bbr|bbr2 default=cubic
+SERVER_CC_ARGS="--cc cubic --initial-rtt 100ms"
+SERVER_ARGS="$LOG_ARGS --htdocs /www --show-secret --verify-client $SERVER_CC_ARGS"
 
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
@@ -49,5 +42,5 @@ run_server() {
 }
 
 if [ "$ROLE" = "server" ]; then
-	run_server
+	run_server $SERVER_HOST $SERVER_PORT /certs/cert.key /certs/cert.crt
 fi

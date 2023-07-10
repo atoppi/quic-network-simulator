@@ -1,21 +1,17 @@
 SERVER_HOST=$(hostname -I | cut -f1 -d" ")
 SERVER_PORT=443
-KEY=tests/ssl_key.pem
-CERT=tests/ssl_cert.pem
-SERVER_HTDOCS=/www
-LOG_FILE="server.log"
 
-LOG_ARGS=""
-if [ -n "$QLOGDIR" ]; then
-	LOG_ARGS="$LOG_ARGS --quic-log $QLOGDIR"
-	LOG_FILE="$(dirname "$QLOGDIR")"/$LOG_FILE
-fi
+SERVER_BIN="python3 examples/http3_server.py"
+LOG_FILE="$(dirname "$QLOGDIR")/server.log"
+LOG_ARGS="$LOG_ARGS --quic-log $QLOGDIR"
 if [ -n "$SSLKEYLOGFILE" ]; then
 	LOG_ARGS="$LOG_ARGS --secrets-log $SSLKEYLOGFILE"
 fi
-
-SERVER_BIN="python3 examples/http3_server.py"
-SERVER_ARGS="--host $SERVER_HOST --port $SERVER_PORT --certificate $CERT --private-key $KEY --verbose $LOG_ARGS"
+### unsupported
+SERVER_CC_ARGS=""
+### aioquic logging/qlogging seems to bevery inefficient, remove $LOG_ARGS and--verbose to unlock full speed transfer
+SERVER_ARGS="$LOG_ARGS --verbose"
+SERVER_ARGS="$SERVER_ARGS --host $SERVER_HOST --port $SERVER_PORT --certificate tests/ssl_cert.pem --private-key tests/ssl_key.pem $SERVER_CC_ARGS"
 
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
@@ -42,7 +38,7 @@ if [ -n "$TESTCASE" ]; then
 	esac
 
 	if [ "$ROLE" = "server" ]; then
-		export STATIC_ROOT="$SERVER_HTDOCS"
+		export STATIC_ROOT="/www"
 	fi
 fi
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a IMPLEMETATION=(aioquic ngtcp2 quic-go)
+declare -a IMPLEMETATION=(aioquic ngtcp2 quic-go picoquic)
 
 DEFAULT_TESTCASE=transfer
 DEFAULT_IPERF_ACTIVATION=n
@@ -10,6 +10,43 @@ DEFAULT_BANDWIDTH=10
 DEFAULT_LOSS=0
 DEFAULT_QUEUE=25
 DEFAULT_DIM_FILE=10M
+
+print_summary() {
+	echo
+	echo "--------------------------------------------------------"
+	printf "%-12s %s %-12s\n" "Testcase" ":" "${TESTCASE}"
+	printf "%-12s %s %-12s\n" "Stacks" ":" "${IMPLEMETATION[*]}"
+	printf "%-12s %s %-12s\n" "Delay" ":" "${DELAY} ms"
+	printf "%-12s %s %-12s\n" "Bandwidth" ":" "${BANDWIDTH} Mbps"
+	printf "%-12s %s %-12s\n" "Pkt Loss" ":" "${LOSS} %"
+	printf "%-12s %s %-12s\n" "Queue Size" ":" "${QUEUE} pkts"
+	printf "%-12s %s %-12s\n" "File Size" ":" "${DIM_FILE} bytes"
+	case $IPERF_ACTIVATION in
+		"y"|"yes")
+			printf "%-12s %s %-12s\n" "Iperf" ":" "enabled ($IPERF_BAND Mbps)"
+			;;
+		"n"|"no")
+			printf "%-12s %s %-12s\n" "Iperf" ":" "disabled"
+			;;
+	esac
+	echo "--------------------------------------------------------"
+	echo
+}
+
+print_results() {
+	echo
+	echo "---------------------------------------------"
+	echo "                   Results                   "
+	echo "---------------------------------------------"
+	echo
+	ROWS=("$@")
+	printf "%-10s %-10s %-10s %-10s\n" "" "loss" "avg rtt" "avg rate"
+	for row in ${ROWS[@]}
+	do
+		 IFS=';' read IMPL LOSS RTT THR <<< "${row}"
+		 printf "%-10s %-10s %-10s %-10s\n" $IMPL $LOSS $RTT $THR
+	done
+}
 
 echo -n "Please select a testcase ([h]andshake, [z]erortt, [t]ransfer) (default=$DEFAULT_TESTCASE): "
 read -r TESTCASE
@@ -70,29 +107,12 @@ read -r DIM_FILE
 DIM_FILE=${DIM_FILE:-$DEFAULT_DIM_FILE}
 DIM_FILE=$(numfmt --from=auto $DIM_FILE)
 
-echo
-echo "--------------------------------------------------------"
-echo -e "Testcase:\t ${TESTCASE}"
-echo -e "Implementations: ${IMPLEMETATION[*]}"
-echo -e "Delay:\t\t ${DELAY} ms"
-echo -e "Bandwidth:\t ${BANDWIDTH} Mbps"
-echo -e "Loss Rate:\t ${LOSS} %"
-echo -e "Queue size:\t ${QUEUE} pkts"
-echo -e "Transfer size:\t ${DIM_FILE} bytes"
-case $IPERF_ACTIVATION in
-	"y"|"yes")
-		echo -e "Iperf:\t\t enabled ($IPERF_BAND Mbps)"
-		;;
-	"n"|"no")
-		echo -e "Iperf:\t\t disabled"
-		;;
-esac
-echo "--------------------------------------------------------"
-echo
+print_summary
 
 echo -n "Do you want to start the testbed? (y/n): "
 read -r START
 START=${START:-n}
+
 
 case $START in
 	"y"|"yes")
@@ -100,6 +120,7 @@ case $START in
 		mkdir -p ./www
 		openssl rand -out ./www/sample.txt $DIM_FILE
 		SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth=${BANDWIDTH}Mbps --queue=${QUEUE} --rate_to_client=${LOSS} --rate_to_server=${LOSS}"
+		RES=()
 		for impl in "${IMPLEMETATION[@]}" 
 		do
 			echo
@@ -144,15 +165,15 @@ case $START in
 			cp ./logs/sim/trace_node_left.pcap $CLIENT_OUTPUT_FOLDER/client.pcap
 			cp ./logs/sim/trace_node_right.pcap $SERVER_OUTPUT_FOLDER/server.pcap
 
-			RES=$(python3 extra/get_stats.py $CLIENT_QLOGS_FOLDER/* $SERVER_QLOGS_FOLDER/*)
+			OUT=$(python3 extra/get_stats.py $CLIENT_QLOGS_FOLDER/* $SERVER_QLOGS_FOLDER/*)
+			RES+=("$impl;$OUT")
 			echo
 			echo "---------------------------------------------"
 			echo ">>> Completed test: $impl"
-			echo
-			echo "$RES"
 			echo "---------------------------------------------"
 			echo
 		done
+		print_results "${RES[@]}"
 		;;
 	*)
 		echo "Goodbye!"

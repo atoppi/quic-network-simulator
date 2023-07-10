@@ -1,17 +1,18 @@
 REQUESTS="https://server4:443/$DIM_FILE"
-LOG_FILE="client.log"
+SERVER_HOST=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
+SERVER_PORT=$(echo ${REQUESTS} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
 
-LOG_ARGS=""
-if [ -n "$QLOGDIR" ]; then
-	LOG_ARGS="$LOG_ARGS --quic-log $QLOGDIR"
-	LOG_FILE="$(dirname "$QLOGDIR")"/$LOG_FILE
-fi
+CLIENT_BIN="python3 examples/http3_client.py"
+LOG_FILE="$(dirname "$QLOGDIR")/client.log"
+LOG_ARGS="--quic-log $QLOGDIR"
 if [ -n "$SSLKEYLOGFILE" ]; then
 	LOG_ARGS="$LOG_ARGS --secrets-log $SSLKEYLOGFILE"
 fi
-
-CLIENT_BIN="python3 examples/http3_client.py"
-CLIENT_ARGS="--insecure --output-dir /downloads --verbose $LOG_ARGS"
+### unsupported
+CLIENT_CC_ARGS=""
+### aioquic logging/qlogging seems to bevery inefficient, remove $LOG_ARGS and--verbose to unlock full speed transfer
+CLIENT_ARGS="$LOG_ARGS --verbose"
+CLIENT_ARGS="$CLIENT_ARGS --insecure $CLIENT_CC_ARGS"
 
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
@@ -42,7 +43,7 @@ if [ -n "$TESTCASE" ]; then
 			exit 127
 			;;
 	esac
-fi 
+fi
 
 run_client() {
 	echo "$CLIENT_BIN $CLIENT_ARGS $@"
@@ -50,8 +51,6 @@ run_client() {
 }
 
 if [ "$ROLE" = "client" ]; then
-	# Wait for the simulator to start up.
-	/wait-for-it.sh sim:57832 -s -t 30
 	sleep 5
 
 	case "$TESTCASE" in

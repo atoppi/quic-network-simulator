@@ -1,12 +1,8 @@
-LOG_FILE="server.log"
-
-LOG_ARGS=""
-if [ -n "$QLOGDIR" ]; then
-	LOG_FILE="$(dirname "$QLOGDIR")"/$LOG_FILE
-fi
-
 SERVER_BIN="./server"
-SERVER_ARGS=""
+LOG_FILE="$(dirname "$QLOGDIR")/server.log"
+### unsupported
+SERVER_CC_ARGS=""
+SERVER_ARGS="$SERVER_CC_ARGS"
 
 run_server() {
 	echo "$SERVER_BIN $SERVER_ARGS $@"

@@ -12,7 +12,6 @@ RUN git apply patches/*.patch
 RUN pip3 install -e .
 
 RUN mkdir /www
-RUN mkdir /downloads
 
 COPY start_client.sh .
 RUN chmod +x start_client.sh

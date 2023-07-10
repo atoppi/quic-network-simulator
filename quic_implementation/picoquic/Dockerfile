@@ -1,31 +1,36 @@
+FROM martenseemann/quic-network-simulator-endpoint:latest AS builder
+
+# download and build your QUIC implementation
+# [ DO WORK HERE ]
+USER root
+WORKDIR /
+
+RUN echo "Hello"
+RUN cat /etc/fstab
+
+COPY dkr-prereq.sh .
+RUN chmod +x ./dkr-prereq.sh
+RUN ./dkr-prereq.sh
+
+ARG PICOTLS_DATE=2022-02-26
+COPY dkr-picotls.sh .
+RUN chmod +x ./dkr-picotls.sh
+RUN ./dkr-picotls.sh
+
+ARG PICOQUIC_DATE=2022-02-26
+COPY dkr-install.sh .
+RUN chmod +x ./dkr-install.sh
+RUN ./dkr-install.sh
+
+# Build second lean image
 FROM martenseemann/quic-network-simulator-endpoint:latest
+USER root
+WORKDIR /
+COPY --from=builder /picoquic /picoquic
 
-ENV DEBIAN_FRONTEND=noninteractive
-RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime && \
-    apt-get update && \
-    apt-get install -y build-essential git cmake software-properties-common \
-    openssl libssl-dev pkg-config clang
+COPY certs /certs
 
-RUN mkdir /src
-WORKDIR /src
-
-RUN git clone https://github.com/private-octopus/picoquic.git
-
-# Perl stuff is for the picotls test code
-RUN echo install Test::TCP | perl -MCPAN -
-RUN echo install Scope::Guard | perl -MCPAN -
-
-RUN git clone https://github.com/h2o/picotls.git && \
-    cd picotls && \
-    git submodule init && \
-    git submodule update && \
-    cmake . && \
-    make && \
-    make check
-
-RUN cd /src/picoquic && \
-    cmake . && \
-    make
+RUN mkdir /www
 
 COPY start_server.sh .
 RUN chmod +x start_server.sh
@@ -33,7 +38,7 @@ RUN chmod +x start_server.sh
 COPY start_client.sh .
 RUN chmod +x start_client.sh
 
+# copy run script and run it
 COPY run_endpoint.sh .
 RUN chmod +x run_endpoint.sh
-
 ENTRYPOINT [ "./run_endpoint.sh" ]

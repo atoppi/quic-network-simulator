@@ -1,18 +1,13 @@
 REQUESTS="https://server4:443/sample.txt"
-LOG_FILE="client.log"
-
-LOG_ARGS=""
-if [ -n "$QLOGDIR" ]; then
-	LOG_ARGS="--qlog-dir=$QLOGDIR"
-	LOG_FILE="$(dirname "$QLOGDIR")"/$LOG_FILE
-fi
-
 SERVER_HOST=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|')
 SERVER_PORT=$(echo ${REQUESTS} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
 
 CLIENT_BIN=""
-#CLIENT_CC_ARGS="--cc bbr2 --initial-rtt 100ms"
-CLIENT_ARGS="$SERVER_HOST $SERVER_PORT --key=key_client.pem --cert=cert_client.pem --download /downloads --show-secret --no-quic-dump --no-http-dump --exit-on-all-streams-close $LOG_ARGS $CLIENT_CC_ARGS"
+LOG_FILE="$(dirname "$QLOGDIR")/client.log"
+LOG_ARGS="--qlog-dir=$QLOGDIR"
+### cubic|reno|bbr|bbr2 default=cubic
+#CLIENT_CC_ARGS="--cc cubic --initial-rtt 100ms"
+CLIENT_ARGS="--key=key_client.pem --cert=cert_client.pem --show-secret --no-quic-dump --no-http-dump --exit-on-all-streams-close $LOG_ARGS $CLIENT_CC_ARGS"
 
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
@@ -48,18 +43,16 @@ run_client() {
 }
 
 if [ "$ROLE" = "client" ]; then
-	# Wait for the simulator to start up.
-	/wait-for-it.sh sim:57832 -s -t 30
 	sleep 5
 
 	case "$TESTCASE" in
 	"zerortt")
-		run_client $REQUESTS
+		run_client $SERVER_HOST $SERVER_PORT $REQUESTS
 		echo "Session file generated, resuming session"
-		run_client $REQUESTS
+		run_client $SERVER_HOST $SERVER_PORT $REQUESTS
 		;;
 	*)
-		run_client $REQUESTS
+		run_client $SERVER_HOST $SERVER_PORT $REQUESTS
 		;;
 	esac
 
