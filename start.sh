@@ -1,6 +1,8 @@
 #!/bin/bash
 
-declare -a IMPLEMETATION=(aioquic ngtcp2 quic-go picoquic)
+trap "docker compose down > /dev/null 2>&1" EXIT
+
+declare -a IMPLEMETATION=(aioquic ngtcp2 picoquic quic-go)
 
 DEFAULT_TESTCASE=transfer
 DEFAULT_IPERF_ACTIVATION=n
@@ -10,6 +12,7 @@ DEFAULT_BANDWIDTH=10
 DEFAULT_LOSS=0
 DEFAULT_QUEUE=25
 DEFAULT_DIM_FILE=10M
+DEFAULT_LOG_ENABLE=y
 
 print_summary() {
 	echo
@@ -22,11 +25,19 @@ print_summary() {
 	printf "%-12s %s %-12s\n" "Queue Size" ":" "${QUEUE} pkts"
 	printf "%-12s %s %-12s\n" "File Size" ":" "${DIM_FILE} bytes"
 	case $IPERF_ACTIVATION in
-		"y"|"yes")
+		"y")
 			printf "%-12s %s %-12s\n" "Iperf" ":" "enabled ($IPERF_BAND Mbps)"
 			;;
-		"n"|"no")
+		"n")
 			printf "%-12s %s %-12s\n" "Iperf" ":" "disabled"
+			;;
+	esac
+	case $LOG_ENABLE in
+		"y")
+			printf "%-12s %s %-12s\n" "Logging" ":" "enabled"
+			;;
+		"n")
+			printf "%-12s %s %-12s\n" "Logging" ":" "disabled"
 			;;
 	esac
 	echo "--------------------------------------------------------"
@@ -71,14 +82,15 @@ esac
 echo -n "Enable iperf for cross traffic [y/n] (default=$DEFAULT_IPERF_ACTIVATION): "
 read -r IPERF_ACTIVATION
 IPERF_ACTIVATION=${IPERF_ACTIVATION:-$DEFAULT_IPERF_ACTIVATION}
-
 case $IPERF_ACTIVATION in
-	"y"|"yes")
+	"y"|"Y"|"yes")
+		IPERF_ACTIVATION=y
 		echo -n "Set cross traffic bandwidth [Mbps]: "
 		read -r IPERF_BAND
 		IPERF_BAND=${IPERF_BAND:-$DEFAULT_IPERF_BAND}
 		;;
-	"n"|"no")
+	"n"|"N"|"no")
+		IPERF_ACTIVATION=n
 		;;
 	*)
 		echo "Invalid response"
@@ -107,12 +119,27 @@ read -r DIM_FILE
 DIM_FILE=${DIM_FILE:-$DEFAULT_DIM_FILE}
 DIM_FILE=$(numfmt --from=auto $DIM_FILE)
 
+echo -n "Enable logging (including qlogs) [y/n]: (default=$DEFAULT_LOG_ENABLE): "
+read -r LOG_ENABLE
+LOG_ENABLE=${LOG_ENABLE:-$DEFAULT_LOG_ENABLE}
+case $LOG_ENABLE in
+	"y"|"Y"|"yes")
+		LOG_ENABLE=y
+		;;
+	"n"|"N"|"no")
+		LOG_ENABLE=n
+		;;
+	*)
+		echo "Invalid response"
+		exit 0
+		;;
+esac
+
 print_summary
 
-echo -n "Do you want to start the testbed? (y/n): "
+echo -n "Do you want to start the testbed? [y/n]: "
 read -r START
 START=${START:-n}
-
 
 case $START in
 	"y"|"yes")
@@ -150,20 +177,25 @@ case $START in
 			mkdir -p $CLIENT_QLOGS_FOLDER 2>/dev/null
 			echo "Creating dir $SERVER_QLOGS_FOLDER"
 			mkdir -p $SERVER_QLOGS_FOLDER 2>/dev/null
+			if [ $LOG_ENABLE == "y" ]; then
+				QLOGDIR="/logs/$OUTPUT_FOLDER_NAME/qlog"
+			else
+				QLOGDIR=""
+			fi
 
 			echo "Building images"
-			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/$OUTPUT_FOLDER_NAME/qlog" SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
+			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR=$QLOGDIR SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
 				IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
 				DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE build
 
 			echo "Starting containers"
-			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR="/logs/$OUTPUT_FOLDER_NAME/qlog" SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
+			CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR=$QLOGDIR SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
 				IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
 				DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE up --abort-on-container-exit
 
 			echo "Saving packet captures"
-			cp ./logs/sim/trace_node_left.pcap $CLIENT_OUTPUT_FOLDER/client.pcap
-			cp ./logs/sim/trace_node_right.pcap $SERVER_OUTPUT_FOLDER/server.pcap
+			cp ./logs/sim/trace_node_left.pcap "$CLIENT_OUTPUT_FOLDER/client.pcap"
+			cp ./logs/sim/trace_node_right.pcap "$SERVER_OUTPUT_FOLDER/server.pcap"
 
 			OUT=$(python3 extra/get_stats.py $CLIENT_QLOGS_FOLDER/* $SERVER_QLOGS_FOLDER/*)
 			RES+=("$impl;$OUT")

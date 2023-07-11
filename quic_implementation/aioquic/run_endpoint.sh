@@ -5,8 +5,8 @@
 
 if [ -n "$QLOGDIR" ]; then
 	rm -rf "$QLOGDIR"/*.*
-	rm -rf /logs/qlog
 fi
+rm -rf /logs/qlog
 
 if [ "$ROLE" == "client" ]; then
 	# Wait for the simulator to start up.

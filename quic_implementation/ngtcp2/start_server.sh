@@ -2,8 +2,11 @@ SERVER_HOST=$(hostname -I | cut -f1 -d" ")
 SERVER_PORT=443
 
 SERVER_BIN=""
-LOG_FILE="$(dirname "$QLOGDIR")/server.log"
-LOG_ARGS="--qlog-dir=$QLOGDIR"
+LOG_FILE="/dev/null"
+if [ -n "$QLOGDIR" ]; then
+	LOG_FILE="$(dirname "$QLOGDIR")/server.log"
+	LOG_ARGS="$LOG_ARGS --qlog-dir=$QLOGDIR"
+fi
 ### cubic|reno|bbr|bbr2 default=cubic
 SERVER_CC_ARGS="--cc cubic --initial-rtt 100ms"
 SERVER_ARGS="$LOG_ARGS --htdocs /www --show-secret --verify-client $SERVER_CC_ARGS"

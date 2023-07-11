@@ -1,8 +1,11 @@
 SERVER_PORT=443
 
 SERVER_BIN="picoquic/picoquicdemo"
-LOG_FILE="$(dirname "$QLOGDIR")/server.log"
-LOG_ARGS="-L -l $LOG_FILE -q $QLOGDIR"
+LOG_FILE="/dev/null"
+if [ -n "$QLOGDIR" ]; then
+	LOG_FILE="$(dirname "$QLOGDIR")/server.log"
+	LOG_ARGS="$LOG_ARGS -L -l $LOG_FILE -q $QLOGDIR"
+fi
 ### reno, cubic, bbr or fast. Defaults to bbr.
 SERVER_CC_ARGS="-G bbr"
 SERVER_ARGS="$LOG_ARGS -w /www -k /certs/cert.key -c /certs/cert.crt -p $SERVER_PORT -V -0 $SERVER_CC_ARGS"

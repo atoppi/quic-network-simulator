@@ -5,8 +5,8 @@
 
 if [ -n "$QLOGDIR" ]; then
 	rm -rf "$QLOGDIR"/*.*
-	rm -rf /logs/qlog
 fi
+rm -rf /logs/qlog
 
 echo "Using commit:" `cat commit.txt`
 

@@ -3,8 +3,11 @@ SERVER_HOST=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|'
 SERVER_PORT=$(echo ${REQUESTS} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
 
 CLIENT_BIN="/picoquic/picoquicdemo"
-LOG_FILE="$(dirname "$QLOGDIR")/client.log"
-LOG_ARGS="-L -l $LOG_FILE -q $QLOGDIR"
+LOG_FILE="/dev/null"
+if [ -n "$QLOGDIR" ]; then
+	LOG_FILE="$(dirname "$QLOGDIR")/client.log"
+	LOG_ARGS="$LOG_ARGS -L -l $LOG_FILE -q $QLOGDIR"
+fi
 ### reno, cubic, bbr or fast. Defaults to bbr.
 CLIENT_CC_ARGS="-G bbr"
 CLIENT_ARGS="$LOG_ARGS -V -0 $CLIENT_CC_ARGS"

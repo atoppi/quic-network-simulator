@@ -3,16 +3,15 @@ SERVER_HOST=$(echo ${REQUESTS} | sed -re 's|^https://([^/:]+)(:[0-9]+)?/.*$|\1|'
 SERVER_PORT=$(echo ${REQUESTS} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
 
 CLIENT_BIN="python3 examples/http3_client.py"
-LOG_FILE="$(dirname "$QLOGDIR")/client.log"
-LOG_ARGS="--quic-log $QLOGDIR"
-if [ -n "$SSLKEYLOGFILE" ]; then
-	LOG_ARGS="$LOG_ARGS --secrets-log $SSLKEYLOGFILE"
+LOG_FILE="/dev/null"
+if [ -n "$QLOGDIR" ]; then
+	LOG_FILE="$(dirname "$QLOGDIR")/client.log"
+	LOG_ARGS="$LOG_ARGS --quic-log $QLOGDIR --verbose"
 fi
 ### unsupported
 CLIENT_CC_ARGS=""
-### aioquic logging/qlogging seems to bevery inefficient, remove $LOG_ARGS and--verbose to unlock full speed transfer
-CLIENT_ARGS="$LOG_ARGS --verbose"
-CLIENT_ARGS="$CLIENT_ARGS --insecure $CLIENT_CC_ARGS"
+### aioquic logging/qlogging seems to be very inefficient, disable logging to unlock full speed transfer
+CLIENT_ARGS="$LOG_ARGS --insecure --secrets-log $SSLKEYLOGFILE $CLIENT_CC_ARGS"
 
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
