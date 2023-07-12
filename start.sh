@@ -11,6 +11,9 @@ DEFAULT_DELAY=20
 DEFAULT_BANDWIDTH=10
 DEFAULT_LOSS=0
 DEFAULT_QUEUE=25
+DEFAULT_CODEL_ENABLE=n
+DEFAULT_CODEL_TARGET=21
+DEFAULT_CODEL_INTERVAL=310
 DEFAULT_DIM_FILE=10M
 DEFAULT_LOG_ENABLE=y
 
@@ -23,6 +26,16 @@ print_summary() {
 	printf "%-12s %s %-12s\n" "Bandwidth" ":" "${BANDWIDTH} Mbps"
 	printf "%-12s %s %-12s\n" "Pkt Loss" ":" "${LOSS} %"
 	printf "%-12s %s %-12s\n" "Queue Size" ":" "${QUEUE} pkts"
+	case $CODEL_ENABLE in
+		"y")
+			printf "%-12s %s %-12s\n" "CoDel queue" ":" "enabled"
+			printf "%-12s %s %-12s\n" "CoDel target" ":" "${CODEL_TARGET} ms"
+			printf "%-12s %s %-12s\n" "CoDel interval" ":" "${CODEL_INTERVAL} ms"
+			;;
+		"n")
+			printf "%-12s %s %-12s\n" "CoDel queue" ":" "disabled"
+			;;
+	esac
 	printf "%-12s %s %-12s\n" "File Size" ":" "${DIM_FILE} bytes"
 	case $IPERF_ACTIVATION in
 		"y")
@@ -85,7 +98,7 @@ IPERF_ACTIVATION=${IPERF_ACTIVATION:-$DEFAULT_IPERF_ACTIVATION}
 case $IPERF_ACTIVATION in
 	"y"|"Y"|"yes")
 		IPERF_ACTIVATION=y
-		echo -n "Set cross traffic bandwidth [Mbps]: "
+		echo -n "Set cross traffic bandwidth [Mbps] (default=$DEFAULT_IPERF_BAND): "
 		read -r IPERF_BAND
 		IPERF_BAND=${IPERF_BAND:-$DEFAULT_IPERF_BAND}
 		;;
@@ -113,6 +126,29 @@ LOSS=${LOSS:-$DEFAULT_LOSS}
 echo -n "Queue size [packets] (default=$DEFAULT_QUEUE): "
 read -r QUEUE
 QUEUE=${QUEUE:-$DEFAULT_QUEUE}
+
+echo -n "Enable CoDel queue [y/n] (default=$DEFAULT_CODEL_ENABLE): "
+read -r CODEL_ENABLE
+CODEL_ENABLE=${CODEL_ENABLE:-$DEFAULT_CODEL_ENABLE}
+case $CODEL_ENABLE in
+	"y"|"Y"|"yes")
+		CODEL_ENABLE=y
+		echo -n "Set CoDel target [ms] (default=$DEFAULT_CODEL_TARGET): "
+		read -r CODEL_TARGET
+		CODEL_TARGET=${CODEL_TARGET:-$DEFAULT_CODEL_TARGET}
+		echo -n "Set CoDel delay [ms] (default=$DEFAULT_CODEL_INTERVAL): "
+		read -r CODEL_INTERVAL
+		CODEL_INTERVAL=${CODEL_INTERVAL:-$DEFAULT_CODEL_INTERVAL}
+		CODEL_SCENARIO="--use_codel --codel_target=$CODEL_TARGET --codel_interval=$CODEL_INTERVAL"
+		;;
+	"n"|"N"|"no")
+		CODEL_ENABLE=n
+		;;
+	*)
+		echo "Invalid response"
+		exit 0
+		;;
+esac
 
 echo -n "File to be transfered size [bytes] (default=$DEFAULT_DIM_FILE): "
 read -r DIM_FILE
@@ -146,7 +182,7 @@ case $START in
 		# Generate a random file to be tranfered (this is needed for some QUIC stacks)
 		mkdir -p ./www
 		openssl rand -out ./www/sample.txt $DIM_FILE
-		SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth=${BANDWIDTH}Mbps --queue=${QUEUE} --rate_to_client=${LOSS} --rate_to_server=${LOSS}"
+		SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth=${BANDWIDTH}Mbps --queue=${QUEUE} --rate_to_client=${LOSS} --rate_to_server=${LOSS} $CODEL_SCENARIO"
 		RES=()
 		for impl in "${IMPLEMETATION[@]}" 
 		do

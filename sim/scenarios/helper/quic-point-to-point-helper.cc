@@ -6,12 +6,16 @@
 
 using namespace ns3;
 
-QuicPointToPointHelper::QuicPointToPointHelper() : queue_size_(StringValue("100p")) {
+QuicPointToPointHelper::QuicPointToPointHelper() : queue_size_(StringValue("100p")), queue_type_(StringValue("ns3::PfifoFastQueueDisc")) {
   SetQueue("ns3::DropTailQueue", "MaxSize", StringValue("1p"));
 }
 
 void QuicPointToPointHelper::SetQueueSize(StringValue size) {
   queue_size_ = size;
+}
+
+void QuicPointToPointHelper::SetQueueType(StringValue type) {
+  queue_type_ = type;
 }
 
 NetDeviceContainer QuicPointToPointHelper::Install(Ptr<Node> a, Ptr<Node> b) {
@@ -23,7 +27,7 @@ NetDeviceContainer QuicPointToPointHelper::Install(Ptr<Node> a, Ptr<Node> b) {
   EnablePcap("/logs/trace_node_right.pcap", devices.Get(1), false, true);
   
   TrafficControlHelper tch;
-  tch.SetRootQueueDisc("ns3::PfifoFastQueueDisc", "MaxSize", queue_size_);
+  tch.SetRootQueueDisc(queue_type_.Get(), "MaxSize", queue_size_);
   tch.Install(devices);
 
   Ipv4AddressHelper ipv4;
