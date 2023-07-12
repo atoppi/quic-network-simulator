@@ -233,7 +233,7 @@ case $START in
 			cp ./logs/sim/trace_node_left.pcap "$CLIENT_OUTPUT_FOLDER/client.pcap"
 			cp ./logs/sim/trace_node_right.pcap "$SERVER_OUTPUT_FOLDER/server.pcap"
 
-			OUT=$(python3 extra/get_stats.py $CLIENT_QLOGS_FOLDER/* $SERVER_QLOGS_FOLDER/*)
+			OUT=$(python3 extra/get_stats.py $CLIENT_OUTPUT_FOLDER $SERVER_OUTPUT_FOLDER)
 			RES+=("$impl;$OUT")
 			echo
 			echo "---------------------------------------------"
