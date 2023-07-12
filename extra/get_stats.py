@@ -29,15 +29,9 @@ if (client_qlog_path.is_file()):
 				if is_picoquic:
 					if "packet_received" in event[2]:
 						recv_count += 1
-					if "latest_rtt" in event[3]:
-						samples_rtt += 1
-						sum_rtt += event[3]["latest_rtt"]/1000
 				else:
 					if "name" in event and "packet_received" in event["name"]:
 						recv_count += 1
-					if "data" in event and "latest_rtt" in event["data"]:
-						samples_rtt += 1
-						sum_rtt += event["data"]["latest_rtt"]
 		elif client_qlog_path.suffix == '.sqlog':
 			while True:
 				line = file_client.readline().strip()
@@ -48,9 +42,6 @@ if (client_qlog_path.is_file()):
 					client_name = event["trace"]["vantage_point"]["name"]
 				if "name" in event and "packet_received" in event["name"]:
 					recv_count += 1
-				if "data" in event and "latest_rtt" in event["data"]:
-					samples_rtt += 1
-					sum_rtt += event["data"]["latest_rtt"]
 
 if (server_qlog_path.is_file()):
 	with open(server_qlog_path) as file_server:
@@ -66,9 +57,15 @@ if (server_qlog_path.is_file()):
 				if is_picoquic:
 					if "packet_sent" in event[2]:
 						sent_count += 1
+					if "latest_rtt" in event[3]:
+						samples_rtt += 1
+						sum_rtt += event[3]["latest_rtt"]/1000
 				else:
 					if "name" in event and "packet_sent" in event["name"]:
 						sent_count += 1
+					if "data" in event and "latest_rtt" in event["data"]:
+						samples_rtt += 1
+						sum_rtt += event["data"]["latest_rtt"]
 		elif server_qlog_path.suffix == '.sqlog':
 			while True:
 				line = file_server.readline().strip()
@@ -79,7 +76,9 @@ if (server_qlog_path.is_file()):
 					server_name = event["trace"]["vantage_point"]["name"]
 				if "name" in event and "packet_sent" in event["name"]:
 					sent_count += 1
-
+				if "data" in event and "latest_rtt" in event["data"]:
+					samples_rtt += 1
+					sum_rtt += event["data"]["latest_rtt"]
 
 if (client_qlog_path.is_file() and server_qlog_path.is_file()):
 	# Packet loss
