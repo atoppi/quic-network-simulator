@@ -1,6 +1,8 @@
 #!/bin/bash
 
-trap "docker compose down > /dev/null 2>&1" EXIT
+trap "docker compose down > /dev/null 2>&1" EXIT SIGINT SIGTERM
+
+export LC_ALL=C.UTF-8
 
 declare -a IMPLEMETATION=(aioquic ngtcp2 picoquic quic-go)
 
