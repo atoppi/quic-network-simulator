@@ -1,6 +1,6 @@
 #!/bin/bash
 
-trap "docker compose down > /dev/null 2>&1" EXIT SIGINT SIGTERM
+trap "docker compose down > /dev/null 2>&1 && exit" EXIT SIGINT SIGTERM
 
 export LC_ALL=C.UTF-8
 
