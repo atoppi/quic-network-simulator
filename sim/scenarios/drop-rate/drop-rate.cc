@@ -12,7 +12,7 @@ using namespace std;
 NS_LOG_COMPONENT_DEFINE("ns3 simulator");
 
 int main(int argc, char *argv[]) {
-    std::string delay, bandwidth, queue, client_rate, server_rate;
+    std::string delay, bandwidth_to_client, bandwidth_to_server, queue, client_rate, server_rate;
     bool use_codel = false;
     std::string codel_target, codel_interval;
     std::random_device rand_dev;
@@ -22,7 +22,8 @@ int main(int argc, char *argv[]) {
     CommandLine cmd;
     
     cmd.AddValue("delay", "delay of the p2p link", delay);
-    cmd.AddValue("bandwidth", "bandwidth of the p2p link", bandwidth);
+    cmd.AddValue("bandwidth_to_client", "bandwidth of the p2p link (towards client)", bandwidth_to_client);
+    cmd.AddValue("bandwidth_to_server", "bandwidth of the p2p link (towards server)", bandwidth_to_server);
     cmd.AddValue("queue", "queue size of the p2p link (in packets)", queue);
     cmd.AddValue("use_codel", "use a CoDel queue", use_codel);
     cmd.AddValue("codel_target", "set CoDel target queue delay (ms)", codel_target);
@@ -32,7 +33,8 @@ int main(int argc, char *argv[]) {
     cmd.Parse (argc, argv);
     
     NS_ABORT_MSG_IF(delay.length() == 0, "Missing parameter: delay");
-    NS_ABORT_MSG_IF(bandwidth.length() == 0, "Missing parameter: bandwidth");
+    NS_ABORT_MSG_IF(bandwidth_to_client.length() == 0, "Missing parameter: bandwidth_to_client");
+    NS_ABORT_MSG_IF(bandwidth_to_server.length() == 0, "Missing parameter: bandwidth_to_server");
     NS_ABORT_MSG_IF(queue.length() == 0, "Missing parameter: queue");
     if (use_codel) {
         NS_ABORT_MSG_IF(codel_target.length() == 0, "Missing parameter: codel_target");
@@ -49,7 +51,6 @@ int main(int argc, char *argv[]) {
 
     // Stick in the point-to-point line between the sides.
     QuicPointToPointHelper p2p;
-    p2p.SetDeviceAttribute("DataRate", StringValue(bandwidth));
     p2p.SetChannelAttribute("Delay", StringValue(delay));
     p2p.SetQueueSize(StringValue(queue + "p"));
     if (use_codel) {
@@ -66,5 +67,8 @@ int main(int argc, char *argv[]) {
     devices.Get(0)->SetAttribute("ReceiveErrorModel", PointerValue(client_drops));
     devices.Get(1)->SetAttribute("ReceiveErrorModel", PointerValue(server_drops));
     
+    devices.Get(0)->SetAttribute("DataRate", StringValue(bandwidth_to_client));
+    devices.Get(1)->SetAttribute("DataRate", StringValue(bandwidth_to_server));
+
     sim.Run(Seconds(36000));
 }
