@@ -14,7 +14,7 @@ TypeId DropRateErrorModel::GetTypeId(void) {
 }
  
 DropRateErrorModel::DropRateErrorModel()
-    : rate(0), distr(0, 99) {
+    : rate(0), distr(0, 999) {
     std::random_device rd;
     rng = new std::mt19937(rd());
 }

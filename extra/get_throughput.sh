@@ -11,4 +11,4 @@ SIZE_BYTES=$(tshark -r $PCAP_FILE_PATH -q -z io,stat,0,"SUM(frame.len)frame.len 
 DURATION_SECS=$(tshark -r $PCAP_FILE_PATH -q -z conv,udp | tail -2 | head -1 | tr -s ' ' | awk '{ print $NF }')
 THPUT_MBPS=$(echo "scale=2; ((8*$SIZE_BYTES)/($DURATION_SECS))/1000000" | bc)
 
-echo $THPUT_MBPS
+printf '%.2f\n' $THPUT_MBPS

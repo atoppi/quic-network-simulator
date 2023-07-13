@@ -12,7 +12,7 @@ class DropRateErrorModel : public ErrorModel {
  public:
     static TypeId GetTypeId(void);
     DropRateErrorModel();
-    void SetDropRate(int perc);
+    void SetDropRate(int thousandth);
     
  private:
     int rate;

@@ -10,7 +10,8 @@ DEFAULT_IPERF_BAND=5
 DEFAULT_DELAY=20
 DEFAULT_BANDWIDTH=10
 DEFAULT_LOSS=0
-DEFAULT_QUEUE=25
+DEFAULT_QUEUE_TYPE=0
+DEFAULT_QUEUE_SIZE=25
 DEFAULT_CODEL_ENABLE=n
 DEFAULT_CODEL_TARGET=21
 DEFAULT_CODEL_INTERVAL=310
@@ -20,39 +21,39 @@ DEFAULT_LOG_ENABLE=y
 print_summary() {
     echo
     echo "--------------------------------------------------------"
-    printf "%-12s %s %-12s\n" "Testcase" ":" "${TESTCASE}"
-    printf "%-12s %s %-12s\n" "Stacks" ":" "${IMPLEMETATION[*]}"
-    printf "%-12s %s %-12s\n" "Delay" ":" "${DELAY} ms"
-    printf "%-12s %s %-12s\n" "Bandwidth (toward client)" ":" "${BANDWIDTH_TO_CLIENT} Mbps"
-    printf "%-12s %s %-12s\n" "Bandwidth (toward server)" ":" "${BANDWIDTH_TO_SERVER} Mbps"
-    printf "%-12s %s %-12s\n" "Pkt Loss (toward client)" ":" "${LOSS_TO_CLIENT} %"
-    printf "%-12s %s %-12s\n" "Pkt Loss (toward server)" ":" "${LOSS_TO_SERVER} %"
-    printf "%-12s %s %-12s\n" "Queue Size" ":" "${QUEUE} pkts"
-    case $CODEL_ENABLE in
-        "y")
-            printf "%-12s %s %-12s\n" "CoDel queue" ":" "enabled"
-            printf "%-12s %s %-12s\n" "CoDel target" ":" "${CODEL_TARGET} ms"
-            printf "%-12s %s %-12s\n" "CoDel interval" ":" "${CODEL_INTERVAL} ms"
-            ;;
-        "n")
-            printf "%-12s %s %-12s\n" "CoDel queue" ":" "disabled"
-            ;;
+    printf "%-25s %s %-12s\n" "Testcase" ":" "${TESTCASE}"
+    printf "%-25s %s %-12s\n" "Stacks" ":" "${IMPLEMETATION[*]}"
+    printf "%-25s %s %-12s\n" "Delay" ":" "${DELAY} ms"
+    printf "%-25s %s %-12s\n" "Bandwidth (toward client)" ":" "${BANDWIDTH_TO_CLIENT} Mbps"
+    printf "%-25s %s %-12s\n" "Bandwidth (toward server)" ":" "${BANDWIDTH_TO_SERVER} Mbps"
+    printf "%-25s %s %-12s\n" "Pkt Loss (toward client)" ":" "${LOSS_TO_CLIENT} per thousand"
+    printf "%-25s %s %-12s\n" "Pkt Loss (toward server)" ":" "${LOSS_TO_SERVER} per thousand"
+    case $QUEUE_TYPE in
+    "0")
+        printf "%-25s %s %-12s\n" "Queue type" ":" "fifo"
+        ;;
+    "1")
+        printf "%-25s %s %-12s\n" "Queue type" ":" "codel"
+        printf "%-25s %s %-12s\n" "codel target" ":" "${CODEL_TARGET} ms"
+        printf "%-25s %s %-12s\n" "codel interval" ":" "${CODEL_INTERVAL} ms"
+        ;;
     esac
-    printf "%-12s %s %-12s\n" "File Size" ":" "${DIM_FILE} bytes"
+    printf "%-25s %s %-12s\n" "Queue Size" ":" "${QUEUE_SIZE} pkts"
+    printf "%-25s %s %-12s\n" "File Size" ":" "${DIM_FILE} bytes"
     case $IPERF_ACTIVATION in
         "y")
-            printf "%-12s %s %-12s\n" "Iperf" ":" "enabled ($IPERF_BAND Mbps)"
+            printf "%-25s %s %-12s\n" "Iperf" ":" "enabled ($IPERF_BAND Mbps)"
             ;;
         "n")
-            printf "%-12s %s %-12s\n" "Iperf" ":" "disabled"
+            printf "%-25s %s %-12s\n" "Iperf" ":" "disabled"
             ;;
     esac
     case $LOG_ENABLE in
         "y")
-            printf "%-12s %s %-12s\n" "Logging" ":" "enabled"
+            printf "%-25s %s %-12s\n" "Logging" ":" "enabled"
             ;;
         "n")
-            printf "%-12s %s %-12s\n" "Logging" ":" "disabled"
+            printf "%-25s %s %-12s\n" "Logging" ":" "disabled"
             ;;
     esac
     echo "--------------------------------------------------------"
@@ -66,11 +67,11 @@ print_results() {
     echo "---------------------------------------------"
     echo
     ROWS=("$@")
-    printf "%-10s %-10s %-10s %-10s\n" "" "loss" "avg rtt" "avg rate"
+    printf "%-10s %-10s %-10s %-10s\n" "" "loss%" "avg rtt" "avg rate"
     for row in ${ROWS[@]}
     do
          IFS=';' read IMPL LOSS RTT THR <<< "${row}"
-         printf "%-10s %-10s %-10s %-10s\n" $IMPL $LOSS $RTT $THR
+         printf "%-10s %-10.2f %-10.2f %-10.2f\n" $IMPL $LOSS $RTT $THR
     done
 }
 
@@ -125,34 +126,29 @@ echo -n "Bandwidth toward server [Mbps] (default=$DEFAULT_BANDWIDTH): "
 read -r BANDWIDTH_TO_SERVER
 BANDWIDTH_TO_SERVER=${BANDWIDTH_TO_SERVER:-$DEFAULT_BANDWIDTH}
 
-echo -n "Packet loss toward client (integer) [0-100] (default=$DEFAULT_LOSS): "
+echo -n "Packet loss toward client (per thousand, integer) [0-1000] (default=$DEFAULT_LOSS): "
 read -r LOSS_TO_CLIENT
 LOSS_TO_CLIENT=${LOSS_TO_CLIENT:-$DEFAULT_LOSS}
 
-echo -n "Packet loss toward server (integer) [0-100] (default=$DEFAULT_LOSS): "
+echo -n "Packet loss toward server (per thousand, integer) [0-1000] (default=$DEFAULT_LOSS): "
 read -r LOSS_TO_SERVER
 LOSS_TO_SERVER=${LOSS_TO_SERVER:-$DEFAULT_LOSS}
 
-echo -n "Queue size [packets] (default=$DEFAULT_QUEUE): "
-read -r QUEUE
-QUEUE=${QUEUE:-$DEFAULT_QUEUE}
-
-echo -n "Enable CoDel queue [y/n] (default=$DEFAULT_CODEL_ENABLE): "
-read -r CODEL_ENABLE
-CODEL_ENABLE=${CODEL_ENABLE:-$DEFAULT_CODEL_ENABLE}
-case $CODEL_ENABLE in
-    "y"|"Y"|"yes")
-        CODEL_ENABLE=y
-        echo -n "Set CoDel target [ms] (default=$DEFAULT_CODEL_TARGET): "
+echo -n "Queue type [0=pfifo/1=codel] (default=$DEFAULT_QUEUE_TYPE): "
+read -r QUEUE_TYPE
+QUEUE_TYPE=${QUEUE_TYPE:-$DEFAULT_QUEUE_TYPE}
+case $QUEUE_TYPE in
+    "1")
+        echo -n "Set codel queue target [ms] (default=$DEFAULT_CODEL_TARGET): "
         read -r CODEL_TARGET
         CODEL_TARGET=${CODEL_TARGET:-$DEFAULT_CODEL_TARGET}
-        echo -n "Set CoDel delay [ms] (default=$DEFAULT_CODEL_INTERVAL): "
+        echo -n "Set codel queue interval [ms] (default=$DEFAULT_CODEL_INTERVAL): "
         read -r CODEL_INTERVAL
         CODEL_INTERVAL=${CODEL_INTERVAL:-$DEFAULT_CODEL_INTERVAL}
-        CODEL_SCENARIO="--use_codel --codel_target=$CODEL_TARGET --codel_interval=$CODEL_INTERVAL"
+        QUEUE_SCENARIO="--queue_type=codel --codel_target=$CODEL_TARGET --codel_interval=$CODEL_INTERVAL"
         ;;
-    "n"|"N"|"no")
-        CODEL_ENABLE=n
+    "0")
+        QUEUE_SCENARIO="--queue_type=pfifo"
         ;;
     *)
         echo "Invalid response"
@@ -160,7 +156,12 @@ case $CODEL_ENABLE in
         ;;
 esac
 
-echo -n "File to be transfered size [bytes] (default=$DEFAULT_DIM_FILE): "
+echo -n "Queue size [packets] (default=$DEFAULT_QUEUE_SIZE): "
+read -r QUEUE_SIZE
+QUEUE_SIZE=${QUEUE_SIZE:-$DEFAULT_QUEUE_SIZE}
+QUEUE_SCENARIO="$QUEUE_SCENARIO --queue_size=$QUEUE_SIZE"
+
+echo -n "File to be transferred size [bytes] (default=$DEFAULT_DIM_FILE): "
 read -r DIM_FILE
 DIM_FILE=${DIM_FILE:-$DEFAULT_DIM_FILE}
 DIM_FILE=$(numfmt --from=auto $DIM_FILE)
@@ -192,7 +193,7 @@ case $START in
         # Generate a random file to be tranfered (this is needed for some QUIC stacks)
         mkdir -p ./www
         openssl rand -out ./www/sample.txt $DIM_FILE
-        SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth_to_client=${BANDWIDTH_TO_CLIENT}Mbps --bandwidth_to_server=${BANDWIDTH_TO_SERVER}Mbps --queue=${QUEUE} --rate_to_client=${LOSS_TO_CLIENT} --rate_to_server=${LOSS_TO_SERVER} $CODEL_SCENARIO"
+        SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth_to_client=${BANDWIDTH_TO_CLIENT}Mbps --bandwidth_to_server=${BANDWIDTH_TO_SERVER}Mbps --rate_to_client=${LOSS_TO_CLIENT} --rate_to_server=${LOSS_TO_SERVER} $QUEUE_SCENARIO"
         RES=()
         for impl in "${IMPLEMETATION[@]}" 
         do
@@ -202,7 +203,7 @@ case $START in
             echo "---------------------------------------------"
             echo
 
-            OUTPUT_FOLDER_NAME="$DELAY"ms_"$BANDWIDTH_TO_CLIENT"Mbps_"$BANDWIDTH_TO_SERVER"Mbps_"$LOSS_TO_CLIENT"loss_"$LOSS_TO_SERVER"loss_"$QUEUE"queue
+            OUTPUT_FOLDER_NAME="$DELAY"ms_"$BANDWIDTH_TO_CLIENT"Mbps_"$BANDWIDTH_TO_SERVER"Mbps_"$LOSS_TO_CLIENT"loss_"$LOSS_TO_SERVER"loss_"$QUEUE_TYPE"Qtype_"$QUEUE_SIZE"Qsize
             IPERF_PROFILE=""
             case $IPERF_ACTIVATION in
                 "y"|"yes")
