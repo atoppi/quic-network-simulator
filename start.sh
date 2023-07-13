@@ -23,8 +23,10 @@ print_summary() {
     printf "%-12s %s %-12s\n" "Testcase" ":" "${TESTCASE}"
     printf "%-12s %s %-12s\n" "Stacks" ":" "${IMPLEMETATION[*]}"
     printf "%-12s %s %-12s\n" "Delay" ":" "${DELAY} ms"
-    printf "%-12s %s %-12s\n" "Bandwidth" ":" "${BANDWIDTH} Mbps"
-    printf "%-12s %s %-12s\n" "Pkt Loss" ":" "${LOSS} %"
+    printf "%-12s %s %-12s\n" "Bandwidth (toward client)" ":" "${BANDWIDTH_TO_CLIENT} Mbps"
+    printf "%-12s %s %-12s\n" "Bandwidth (toward server)" ":" "${BANDWIDTH_TO_SERVER} Mbps"
+    printf "%-12s %s %-12s\n" "Pkt Loss (toward client)" ":" "${LOSS_TO_CLIENT} %"
+    printf "%-12s %s %-12s\n" "Pkt Loss (toward server)" ":" "${LOSS_TO_SERVER} %"
     printf "%-12s %s %-12s\n" "Queue Size" ":" "${QUEUE} pkts"
     case $CODEL_ENABLE in
         "y")
@@ -115,13 +117,21 @@ echo -n "Delay [ms] (default=$DEFAULT_DELAY): "
 read -r DELAY
 DELAY=${DELAY:-$DEFAULT_DELAY}
 
-echo -n "Bandwidth [Mbps] (default=$DEFAULT_BANDWIDTH): "
-read -r BANDWIDTH
-BANDWIDTH=${BANDWIDTH:-$DEFAULT_BANDWIDTH}
+echo -n "Bandwidth toward client [Mbps] (default=$DEFAULT_BANDWIDTH): "
+read -r BANDWIDTH_TO_CLIENT
+BANDWIDTH_TO_CLIENT=${BANDWIDTH_TO_CLIENT:-$DEFAULT_BANDWIDTH}
 
-echo -n "Packet loss (integer) [0-100] (default=$DEFAULT_LOSS): "
-read -r LOSS
-LOSS=${LOSS:-$DEFAULT_LOSS}
+echo -n "Bandwidth toward server [Mbps] (default=$DEFAULT_BANDWIDTH): "
+read -r BANDWIDTH_TO_SERVER
+BANDWIDTH_TO_SERVER=${BANDWIDTH_TO_SERVER:-$DEFAULT_BANDWIDTH}
+
+echo -n "Packet loss toward client (integer) [0-100] (default=$DEFAULT_LOSS): "
+read -r LOSS_TO_CLIENT
+LOSS_TO_CLIENT=${LOSS_TO_CLIENT:-$DEFAULT_LOSS}
+
+echo -n "Packet loss toward server (integer) [0-100] (default=$DEFAULT_LOSS): "
+read -r LOSS_TO_SERVER
+LOSS_TO_SERVER=${LOSS_TO_SERVER:-$DEFAULT_LOSS}
 
 echo -n "Queue size [packets] (default=$DEFAULT_QUEUE): "
 read -r QUEUE
@@ -182,7 +192,7 @@ case $START in
         # Generate a random file to be tranfered (this is needed for some QUIC stacks)
         mkdir -p ./www
         openssl rand -out ./www/sample.txt $DIM_FILE
-        SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth_to_client=${BANDWIDTH}Mbps --bandwidth_to_server=${BANDWIDTH}Mbps --queue=${QUEUE} --rate_to_client=${LOSS} --rate_to_server=${LOSS} $CODEL_SCENARIO"
+        SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth_to_client=${BANDWIDTH_TO_CLIENT}Mbps --bandwidth_to_server=${BANDWIDTH_TO_SERVER}Mbps --queue=${QUEUE} --rate_to_client=${LOSS_TO_CLIENT} --rate_to_server=${LOSS_TO_SERVER} $CODEL_SCENARIO"
         RES=()
         for impl in "${IMPLEMETATION[@]}" 
         do
@@ -192,11 +202,11 @@ case $START in
             echo "---------------------------------------------"
             echo
 
-            OUTPUT_FOLDER_NAME="$DELAY"ms_"$BANDWIDTH"Mbps_"$LOSS"loss_"$QUEUE"queue
+            OUTPUT_FOLDER_NAME="$DELAY"ms_"$BANDWIDTH_TO_CLIENT"Mbps_"$BANDWIDTH_TO_SERVER"Mbps_"$LOSS_TO_CLIENT"loss_"$LOSS_TO_SERVER"loss_"$QUEUE"queue
             IPERF_PROFILE=""
             case $IPERF_ACTIVATION in
                 "y"|"yes")
-                    OUTPUT_FOLDER_NAME=${OUTPUT_FOLDER_NAME}_with"$IPERF_BAND"Miperf
+                    OUTPUT_FOLDER_NAME=${OUTPUT_FOLDER_NAME}_"$IPERF_BAND"crossMbps
                     IPERF_PROFILE="--profile with_iperf"
                     ;;
                 *)
