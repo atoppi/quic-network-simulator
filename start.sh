@@ -1,6 +1,6 @@
 #!/bin/bash
 
-trap "docker compose down > /dev/null 2>&1 && exit" EXIT SIGINT SIGTERM
+trap "docker compose down > /dev/null 2>&1; exit" SIGINT SIGTERM
 
 export LC_ALL=C.UTF-8
 
@@ -19,6 +19,28 @@ DEFAULT_CODEL_TARGET=21
 DEFAULT_CODEL_INTERVAL=310
 DEFAULT_DIM_FILE=10M
 DEFAULT_LOG_ENABLE=y
+
+monitor_node() {
+    CONTAINER=$1
+    TRACE=$2
+    OUT_FOLDER=$3
+    while true; do
+        sleep 1
+        BEFORE_SIZE=$(wc -c < $TRACE)
+        if [ ! "$?" -eq "0" ]; then break ; fi
+        ROW=$(docker stats $CONTAINER --no-stream --format "{{.CPUPerc}},{{.MemPerc}}")
+        if [ "$?" -eq "0" ]; then
+            AFTER_SIZE=$(wc -c < $TRACE)
+            if [ ! "$?" -eq "0" ]; then break ; fi
+            if [ $AFTER_SIZE != $BEFORE_SIZE ]; then
+                if [ $AFTER_SIZE -gt 2000 ]; then
+                    ROW=$(echo $ROW | sed "s/%//g")
+                    echo "$(date +%s),$ROW" >> "$OUT_FOLDER/cpu_mem.csv"
+                fi
+            fi
+        fi
+    done
+}
 
 print_summary() {
     echo
@@ -237,10 +259,27 @@ case $START in
                 IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
                 DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE build
 
+            monitor_node "server" "./logs/sim/trace_node_right.pcap" $SERVER_OUTPUT_FOLDER &
+            MONITOR_S_PID=$!
+            monitor_node "client" "./logs/sim/trace_node_left.pcap" $CLIENT_OUTPUT_FOLDER &
+            MONITOR_C_PID=$!
+            echo "Started cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"
+
             echo "Starting containers"
             CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR=$QLOGDIR SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
                 IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
                 DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE up --abort-on-container-exit
+
+            echo "Stopping cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"
+            if [ ! -z "$MONITOR_S_PID" ]; then
+                kill $MONITOR_S_PID
+                MONITOR_S_PID=""
+
+            fi
+            if [ ! -z "$MONITOR_C_PID" ]; then
+                kill $MONITOR_C_PID
+                MONITOR_C_PID=""
+            fi
 
             echo "Saving packet captures"
             cp ./logs/sim/trace_node_left.pcap "$CLIENT_OUTPUT_FOLDER/client.pcap"
