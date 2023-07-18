@@ -24,7 +24,7 @@ RUN apt-get update && \
         LDFLAGS="-fsanitize=address,undefined -fno-sanitize-recover=undefined" \
         CPPFLAGS="-fsanitize=address,undefined -fno-sanitize-recover=undefined -g3" && \
     make -j$(nproc) && make install && \
-    cp examples/server examples/client examples/h09server examples/h09client /usr/local/bin && \
+    cp examples/qtlsserver examples/qtlsclient examples/h09qtlsserver examples/h09qtlsclient /usr/local/bin && \
     cd .. && \
     rm -rf ngtcp2 && \
     rm -rf /usr/local/lib/libssl.so /usr/local/lib/libcrypto.so /usr/local/lib/libssl.a /usr/local/lib/libcrypto.a /usr/local/lib/pkgconfig/*ssl.pc /usr/local/include/openssl/* && \
@@ -35,7 +35,7 @@ RUN apt-get update && \
     rm -rf /var/log/*
 
 RUN mkdir /ngtcp2
-RUN cp /usr/local/bin/server /usr/local/bin/client /usr/local/bin/h09server /usr/local/bin/h09client /ngtcp2/
+RUN cp /usr/local/bin/qtlsserver /usr/local/bin/qtlsclient /usr/local/bin/h09qtlsserver /usr/local/bin/h09qtlsclient /ngtcp2/
 
 WORKDIR /ngtcp2
 
