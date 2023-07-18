@@ -39,7 +39,7 @@ monitor_node() {
     if [ -z "$IS_ACTIVE" ]; then
         exit 1
     else
-        docker stats $CONTAINER --format "{{.CPUPerc}},{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" >> "$OUT_FOLDER/cpu_mem.csv"
+        docker stats $CONTAINER --format "{{.CPUPerc}},{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" > "$OUT_FOLDER/cpu_mem.csv"
     fi
 }
 
