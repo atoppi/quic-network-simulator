@@ -22,24 +22,25 @@ DEFAULT_LOG_ENABLE=y
 
 monitor_node() {
     CONTAINER=$1
-    TRACE=$2
-    OUT_FOLDER=$3
-    while true; do
-        sleep 1
-        BEFORE_SIZE=$(wc -c < $TRACE)
-        if [ ! "$?" -eq "0" ]; then break ; fi
-        ROW=$(docker stats $CONTAINER --no-stream --format "{{.CPUPerc}},{{.MemPerc}}")
-        if [ "$?" -eq "0" ]; then
-            AFTER_SIZE=$(wc -c < $TRACE)
-            if [ ! "$?" -eq "0" ]; then break ; fi
-            if [ $AFTER_SIZE != $BEFORE_SIZE ]; then
-                if [ $AFTER_SIZE -gt 2000 ]; then
-                    ROW=$(echo $ROW | sed "s/%//g")
-                    echo "$(date +%s),$ROW" >> "$OUT_FOLDER/cpu_mem.csv"
-                fi
-            fi
+    OUT_FOLDER=$2
+
+    END_TIME=$(( $(date +%s) + 5 ))
+    IS_ACTIVE=""
+
+    while [ $(date +%s) -lt $END_TIME ]; do
+        IS_ACTIVE=$(docker ps | grep $CONTAINER)
+        if [ ! -z "$IS_ACTIVE" ]; then
+            break
+        else
+            sleep 0.5
         fi
     done
+
+    if [ -z "$IS_ACTIVE" ]; then
+        exit 1
+    else
+        docker stats $CONTAINER --format "{{.CPUPerc}},{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" >> "$OUT_FOLDER/cpu_mem.csv"
+    fi
 }
 
 print_summary() {
@@ -219,7 +220,7 @@ case $START in
         openssl rand -out ./www/sample.txt $DIM_FILE
         SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth_to_client=${BANDWIDTH_TO_CLIENT}Mbps --bandwidth_to_server=${BANDWIDTH_TO_SERVER}Mbps --rate_to_client=${LOSS_TO_CLIENT} --rate_to_server=${LOSS_TO_SERVER} $QUEUE_SCENARIO"
         RES=()
-        for impl in "${IMPLEMETATION[@]}" 
+        for impl in "${IMPLEMETATION[@]}"
         do
             echo
             echo "---------------------------------------------"
@@ -259,9 +260,9 @@ case $START in
                 IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
                 DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE build
 
-            monitor_node "server" "./logs/sim/trace_node_right.pcap" $SERVER_OUTPUT_FOLDER &
+            monitor_node "server" $SERVER_OUTPUT_FOLDER &
             MONITOR_S_PID=$!
-            monitor_node "client" "./logs/sim/trace_node_left.pcap" $CLIENT_OUTPUT_FOLDER &
+            monitor_node "client" $CLIENT_OUTPUT_FOLDER &
             MONITOR_C_PID=$!
             echo "Started cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"
 
@@ -272,12 +273,12 @@ case $START in
 
             echo "Stopping cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"
             if [ ! -z "$MONITOR_S_PID" ]; then
-                kill $MONITOR_S_PID
+                pkill -P $MONITOR_S_PID
                 MONITOR_S_PID=""
 
             fi
             if [ ! -z "$MONITOR_C_PID" ]; then
-                kill $MONITOR_C_PID
+                pkill -P $MONITOR_C_PID
                 MONITOR_C_PID=""
             fi
 
