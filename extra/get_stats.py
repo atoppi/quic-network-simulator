@@ -75,10 +75,10 @@ if server_qlog_path.is_file():
         writer = csv.writer(csv_file, delimiter=";")
         # Print first row on csv
         writer.writerow(["curr_time", "curr_cwnd", "curr_rtt_ms"])
-        curr_rtt_ms = 0
+        curr_rtt = 0
         curr_cwnd = 0
-        first_time = 0.0
-        curr_time = 0.0
+        first_time = 0
+        curr_time = 0
         if server_qlog_path.suffix == ".qlog":
             data = json.load(file_server)
             is_picoquic = False
@@ -95,19 +95,24 @@ if server_qlog_path.is_file():
                         sent_count += 1
                     if "latest_rtt" in event[3]:
                         samples_rtt += 1
-                        curr_rtt_ms = event[3]["latest_rtt"] / 1000
-                        sum_rtt += curr_rtt_ms
+                        curr_rtt = event[3]["latest_rtt"]
+                        sum_rtt += curr_rtt
                         new_stats_sample = True
                     if "cwnd" in event[3]:
                         curr_cwnd = event[3]["cwnd"]
                         new_stats_sample = True
                     if new_stats_sample:
+                        sample_time = event[0]
                         if first_time == 0:
-                            first_time = event[0]
-                        curr_time = (event[0] - first_time) / 1000000
+                            first_time = sample_time
+                        curr_time = sample_time - first_time
                         # Print curr_time, curr_cwnd, curr_rtt_ms on csv
                         writer.writerow(
-                            [f"{curr_time:.6f}", f"{curr_cwnd}", f"{curr_rtt_ms:.3f}"]
+                            [
+                                f"{curr_time/1000000:.6f}",
+                                curr_cwnd,
+                                f"{curr_rtt/1000:.3f}",
+                            ]
                         )
                 else:
                     if "name" in event and "packet_sent" in event["name"]:
@@ -115,20 +120,27 @@ if server_qlog_path.is_file():
                     if "data" in event:
                         if "latest_rtt" in event["data"]:
                             samples_rtt += 1
-                            curr_rtt_ms = event["data"]["latest_rtt"]
-                            sum_rtt += curr_rtt_ms
+                            curr_rtt = event["data"]["latest_rtt"]
+                            sum_rtt += curr_rtt
                             new_stats_sample = True
                         if "cwnd" in event["data"]:
                             curr_cwnd = event["data"]["cwnd"]
                             new_stats_sample = True
                         if new_stats_sample and "time" in event:
+                            sample_time = event["time"]
                             if first_time == 0:
-                                first_time = event["time"]
-                            curr_time = (event["time"] - first_time) / 1000
+                                first_time = sample_time
+                            curr_time = sample_time - first_time
                             # Print curr_time, curr_cwnd, curr_rtt_ms on csv
                             writer.writerow(
-                                [f"{curr_time:.6f}", f"{curr_cwnd}", f"{curr_rtt_ms:.3f}"]
+                                [
+                                    f"{curr_time/1000:.6f}",
+                                    curr_cwnd,
+                                    f"{curr_rtt:.3f}",
+                                ]
                             )
+            if is_picoquic:
+                sum_rtt = sum_rtt / 1000
         elif server_qlog_path.suffix == ".sqlog":
             while True:
                 line = file_server.readline().strip()
@@ -143,19 +155,24 @@ if server_qlog_path.is_file():
                     new_stats_sample = False
                     if "latest_rtt" in event["data"]:
                         samples_rtt += 1
-                        curr_rtt_ms = event["data"]["latest_rtt"]
-                        sum_rtt += curr_rtt_ms
+                        curr_rtt = event["data"]["latest_rtt"]
+                        sum_rtt += curr_rtt
                         new_stats_sample = True
                     if "congestion_window" in event["data"]:
                         curr_cwnd = event["data"]["congestion_window"]
                         new_stats_sample = True
                     if new_stats_sample and "time" in event:
+                        sample_time = event["time"]
                         if first_time == 0:
-                            first_time = event["time"]
-                        curr_time = (event["time"] - first_time) / 1000
+                            first_time = sample_time
+                        curr_time = sample_time - first_time
                         # Print curr_time, curr_cwnd, curr_rtt_ms on csv
                         writer.writerow(
-                            [f"{curr_time:.6f}", f"{curr_cwnd}", f"{curr_rtt_ms:.3f}"]
+                            [
+                                f"{curr_time/1000:.6f}",
+                                curr_cwnd,
+                                f"{curr_rtt:.3f}",
+                            ]
                         )
 
 if client_qlog_path.is_file() and server_qlog_path.is_file():
