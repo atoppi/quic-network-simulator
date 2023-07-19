@@ -22,24 +22,30 @@ DEFAULT_LOG_ENABLE=y
 
 monitor_node() {
     CONTAINER=$1
-    TRACE=$2
-    OUT_FOLDER=$3
-    while true; do
-        sleep 1
-        BEFORE_SIZE=$(wc -c < $TRACE)
-        if [ ! "$?" -eq "0" ]; then break ; fi
-        ROW=$(docker stats $CONTAINER --no-stream --format "{{.CPUPerc}},{{.MemPerc}}")
-        if [ "$?" -eq "0" ]; then
-            AFTER_SIZE=$(wc -c < $TRACE)
-            if [ ! "$?" -eq "0" ]; then break ; fi
-            if [ $AFTER_SIZE != $BEFORE_SIZE ]; then
-                if [ $AFTER_SIZE -gt 2000 ]; then
-                    ROW=$(echo $ROW | sed "s/%//g")
-                    echo "$(date +%s),$ROW" >> "$OUT_FOLDER/cpu_mem.csv"
-                fi
-            fi
+    OUT_FILE=$2
+
+    END_TIME=$(( $(date +%s) + 5 ))
+    IS_ACTIVE=""
+
+    while [ $(date +%s) -lt $END_TIME ]; do
+        IS_ACTIVE=$(docker ps | grep $CONTAINER)
+        if [ ! -z "$IS_ACTIVE" ]; then
+            break
+        else
+            sleep 0.5
         fi
     done
+
+    if [ -z "$IS_ACTIVE" ]; then
+        exit 1
+    else
+        #echo "curr_time;curr_cpu;curr_mem" > "$OUT_FILE"
+        #START_TIME=$(date +%s%3N)
+        #docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | while IFS= read -r line; do printf '%.6f;%s\n' "$(( ($(date +%s%3N) - $START_TIME) ))e-3" "$line" ; done >> "$OUT_FILE"
+        echo "abs_time;curr_cpu;curr_mem" > "$OUT_FILE"
+        docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | while IFS= read -r line; do printf '%s;%s\n' "$(date +%s%3N)" "$line" ; done >> "$OUT_FILE"
+
+    fi
 }
 
 print_summary() {
@@ -219,7 +225,7 @@ case $START in
         openssl rand -out ./www/sample.txt $DIM_FILE
         SCENARIO="drop-rate --delay=${DELAY}ms --bandwidth_to_client=${BANDWIDTH_TO_CLIENT}Mbps --bandwidth_to_server=${BANDWIDTH_TO_SERVER}Mbps --rate_to_client=${LOSS_TO_CLIENT} --rate_to_server=${LOSS_TO_SERVER} $QUEUE_SCENARIO"
         RES=()
-        for impl in "${IMPLEMETATION[@]}" 
+        for impl in "${IMPLEMETATION[@]}"
         do
             echo
             echo "---------------------------------------------"
@@ -259,9 +265,9 @@ case $START in
                 IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
                 DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE build
 
-            monitor_node "server" "./logs/sim/trace_node_right.pcap" $SERVER_OUTPUT_FOLDER &
+            monitor_node "server" "$SERVER_OUTPUT_FOLDER/server_cpu_mem.csv" &
             MONITOR_S_PID=$!
-            monitor_node "client" "./logs/sim/trace_node_left.pcap" $CLIENT_OUTPUT_FOLDER &
+            monitor_node "client" "$CLIENT_OUTPUT_FOLDER/client_cpu_mem.csv" &
             MONITOR_C_PID=$!
             echo "Started cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"
 
@@ -272,12 +278,12 @@ case $START in
 
             echo "Stopping cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"
             if [ ! -z "$MONITOR_S_PID" ]; then
-                kill $MONITOR_S_PID
+                pkill -P $MONITOR_S_PID
                 MONITOR_S_PID=""
 
             fi
             if [ ! -z "$MONITOR_C_PID" ]; then
-                kill $MONITOR_C_PID
+                pkill -P $MONITOR_C_PID
                 MONITOR_C_PID=""
             fi
 

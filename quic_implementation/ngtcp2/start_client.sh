@@ -15,23 +15,23 @@ CLIENT_ARGS="--key=key_client.pem --cert=cert_client.pem --show-secret --no-quic
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
 		"ecn")
-			CLIENT_BIN="./h09client"
+			CLIENT_BIN="./h09qtlsclient"
 			CLIENT_ARGS="CLIENT_ARGS -v 0x1 --no-pmtud"
 			;;
 		"handshake")
-			CLIENT_BIN="./h09client"
+			CLIENT_BIN="./h09qtlsclient"
 			CLIENT_ARGS="$CLIENT_ARGS -v 0x1"
 			;;
 		"transfer")
-			CLIENT_BIN="./h09client"
+			CLIENT_BIN="./h09qtlsclient"
 			CLIENT_ARGS="$CLIENT_ARGS -v 0x1"
 			;;
 		"versionnegotiation")
-			CLIENT_BIN="./h09client"
+			CLIENT_BIN="./h09qtlsclient"
 			CLIENT_ARGS="$CLIENT_ARGS -v 0xaaaaaaaa"
 			;;
 		"zerortt")
-			CLIENT_BIN="./h09client"
+			CLIENT_BIN="./h09qtlsclient"
 			CLIENT_ARGS="CLIENT_ARGS -v 0x1 --no-pmtud --session-file session.txt --tp-file tp.txt --wait-for-ticket"
 			;;
 		*)

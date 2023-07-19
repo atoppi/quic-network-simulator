@@ -14,23 +14,23 @@ SERVER_ARGS="$LOG_ARGS --htdocs /www --show-secret --verify-client $SERVER_CC_AR
 if [ -n "$TESTCASE" ]; then
 	case "$TESTCASE" in
 		"ecn")
-			SERVER_BIN="./h09server"
+			SERVER_BIN="./h09qtlsserver"
 			SERVER_ARGS="SERVER_ARGS --no-pmtud"
 			;;
 		"handshake")
-			SERVER_BIN="./h09server"
+			SERVER_BIN="./h09qtlsserver"
 			SERVER_ARGS="$SERVER_ARGS"
 			;;
 		"transfer")
-			SERVER_BIN="./h09server"
+			SERVER_BIN="./h09qtlsserver"
 			SERVER_ARGS="$SERVER_ARGS"
 			;;
 		"versionnegotiation")
-			SERVER_BIN="./h09server"
+			SERVER_BIN="./h09qtlsserver"
 			SERVER_ARGS="$SERVER_ARGS"
 			;;
 		"zerortt")
-			SERVER_BIN="./h09server"
+			SERVER_BIN="./h09qtlsserver"
 			SERVER_ARGS="SERVER_ARGS"
 			;;
 		*)
