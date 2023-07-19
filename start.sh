@@ -22,7 +22,7 @@ DEFAULT_LOG_ENABLE=y
 
 monitor_node() {
     CONTAINER=$1
-    OUT_FOLDER=$2
+    OUT_FILE=$2
 
     END_TIME=$(( $(date +%s) + 5 ))
     IS_ACTIVE=""
@@ -39,7 +39,12 @@ monitor_node() {
     if [ -z "$IS_ACTIVE" ]; then
         exit 1
     else
-        docker stats $CONTAINER --format "{{.CPUPerc}},{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | awk -W interactive '{print systime()","$0}' > "$OUT_FOLDER/cpu_mem.csv"
+        #echo "curr_time;curr_cpu;curr_mem" > "$OUT_FILE"
+        #START_TIME=$(date +%s%3N)
+        #docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | while IFS= read -r line; do printf '%.6f;%s\n' "$(( ($(date +%s%3N) - $START_TIME) ))e-3" "$line" ; done >> "$OUT_FILE"
+        echo "abs_time;curr_cpu;curr_mem" > "$OUT_FILE"
+        docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | while IFS= read -r line; do printf '%s;%s\n' "$(date +%s%3N)" "$line" ; done >> "$OUT_FILE"
+
     fi
 }
 
@@ -260,9 +265,9 @@ case $START in
                 IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
                 DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE build
 
-            monitor_node "server" $SERVER_OUTPUT_FOLDER &
+            monitor_node "server" "$SERVER_OUTPUT_FOLDER/server_cpu_mem.csv" &
             MONITOR_S_PID=$!
-            monitor_node "client" $CLIENT_OUTPUT_FOLDER &
+            monitor_node "client" "$CLIENT_OUTPUT_FOLDER/client_cpu_mem.csv" &
             MONITOR_C_PID=$!
             echo "Started cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"
 
