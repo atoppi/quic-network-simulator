@@ -193,3 +193,19 @@ setup](https://github.com/h2o/h2o-qns).
    ```bash
    docker exec -it server /bin/bash
    ```
+2. Before launching the quic-network-simulator, it is necessary to load the ip6table_filter module through the following command:
+      ```bash
+   sudo modprobe ip6table_filter
+   ```
+3. Install tshark:
+   ```bash
+   sudo apt update
+   sudo apt install tshark
+   ```
+4. Install python3.10 or higher:
+   ```bash
+   sudo apt update
+   sudo apt install software-properties-common -y
+   sudo add-apt-repository ppa:deadsnakes/ppa
+   sudo apt install python3.10
+```

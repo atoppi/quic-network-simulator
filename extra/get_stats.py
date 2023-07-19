@@ -3,6 +3,7 @@ import json
 import os
 import pathlib
 import sys
+import csv
 
 client_results_path = pathlib.Path(sys.argv[1]).absolute()
 server_results_path = pathlib.Path(sys.argv[2]).absolute()
@@ -10,19 +11,17 @@ server_results_path = pathlib.Path(sys.argv[2]).absolute()
 client_qlog_path = pathlib.Path(
     os.path.join(
         client_results_path,
-        glob.glob(pathname='./qlog/*.*log', root_dir=client_results_path)[0]))
+        glob.glob(pathname="./qlog/*.*log", root_dir=client_results_path)[0],
+    )
+)
 server_qlog_path = pathlib.Path(
     os.path.join(
         server_results_path,
-        glob.glob(pathname='./qlog/*.*log', root_dir=server_results_path)[0]))
-client_pcap_path = pathlib.Path(
-    os.path.join(
-        client_results_path,
-        "client.pcap"))
-server_pcap_path = pathlib.Path(
-    os.path.join(
-        server_results_path,
-        "server.pcap"))
+        glob.glob(pathname="./qlog/*.*log", root_dir=server_results_path)[0],
+    )
+)
+client_pcap_path = pathlib.Path(os.path.join(client_results_path, "client.pcap"))
+server_pcap_path = pathlib.Path(os.path.join(server_results_path, "server.pcap"))
 
 sent_count = 0
 recv_count = 0
@@ -31,9 +30,13 @@ sum_rtt = 0
 client_name = ""
 server_name = ""
 
-if (client_qlog_path.is_file()):
+server_stats_csv_file_path = pathlib.Path(
+    os.path.join(server_results_path, "server_rtt_cwnd.csv")
+)
+
+if client_qlog_path.is_file():
     with open(client_qlog_path) as file_client:
-        if client_qlog_path.suffix == '.qlog':
+        if client_qlog_path.suffix == ".qlog":
             data = json.load(file_client)
             is_picoquic = False
             if "title" in data and data["title"] == "picoquic":
@@ -49,21 +52,34 @@ if (client_qlog_path.is_file()):
                 else:
                     if "name" in event and "packet_received" in event["name"]:
                         recv_count += 1
-        elif client_qlog_path.suffix == '.sqlog':
+        elif client_qlog_path.suffix == ".sqlog":
             while True:
                 line = file_client.readline().strip()
                 if not line:
                     break
                 event = json.loads(line)
-                if ("trace" in event and "vantage_point" in event["trace"]
-                        and "name" in event["trace"]["vantage_point"]):
+                if (
+                    "trace" in event
+                    and "vantage_point" in event["trace"]
+                    and "name" in event["trace"]["vantage_point"]
+                ):
                     client_name = event["trace"]["vantage_point"]["name"]
                 if "name" in event and "packet_received" in event["name"]:
                     recv_count += 1
 
-if (server_qlog_path.is_file()):
-    with open(server_qlog_path) as file_server:
-        if server_qlog_path.suffix == '.qlog':
+if server_qlog_path.is_file():
+    with (
+        open(server_qlog_path) as file_server,
+        open(server_stats_csv_file_path, "w") as csv_file,
+    ):
+        writer = csv.writer(csv_file, delimiter=";")
+        # Print first row on csv
+        writer.writerow(["curr_time", "curr_cwnd", "curr_rtt_ms"])
+        curr_rtt = 0
+        curr_cwnd = 0
+        first_time = 0
+        curr_time = 0
+        if server_qlog_path.suffix == ".qlog":
             data = json.load(file_server)
             is_picoquic = False
             if "title" in data and data["title"] == "picoquic":
@@ -73,34 +89,93 @@ if (server_qlog_path.is_file()):
                 server_name = trace["vantage_point"]["name"]
             events = trace["events"]
             for event in events:
+                new_stats_sample = False
                 if is_picoquic:
                     if "packet_sent" in event[2]:
                         sent_count += 1
                     if "latest_rtt" in event[3]:
                         samples_rtt += 1
-                        sum_rtt += event[3]["latest_rtt"]/1000
+                        curr_rtt = event[3]["latest_rtt"]
+                        sum_rtt += curr_rtt
+                        new_stats_sample = True
+                    if "cwnd" in event[3]:
+                        curr_cwnd = event[3]["cwnd"]
+                        new_stats_sample = True
+                    if new_stats_sample:
+                        sample_time = event[0]
+                        if first_time == 0:
+                            first_time = sample_time
+                        curr_time = sample_time - first_time
+                        # Print curr_time, curr_cwnd, curr_rtt_ms on csv
+                        writer.writerow(
+                            [
+                                f"{curr_time/1000000:.6f}",
+                                curr_cwnd,
+                                f"{curr_rtt/1000:.3f}",
+                            ]
+                        )
                 else:
                     if "name" in event and "packet_sent" in event["name"]:
                         sent_count += 1
-                    if "data" in event and "latest_rtt" in event["data"]:
-                        samples_rtt += 1
-                        sum_rtt += event["data"]["latest_rtt"]
-        elif server_qlog_path.suffix == '.sqlog':
+                    if "data" in event:
+                        if "latest_rtt" in event["data"]:
+                            samples_rtt += 1
+                            curr_rtt = event["data"]["latest_rtt"]
+                            sum_rtt += curr_rtt
+                            new_stats_sample = True
+                        if "cwnd" in event["data"]:
+                            curr_cwnd = event["data"]["cwnd"]
+                            new_stats_sample = True
+                        if new_stats_sample and "time" in event:
+                            sample_time = event["time"]
+                            if first_time == 0:
+                                first_time = sample_time
+                            curr_time = sample_time - first_time
+                            # Print curr_time, curr_cwnd, curr_rtt_ms on csv
+                            writer.writerow(
+                                [
+                                    f"{curr_time/1000:.6f}",
+                                    curr_cwnd,
+                                    f"{curr_rtt:.3f}",
+                                ]
+                            )
+            if is_picoquic:
+                sum_rtt = sum_rtt / 1000
+        elif server_qlog_path.suffix == ".sqlog":
             while True:
                 line = file_server.readline().strip()
                 if not line:
                     break
                 event = json.loads(line)
-                if ("trace" in event
-                        and "name" in event["trace"]["vantage_point"]):
+                if "trace" in event and "name" in event["trace"]["vantage_point"]:
                     server_name = event["trace"]["vantage_point"]["name"]
                 if "name" in event and "packet_sent" in event["name"]:
                     sent_count += 1
-                if "data" in event and "latest_rtt" in event["data"]:
-                    samples_rtt += 1
-                    sum_rtt += event["data"]["latest_rtt"]
+                if "data" in event:
+                    new_stats_sample = False
+                    if "latest_rtt" in event["data"]:
+                        samples_rtt += 1
+                        curr_rtt = event["data"]["latest_rtt"]
+                        sum_rtt += curr_rtt
+                        new_stats_sample = True
+                    if "congestion_window" in event["data"]:
+                        curr_cwnd = event["data"]["congestion_window"]
+                        new_stats_sample = True
+                    if new_stats_sample and "time" in event:
+                        sample_time = event["time"]
+                        if first_time == 0:
+                            first_time = sample_time
+                        curr_time = sample_time - first_time
+                        # Print curr_time, curr_cwnd, curr_rtt_ms on csv
+                        writer.writerow(
+                            [
+                                f"{curr_time/1000:.6f}",
+                                curr_cwnd,
+                                f"{curr_rtt:.3f}",
+                            ]
+                        )
 
-if (client_qlog_path.is_file() and server_qlog_path.is_file()):
+if client_qlog_path.is_file() and server_qlog_path.is_file():
     # Packet loss
     packet_loss = round(100 * ((sent_count - recv_count) / sent_count), 2)
 
@@ -111,10 +186,7 @@ else:
     avg_rtt = "-"
 
 # Throughput
-th_script_path = os.path.join(
-    pathlib.Path(__file__).parent,
-    'get_throughput.sh')
-avg_throughput = os.popen(
-    '%s %s' % (th_script_path, client_pcap_path)).read().strip()
+th_script_path = os.path.join(pathlib.Path(__file__).parent, "get_throughput.sh")
+avg_throughput = os.popen("%s %s" % (th_script_path, client_pcap_path)).read().strip()
 
-print('%s;%s;%s' % (packet_loss, avg_rtt, avg_throughput))
+print("%s;%s;%s" % (packet_loss, avg_rtt, avg_throughput))
