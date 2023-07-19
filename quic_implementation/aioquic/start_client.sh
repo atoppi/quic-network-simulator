@@ -50,8 +50,6 @@ run_client() {
 }
 
 if [ "$ROLE" = "client" ]; then
-	sleep 5
-
 	case "$TESTCASE" in
 	"zerortt")
 		run_client $REQUESTS

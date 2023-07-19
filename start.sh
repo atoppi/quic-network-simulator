@@ -39,12 +39,8 @@ monitor_node() {
     if [ -z "$IS_ACTIVE" ]; then
         exit 1
     else
-        #echo "curr_time;curr_cpu;curr_mem" > "$OUT_FILE"
-        #START_TIME=$(date +%s%3N)
-        #docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | while IFS= read -r line; do printf '%.6f;%s\n' "$(( ($(date +%s%3N) - $START_TIME) ))e-3" "$line" ; done >> "$OUT_FILE"
-        echo "abs_time;curr_cpu;curr_mem" > "$OUT_FILE"
-        docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | while IFS= read -r line; do printf '%s;%s\n' "$(date +%s%3N)" "$line" ; done >> "$OUT_FILE"
-
+        echo "curr_time;curr_cpu;curr_mem" > "$OUT_FILE"
+        docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | while IFS= read -r line; do START_TIME="${START_TIME:-$(date +%s%N)}"; printf '%.6f;%s\n' "$(( ($(date +%s%N) - $START_TIME) ))e-9" "$line" ; done >> "$OUT_FILE"
     fi
 }
 
