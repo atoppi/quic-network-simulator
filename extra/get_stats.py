@@ -89,7 +89,8 @@ if server_qlog_path.is_file():
                 server_name = trace["vantage_point"]["name"]
             events = trace["events"]
             for event in events:
-                new_stats_sample = False
+                rtt_sampled = False
+                cwnd_sampled = False
                 if is_picoquic:
                     if "packet_sent" in event[2]:
                         sent_count += 1
@@ -97,11 +98,11 @@ if server_qlog_path.is_file():
                         samples_rtt += 1
                         curr_rtt = event[3]["latest_rtt"]
                         sum_rtt += curr_rtt
-                        new_stats_sample = True
+                        rtt_sampled = True
                     if "cwnd" in event[3]:
                         curr_cwnd = event[3]["cwnd"]
-                        new_stats_sample = True
-                    if new_stats_sample:
+                        cwnd_sampled = True
+                    if rtt_sampled and cwnd_sampled:
                         sample_time = event[0]
                         if first_time == 0:
                             first_time = sample_time
@@ -118,15 +119,17 @@ if server_qlog_path.is_file():
                     if "name" in event and "packet_sent" in event["name"]:
                         sent_count += 1
                     if "data" in event:
+                        rtt_sampled = False
+                        cwnd_sampled = False
                         if "latest_rtt" in event["data"]:
                             samples_rtt += 1
                             curr_rtt = event["data"]["latest_rtt"]
                             sum_rtt += curr_rtt
-                            new_stats_sample = True
+                            rtt_sampled = True
                         if "cwnd" in event["data"]:
                             curr_cwnd = event["data"]["cwnd"]
-                            new_stats_sample = True
-                        if new_stats_sample and "time" in event:
+                            cwnd_sampled = True
+                        if rtt_sampled and cwnd_sampled and "time" in event:
                             sample_time = event["time"]
                             if first_time == 0:
                                 first_time = sample_time
@@ -152,16 +155,17 @@ if server_qlog_path.is_file():
                 if "name" in event and "packet_sent" in event["name"]:
                     sent_count += 1
                 if "data" in event:
-                    new_stats_sample = False
+                    rtt_sampled = False
+                    cwnd_sampled = False
                     if "latest_rtt" in event["data"]:
                         samples_rtt += 1
                         curr_rtt = event["data"]["latest_rtt"]
                         sum_rtt += curr_rtt
-                        new_stats_sample = True
+                        rtt_sampled = True
                     if "congestion_window" in event["data"]:
                         curr_cwnd = event["data"]["congestion_window"]
-                        new_stats_sample = True
-                    if new_stats_sample and "time" in event:
+                        cwnd_sampled = True
+                    if rtt_sampled and cwnd_sampled and "time" in event:
                         sample_time = event["time"]
                         if first_time == 0:
                             first_time = sample_time
