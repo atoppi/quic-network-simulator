@@ -79,7 +79,7 @@ on
 
 Follow these steps to set up your own QUIC implementation:
 
-1. Create a new directory for your implementation (say, my_quic_impl). You will
+1. Create a new directory for your implementation (say, my_quic_impl) under `quic_implementation`. You will
    create two files in this directory: `Dockerfile` and `run_endpoint.sh`, as
    described below.
 
@@ -110,8 +110,6 @@ Follow these steps to set up your own QUIC implementation:
 
     # The following variables are available for use:
     # - ROLE contains the role of this execution context, client or server
-    # - SERVER_PARAMS contains user-supplied command line parameters
-    # - CLIENT_PARAMS contains user-supplied command line parameters
 
     if [ "$ROLE" == "client" ]; then
         # Wait for the simulator to start up.
@@ -125,6 +123,15 @@ Follow these steps to set up your own QUIC implementation:
 For an example, have a look at the [quic-go
 setup](https://github.com/marten-seemann/quic-go-docker) or the [quicly
 setup](https://github.com/h2o/h2o-qns).
+
+
+## Running a simulation with start.sh script
+
+The `start.sh` script will automate testing of all implementations under `quic_implementation`.
+It will ask for all the needed parameters and will start a test with the customized `drop-rate` scenario.
+
+Every test will produce packet captures, qlogs, SSL keylog file and csv files containing metrics under:
+`logs/{client|server}/{implementation}/{scenario-folder}`
 
 
 ## Running a Simulation
@@ -149,31 +156,26 @@ setup](https://github.com/h2o/h2o-qns).
    ```
 
 1. You will want to run the setup with a scenario. The scenarios that are
-   currently provided are listed below:
+   currently provided are listed under the [scenarios]sim/scenarios) folder.
    
-   * [Simple point-to-point link, with configurable link properties](sim/scenarios/simple-p2p)
+   The `drop-rate` scenario has been customized to support other settings, namely:
 
-   * [Single TCP connection running over a configurable point-to-point link](sim/scenarios/tcp-cross-traffic)
+   1. data rate for both directions of the link
+   2. kind of queue (FIFO, CoDel)
 
    You can now run the experiment as follows:
    ```
    CLIENT=[client directory name] \
-   CLIENT_PARAMS=[params to client] \
    SERVER=[server directory name] \
-   SERVER_PARAMS=[params to server] \
    SCENARIO=[scenario] \
    docker-compose up
    ```
-
-   SERVER_PARAMS and CLIENT_PARAMS may be omitted if the corresponding QUIC
-   implementations do not require them.
 
    For instance, the following command runs a simple point-to-point scenario and
    specifies a command line parameter for only the client implementation:
 
    ```
    CLIENT="my_quic_impl" \
-   CLIENT_PARAMS="-p /10000.txt" \
    SERVER="another_quic_impl" \
    SCENARIO="simple-p2p --delay=15ms --bandwidth=10Mbps --queue=25" \
    docker-compose up
