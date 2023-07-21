@@ -96,7 +96,8 @@ services:
     tty: true
     environment:
       - ROLE=server
-      - CLIENT=client4
+      - IPERF_CLIENT=client4
+      - IPERF_WAITS=$IPERF_WAITS
       - IPERF_BAND=$IPERF_BAND
       - IPERF_TYPE=$IPERF_TYPE
       - IPERF_CCA=$IPERF_CCA
@@ -105,7 +106,7 @@ services:
     cap_add: 
       - NET_ADMIN
     expose:
-      - "5001"
+      - "5001-5003"
     networks:
       rightnet:
         ipv4_address: 193.167.100.110
@@ -125,15 +126,11 @@ services:
     tty: true
     environment:
       - ROLE=client
-      - IPERF_BAND=$IPERF_BAND
-      - IPERF_TYPE=$IPERF_TYPE
-      - IPERF_CCA=$IPERF_CCA
+      - IPERF_WAITS=$IPERF_WAITS
     depends_on:
       - sim
     cap_add: 
       - NET_ADMIN
-    expose:
-      - "5001"
     networks:
       leftnet:
         ipv4_address: 193.167.0.110

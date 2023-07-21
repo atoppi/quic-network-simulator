@@ -8,20 +8,25 @@ import csv
 client_results_path = pathlib.Path(sys.argv[1]).absolute()
 server_results_path = pathlib.Path(sys.argv[2]).absolute()
 
-client_qlog_path = pathlib.Path(
-    os.path.join(
-        client_results_path,
-        glob.glob(pathname="./qlog/*.*log", root_dir=client_results_path)[0],
+client_qlogs = glob.glob(pathname="./qlog/*.*log", root_dir=client_results_path)
+client_qlog_path = None
+if client_qlogs:
+    client_qlog_path = pathlib.Path(
+        os.path.join(
+            client_results_path,
+            client_qlogs[0],
+        )
     )
-)
-server_qlog_path = pathlib.Path(
-    os.path.join(
-        server_results_path,
-        glob.glob(pathname="./qlog/*.*log", root_dir=server_results_path)[0],
+
+server_qlogs = glob.glob(pathname="./qlog/*.*log", root_dir=server_results_path)
+server_qlog_path = None
+if server_qlogs:
+    server_qlog_path = pathlib.Path(
+        os.path.join(
+            server_results_path,
+            server_qlogs[0],
+        )
     )
-)
-client_pcap_path = pathlib.Path(os.path.join(client_results_path, "client.pcap"))
-server_pcap_path = pathlib.Path(os.path.join(server_results_path, "server.pcap"))
 
 sent_count = 0
 recv_count = 0
@@ -34,7 +39,7 @@ server_stats_csv_file_path = pathlib.Path(
     os.path.join(server_results_path, "server_rtt_cwnd.csv")
 )
 
-if client_qlog_path.is_file():
+if client_qlog_path is not None and client_qlog_path.is_file():
     with open(client_qlog_path) as file_client:
         if client_qlog_path.suffix == ".qlog":
             data = json.load(file_client)
@@ -67,7 +72,7 @@ if client_qlog_path.is_file():
                 if "name" in event and "packet_received" in event["name"]:
                     recv_count += 1
 
-if server_qlog_path.is_file():
+if server_qlog_path is not None and server_qlog_path.is_file():
     with (
         open(server_qlog_path) as file_server,
         open(server_stats_csv_file_path, "w") as csv_file,
@@ -179,17 +184,19 @@ if server_qlog_path.is_file():
                             ]
                         )
 
-if client_qlog_path.is_file() and server_qlog_path.is_file():
+if sent_count > 0 and recv_count > 0 and sum_rtt > 0 and samples_rtt > 0:
     # Packet loss
     packet_loss = round(100 * ((sent_count - recv_count) / sent_count), 2)
 
     # Average RTT
     avg_rtt = round(sum_rtt / samples_rtt, 2)
 else:
-    packet_loss = "-"
-    avg_rtt = "-"
+    packet_loss = 0
+    avg_rtt = 0
 
 # Throughput
+client_pcap_path = pathlib.Path(os.path.join(client_results_path, "client.pcap"))
+server_pcap_path = pathlib.Path(os.path.join(server_results_path, "server.pcap"))
 th_script_path = os.path.join(pathlib.Path(__file__).parent, "get_throughput.sh")
 avg_throughput = os.popen("%s %s" % (th_script_path, client_pcap_path)).read().strip()
 

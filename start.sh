@@ -8,6 +8,9 @@ declare -a IMPLEMETATION=(aioquic ngtcp2 picoquic quic-go)
 
 DEFAULT_TESTCASE=transfer
 DEFAULT_IPERF_ENABLE=n
+DEFAULT_IPERF_NUM=1
+DEFAULT_IPERF_WAIT=( 0 10 30 )
+DEFAULT_IPERF_NUM=1
 DEFAULT_IPERF_BAND=5
 DEFAULT_IPERF_TYPE=tcp
 DEFAULT_IPERF_CCA=cubic
@@ -50,7 +53,7 @@ print_summary() {
     echo "--------------------------------------------------------"
     printf "%-25s %s %-12s\n" "Testcase" ":" "${TESTCASE}"
     printf "%-25s %s %-12s\n" "Stacks" ":" "${IMPLEMETATION[*]}"
-    printf "%-25s %s %-12s\n" "Delay" ":" "${DELAY} ms"
+    printf "%-25s %s %-12s\n" "Link delay" ":" "${DELAY} ms"
     printf "%-25s %s %-12s\n" "Bandwidth (toward client)" ":" "${BANDWIDTH_TO_CLIENT} Mbps"
     printf "%-25s %s %-12s\n" "Bandwidth (toward server)" ":" "${BANDWIDTH_TO_SERVER} Mbps"
     printf "%-25s %s %-12s\n" "Pkt Loss (toward client)" ":" "${LOSS_TO_CLIENT} per thousand"
@@ -66,7 +69,7 @@ print_summary() {
     printf "%-25s %s %-12s\n" "File Size" ":" "${DIM_FILE} bytes"
     case $IPERF_ENABLE in
         "y")
-            printf "%-25s %s %-12s\n" "Iperf" ":" "enabled ($IPERF_BAND Mbps) ($IPERF_TYPE/$IPERF_CCA)"
+            printf "%-25s %s %-12s\n" "Iperf" ":" "enabled ($IPERF_NUM x $IPERF_BAND Mbps, $IPERF_TYPE/$IPERF_CCA, delays: $IPERF_WAITS)"
             ;;
         "n")
             printf "%-25s %s %-12s\n" "Iperf" ":" "disabled"
@@ -145,6 +148,21 @@ case $IPERF_ENABLE in
         echo -n "Set cross traffic bandwidth [Mbps] (default=$DEFAULT_IPERF_BAND): "
         read -r IPERF_BAND
         IPERF_BAND=${IPERF_BAND:-$DEFAULT_IPERF_BAND}
+        echo -n "Set number of iperf instances to start (1,2,3) (default=$DEFAULT_IPERF_NUM): "
+        read -r IPERF_NUM
+        IPERF_NUM=${IPERF_NUM:-$DEFAULT_IPERF_NUM}
+        if [ "$IPERF_NUM" -gt 3 ] || [ "$IPERF_NUM" -lt 1 ]; then
+            echo "Invalid value"
+            exit 0
+        fi
+        IPERF_WAITS=""
+        for (( i=0; i<$IPERF_NUM; i++ )); do
+            echo -n "Set start delay for iperf instance #$i (default=${DEFAULT_IPERF_WAIT[$i]}): "
+            read -r WAIT_TIME
+            WAIT_TIME=${WAIT_TIME:-${DEFAULT_IPERF_WAIT[$i]}}
+            IPERF_WAITS+="$WAIT_TIME",
+        done
+        IPERF_WAITS=$(echo $IPERF_WAITS | sed 's/,$//g')
         WITH_IPERF_PROFILE="--profile with_iperf"
         ;;
     "n"|"N")
@@ -157,7 +175,7 @@ case $IPERF_ENABLE in
         ;;
 esac
 
-echo -n "Delay [ms] (default=$DEFAULT_DELAY): "
+echo -n "Link delay [ms] (default=$DEFAULT_DELAY): "
 read -r DELAY
 DELAY=${DELAY:-$DEFAULT_DELAY}
 
@@ -251,7 +269,7 @@ case $START in
             OUTPUT_FOLDER_NAME="$DELAY"ms_"$BANDWIDTH_TO_CLIENT"Mbps_"$BANDWIDTH_TO_SERVER"Mbps_"$LOSS_TO_CLIENT"loss_"$LOSS_TO_SERVER"loss_"$QUEUE_TYPE"Qtype_"$QUEUE_SIZE"Qsize
             case $IPERF_ENABLE in
                 "y")
-                    OUTPUT_FOLDER_NAME=${OUTPUT_FOLDER_NAME}_"$IPERF_BAND"crossMbps
+                    OUTPUT_FOLDER_NAME=${OUTPUT_FOLDER_NAME}_"$IPERF_NUM"x"$IPERF_BAND"crossMbps
                     ;;
                 *)
                     ;;
@@ -275,7 +293,7 @@ case $START in
 
             echo "Building images"
             CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR=$QLOGDIR SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
-                IPERF_BAND=$IPERF_BAND IPERF_TYPE=$IPERF_TYPE IPERF_CCA=$IPERF_CCA \
+                IPERF_BAND=$IPERF_BAND IPERF_TYPE=$IPERF_TYPE IPERF_CCA=$IPERF_CCA IPERF_WAITS=$IPERF_WAITS \
                 DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $WITH_IPERF_PROFILE build
 
             monitor_node "server" "$SERVER_OUTPUT_FOLDER/server_cpu_mem.csv" &
@@ -286,7 +304,7 @@ case $START in
 
             echo "Starting containers"
             CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR=$QLOGDIR SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
-                IPERF_BAND=$IPERF_BAND IPERF_TYPE=$IPERF_TYPE IPERF_CCA=$IPERF_CCA \
+                IPERF_BAND=$IPERF_BAND IPERF_TYPE=$IPERF_TYPE IPERF_CCA=$IPERF_CCA IPERF_WAITS=$IPERF_WAITS \
                 DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $WITH_IPERF_PROFILE up --abort-on-container-exit
 
             echo "Stopping cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"

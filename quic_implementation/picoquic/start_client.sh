@@ -87,7 +87,7 @@ if [ "$ROLE" == "client" ]; then
 		fi
 	fi
 	
-	sleep 2
+	sleep 5
 	echo "Client stopped"
 fi
 
