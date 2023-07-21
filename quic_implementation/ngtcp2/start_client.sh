@@ -46,6 +46,7 @@ run_client() {
 }
 
 if [ "$ROLE" = "client" ]; then
+	sleep 2
 	case "$TESTCASE" in
 	"zerortt")
 		run_client $SERVER_HOST $SERVER_PORT $REQUESTS
@@ -57,6 +58,6 @@ if [ "$ROLE" = "client" ]; then
 		;;
 	esac
 
-	sleep 5
+	sleep 2
 	echo "Client stopped"
 fi

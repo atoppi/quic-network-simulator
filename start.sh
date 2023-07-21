@@ -7,14 +7,15 @@ export LC_ALL=C.UTF-8
 declare -a IMPLEMETATION=(aioquic ngtcp2 picoquic quic-go)
 
 DEFAULT_TESTCASE=transfer
-DEFAULT_IPERF_ACTIVATION=n
+DEFAULT_IPERF_ENABLE=n
 DEFAULT_IPERF_BAND=5
+DEFAULT_IPERF_TYPE=tcp
+DEFAULT_IPERF_CCA=cubic
 DEFAULT_DELAY=20
 DEFAULT_BANDWIDTH=10
 DEFAULT_LOSS=0
-DEFAULT_QUEUE_TYPE=0
+DEFAULT_QUEUE_TYPE=fifo
 DEFAULT_QUEUE_SIZE=25
-DEFAULT_CODEL_ENABLE=n
 DEFAULT_CODEL_TARGET=21
 DEFAULT_CODEL_INTERVAL=310
 DEFAULT_DIM_FILE=10M
@@ -54,21 +55,18 @@ print_summary() {
     printf "%-25s %s %-12s\n" "Bandwidth (toward server)" ":" "${BANDWIDTH_TO_SERVER} Mbps"
     printf "%-25s %s %-12s\n" "Pkt Loss (toward client)" ":" "${LOSS_TO_CLIENT} per thousand"
     printf "%-25s %s %-12s\n" "Pkt Loss (toward server)" ":" "${LOSS_TO_SERVER} per thousand"
+    printf "%-25s %s %-12s\n" "Queue type" ":" "$QUEUE_TYPE"
     case $QUEUE_TYPE in
-    "0")
-        printf "%-25s %s %-12s\n" "Queue type" ":" "fifo"
-        ;;
-    "1")
-        printf "%-25s %s %-12s\n" "Queue type" ":" "codel"
-        printf "%-25s %s %-12s\n" "codel target" ":" "${CODEL_TARGET} ms"
-        printf "%-25s %s %-12s\n" "codel interval" ":" "${CODEL_INTERVAL} ms"
-        ;;
-    esac
+        "codel")
+            printf "%-25s %s %-12s\n" "codel target" ":" "${CODEL_TARGET} ms"
+            printf "%-25s %s %-12s\n" "codel interval" ":" "${CODEL_INTERVAL} ms"
+            ;;
+        esac
     printf "%-25s %s %-12s\n" "Queue Size" ":" "${QUEUE_SIZE} pkts"
     printf "%-25s %s %-12s\n" "File Size" ":" "${DIM_FILE} bytes"
-    case $IPERF_ACTIVATION in
+    case $IPERF_ENABLE in
         "y")
-            printf "%-25s %s %-12s\n" "Iperf" ":" "enabled ($IPERF_BAND Mbps)"
+            printf "%-25s %s %-12s\n" "Iperf" ":" "enabled ($IPERF_BAND Mbps) ($IPERF_TYPE/$IPERF_CCA)"
             ;;
         "n")
             printf "%-25s %s %-12s\n" "Iperf" ":" "disabled"
@@ -121,18 +119,37 @@ case $TESTCASE in
         ;;
 esac
 
-echo -n "Enable iperf for cross traffic [y/n] (default=$DEFAULT_IPERF_ACTIVATION): "
-read -r IPERF_ACTIVATION
-IPERF_ACTIVATION=${IPERF_ACTIVATION:-$DEFAULT_IPERF_ACTIVATION}
-case $IPERF_ACTIVATION in
-    "y"|"Y"|"yes")
-        IPERF_ACTIVATION=y
+echo -n "Enable iperf for cross traffic (y, n) (default=$DEFAULT_IPERF_ENABLE): "
+read -r IPERF_ENABLE
+IPERF_ENABLE=${IPERF_ENABLE:-$DEFAULT_IPERF_ENABLE}
+case $IPERF_ENABLE in
+    "y"|"Y")
+        IPERF_ENABLE=y
+        echo -n "Set iperf transport ([t]cp, [u]dp) (default=$DEFAULT_IPERF_TYPE): "
+        read -r IPERF_TYPE
+        IPERF_TYPE=${IPERF_TYPE:-$DEFAULT_IPERF_TYPE}
+        case $IPERF_TYPE in
+            "t"|"T"|"tcp")
+                IPERF_TYPE="tcp"
+                IPERF_CCA=$DEFAULT_IPERF_CCA
+                ;;
+            "u"|"U"|"udp")
+                IPERF_TYPE="udp"
+                IPERF_CCA=""
+                ;;
+            *)
+                echo "Invalid iperf type"
+                exit 0
+            ;;
+        esac
         echo -n "Set cross traffic bandwidth [Mbps] (default=$DEFAULT_IPERF_BAND): "
         read -r IPERF_BAND
         IPERF_BAND=${IPERF_BAND:-$DEFAULT_IPERF_BAND}
+        WITH_IPERF_PROFILE="--profile with_iperf"
         ;;
-    "n"|"N"|"no")
-        IPERF_ACTIVATION=n
+    "n"|"N")
+        IPERF_ENABLE=n
+        WITH_IPERF_PROFILE=""
         ;;
     *)
         echo "Invalid response"
@@ -160,11 +177,12 @@ echo -n "Packet loss toward server (per thousand, integer) [0-1000] (default=$DE
 read -r LOSS_TO_SERVER
 LOSS_TO_SERVER=${LOSS_TO_SERVER:-$DEFAULT_LOSS}
 
-echo -n "Queue type [0=pfifo/1=codel] (default=$DEFAULT_QUEUE_TYPE): "
+echo -n "Queue type ([f]ifo, [c]odel) (default=$DEFAULT_QUEUE_TYPE): "
 read -r QUEUE_TYPE
 QUEUE_TYPE=${QUEUE_TYPE:-$DEFAULT_QUEUE_TYPE}
 case $QUEUE_TYPE in
-    "1")
+    "c"|"C"|"codel")
+        QUEUE_TYPE=codel
         echo -n "Set codel queue target [ms] (default=$DEFAULT_CODEL_TARGET): "
         read -r CODEL_TARGET
         CODEL_TARGET=${CODEL_TARGET:-$DEFAULT_CODEL_TARGET}
@@ -173,11 +191,12 @@ case $QUEUE_TYPE in
         CODEL_INTERVAL=${CODEL_INTERVAL:-$DEFAULT_CODEL_INTERVAL}
         QUEUE_SCENARIO="--queue_type=codel --codel_target=$CODEL_TARGET --codel_interval=$CODEL_INTERVAL"
         ;;
-    "0")
+    "f"|"F"|"fifo")
+        QUEUE_TYPE=fifo
         QUEUE_SCENARIO="--queue_type=pfifo"
         ;;
     *)
-        echo "Invalid response"
+        echo "Invalid queue type"
         exit 0
         ;;
 esac
@@ -192,14 +211,14 @@ read -r DIM_FILE
 DIM_FILE=${DIM_FILE:-$DEFAULT_DIM_FILE}
 DIM_FILE=$(numfmt --from=auto $DIM_FILE)
 
-echo -n "Enable logging (including qlogs) [y/n]: (default=$DEFAULT_LOG_ENABLE): "
+echo -n "Enable logging (including qlogs) (y, n): (default=$DEFAULT_LOG_ENABLE): "
 read -r LOG_ENABLE
 LOG_ENABLE=${LOG_ENABLE:-$DEFAULT_LOG_ENABLE}
 case $LOG_ENABLE in
-    "y"|"Y"|"yes")
+    "y"|"Y")
         LOG_ENABLE=y
         ;;
-    "n"|"N"|"no")
+    "n"|"N")
         LOG_ENABLE=n
         ;;
     *)
@@ -210,12 +229,12 @@ esac
 
 print_summary
 
-echo -n "Do you want to start the testbed? [y/n]: "
+echo -n "Do you want to start the testbed? (y, n): "
 read -r START
 START=${START:-n}
 
 case $START in
-    "y"|"yes")
+    "y"|"Y")
         # Generate a random file to be tranfered (this is needed for some QUIC stacks)
         mkdir -p ./www
         openssl rand -out ./www/sample.txt $DIM_FILE
@@ -230,11 +249,9 @@ case $START in
             echo
 
             OUTPUT_FOLDER_NAME="$DELAY"ms_"$BANDWIDTH_TO_CLIENT"Mbps_"$BANDWIDTH_TO_SERVER"Mbps_"$LOSS_TO_CLIENT"loss_"$LOSS_TO_SERVER"loss_"$QUEUE_TYPE"Qtype_"$QUEUE_SIZE"Qsize
-            IPERF_PROFILE=""
-            case $IPERF_ACTIVATION in
-                "y"|"yes")
+            case $IPERF_ENABLE in
+                "y")
                     OUTPUT_FOLDER_NAME=${OUTPUT_FOLDER_NAME}_"$IPERF_BAND"crossMbps
-                    IPERF_PROFILE="--profile with_iperf"
                     ;;
                 *)
                     ;;
@@ -258,8 +275,8 @@ case $START in
 
             echo "Building images"
             CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR=$QLOGDIR SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
-                IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
-                DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE build
+                IPERF_BAND=$IPERF_BAND IPERF_TYPE=$IPERF_TYPE IPERF_CCA=$IPERF_CCA \
+                DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $WITH_IPERF_PROFILE build
 
             monitor_node "server" "$SERVER_OUTPUT_FOLDER/server_cpu_mem.csv" &
             MONITOR_S_PID=$!
@@ -269,8 +286,8 @@ case $START in
 
             echo "Starting containers"
             CLIENT=$impl SERVER=$impl TESTCASE=$TESTCASE QLOGDIR=$QLOGDIR SSLKEYLOGFILE="/logs/$OUTPUT_FOLDER_NAME/sslkeylogfile" \
-                IPERF_ACTIVATION=$IPERF_ACTIVATION IPERF_BAND=$IPERF_BAND \
-                DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $IPERF_PROFILE up --abort-on-container-exit
+                IPERF_BAND=$IPERF_BAND IPERF_TYPE=$IPERF_TYPE IPERF_CCA=$IPERF_CCA \
+                DIM_FILE=$DIM_FILE SCENARIO=$SCENARIO docker compose $WITH_IPERF_PROFILE up --abort-on-container-exit
 
             echo "Stopping cpu/mem monitors ($MONITOR_S_PID) ($MONITOR_C_PID)"
             if [ ! -z "$MONITOR_S_PID" ]; then

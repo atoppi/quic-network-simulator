@@ -56,6 +56,7 @@ run_client() {
 }
 
 if [ "$ROLE" == "client" ]; then
+	sleep 2
 	REQS=($REQUESTS)
 	for REQ in $REQUESTS; do
 		FILE=`echo $REQ | cut -f4 -d'/'`
@@ -86,7 +87,7 @@ if [ "$ROLE" == "client" ]; then
 		fi
 	fi
 	
-	sleep 5
+	sleep 2
 	echo "Client stopped"
 fi
 

@@ -6,8 +6,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 5001
-
 COPY run_iperf.sh .
 RUN chmod +x run_iperf.sh
 
