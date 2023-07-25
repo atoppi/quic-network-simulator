@@ -5,6 +5,19 @@ import pathlib
 import sys
 import csv
 
+
+def is_sequential_json(qlog_path):
+    if qlog_path.suffix == ".sqlog":
+        return True
+    elif qlog_path.suffix == ".qlog":
+        with (open(qlog_path) as file):
+            try:
+                json.load(file)
+            except ValueError:
+                return True
+            return False
+
+
 client_results_path = pathlib.Path(sys.argv[1]).absolute()
 server_results_path = pathlib.Path(sys.argv[2]).absolute()
 
@@ -41,7 +54,7 @@ server_stats_csv_file_path = pathlib.Path(
 
 if client_qlog_path is not None and client_qlog_path.is_file():
     with open(client_qlog_path) as file_client:
-        if client_qlog_path.suffix == ".qlog":
+        if not is_sequential_json(client_qlog_path):
             data = json.load(file_client)
             is_picoquic = False
             if "title" in data and data["title"] == "picoquic":
@@ -57,7 +70,7 @@ if client_qlog_path is not None and client_qlog_path.is_file():
                 else:
                     if "name" in event and "packet_received" in event["name"]:
                         recv_count += 1
-        elif client_qlog_path.suffix == ".sqlog":
+        else:
             while True:
                 line = file_client.readline().strip()
                 if not line:
@@ -84,7 +97,7 @@ if server_qlog_path is not None and server_qlog_path.is_file():
         curr_cwnd = 0
         first_time = 0
         curr_time = 0
-        if server_qlog_path.suffix == ".qlog":
+        if not is_sequential_json(server_qlog_path):
             data = json.load(file_server)
             is_picoquic = False
             if "title" in data and data["title"] == "picoquic":
@@ -149,7 +162,7 @@ if server_qlog_path is not None and server_qlog_path.is_file():
                             )
             if is_picoquic:
                 sum_rtt = sum_rtt / 1000
-        elif server_qlog_path.suffix == ".sqlog":
+        else:
             while True:
                 line = file_server.readline().strip()
                 if not line:
