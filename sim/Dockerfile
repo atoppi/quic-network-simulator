@@ -41,7 +41,7 @@ RUN cd /wait-for-it-quic && go build .
 FROM ubuntu:20.04
 
 RUN apt-get update && \
-  apt-get install -y net-tools iptables && \
+  apt-get install -y net-tools iptables tcpdump && \
   apt-get clean
 
 WORKDIR /ns3
