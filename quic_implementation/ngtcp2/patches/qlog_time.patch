@@ -16,7 +16,7 @@ index ba7c2804..13182f30 100644
  static uint8_t *write_common_fields(uint8_t *p, const ngtcp2_cid *odcid) {
 +  struct timespec tp;
 +  clock_gettime(CLOCK_REALTIME, &tp);
-+  uint64_t ref_ts_ms = (uint64_t)tp.tv_sec * 1000 + ( tp.tv_nsec + 500000 ) / 1000000 ;
++  uint64_t ref_ts_ms = tp.tv_sec * 1000L + (tp.tv_nsec + 500000L) / 1000000L;
 +
    p = write_verbatim(
        p, "\"common_fields\":{\"protocol_type\":[\"QUIC\"],\"time_format\":"
