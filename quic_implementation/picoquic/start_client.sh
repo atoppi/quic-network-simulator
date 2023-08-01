@@ -55,40 +55,38 @@ run_client() {
 	$CLIENT_BIN $CLIENT_ARGS $@ >> $LOG_FILE 2>&1
 }
 
-if [ "$ROLE" == "client" ]; then
-	sleep 2
-	REQS=($REQUESTS)
-	for REQ in $REQUESTS; do
-		FILE=`echo $REQ | cut -f4 -d'/'`
-		FILELIST=${FILELIST}"-:/"${FILE}";"
-	done
+sleep 2
+REQS=($REQUESTS)
+for REQ in $REQUESTS; do
+	FILE=`echo $REQ | cut -f4 -d'/'`
+	FILELIST=${FILELIST}"-:/"${FILE}";"
+done
 
-	if [ "$TESTCASE" == "zerortt" ] ; then
-		FILE1=`echo $FILELIST | cut -f1 -d";"`
-		FILE2=$FILE1
-		rm *.bin
-		run_client $SERVER_HOST $SERVER_PORT $FILE1
-		if [ $? != 0 ]; then
-			RET=1
-			echo "First call to picoquicdemo failed"
-		else
-			echo "Session file generated, resuming session"
-			run_client $SERVER_HOST $SERVER_PORT $FILE2
-			if [ $? != 0 ]; then
-				RET=1
-				echo "Second call to picoquicdemo failed"
-			fi
-		fi
+if [ "$TESTCASE" == "zerortt" ] ; then
+	FILE1=`echo $FILELIST | cut -f1 -d";"`
+	FILE2=$FILE1
+	rm *.bin
+	run_client $SERVER_HOST $SERVER_PORT $FILE1
+	if [ $? != 0 ]; then
+		RET=1
+		echo "First call to picoquicdemo failed"
 	else
-		run_client $SERVER_HOST $SERVER_PORT $FILELIST
+		echo "Session file generated, resuming session"
+		run_client $SERVER_HOST $SERVER_PORT $FILE2
 		if [ $? != 0 ]; then
 			RET=1
-			echo "Call to picoquicdemo failed"
+			echo "Second call to picoquicdemo failed"
 		fi
 	fi
-	
-	sleep 5
-	echo "Client stopped"
+else
+	run_client $SERVER_HOST $SERVER_PORT $FILELIST
+	if [ $? != 0 ]; then
+		RET=1
+		echo "Call to picoquicdemo failed"
+	fi
 fi
+
+sleep 5
+echo "Client stopped"
 
 exit $RET

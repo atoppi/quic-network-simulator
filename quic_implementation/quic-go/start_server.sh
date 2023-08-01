@@ -16,6 +16,4 @@ run_server() {
 	QUIC_GO_LOG_LEVEL=$QUIC_GO_LOG_LEVEL $SERVER_BIN $SERVER_ARGS $@ > $LOG_FILE 2>&1
 }
 
-if [ "$ROLE" = "server" ]; then
-	run_server
-fi
+run_server

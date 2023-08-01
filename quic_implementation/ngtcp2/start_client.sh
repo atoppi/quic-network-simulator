@@ -45,19 +45,17 @@ run_client() {
 	$CLIENT_BIN $CLIENT_ARGS $@ > $LOG_FILE 2>&1
 }
 
-if [ "$ROLE" = "client" ]; then
-	sleep 2
-	case "$TESTCASE" in
-	"zerortt")
-		run_client $SERVER_HOST $SERVER_PORT $REQUESTS
-		echo "Session file generated, resuming session"
-		run_client $SERVER_HOST $SERVER_PORT $REQUESTS
-		;;
-	*)
-		run_client $SERVER_HOST $SERVER_PORT $REQUESTS
-		;;
-	esac
+sleep 2
+case "$TESTCASE" in
+"zerortt")
+	run_client $SERVER_HOST $SERVER_PORT $REQUESTS
+	echo "Session file generated, resuming session"
+	run_client $SERVER_HOST $SERVER_PORT $REQUESTS
+	;;
+*)
+	run_client $SERVER_HOST $SERVER_PORT $REQUESTS
+	;;
+esac
 
-	sleep 5
-	echo "Client stopped"
-fi
+sleep 5
+echo "Client stopped"

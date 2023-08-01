@@ -15,7 +15,7 @@ if [ "$ROLE" == "client" ]; then
 	/wait-for-it.sh sim:57832 -s -t 30
 	echo "Starting quic-go client ($TESTCASE)"
 	./start_client.sh
-else
+elif [ "$ROLE" == "server" ]; then
 	echo "Starting quic-go server ($TESTCASE)"
 	./start_server.sh
 fi
