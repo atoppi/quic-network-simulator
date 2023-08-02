@@ -5,7 +5,7 @@ if [ -n "$QLOGDIR" ]; then
 	LOG_FILE="$(dirname "$QLOGDIR")/server.log"
 	QUIC_GO_LOG_LEVEL="debug"
 else
-	QLOGDIR="/tmp"
+	QLOGDIR=""
 fi
 ### unsupported
 SERVER_CC_ARGS=""

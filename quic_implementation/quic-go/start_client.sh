@@ -9,7 +9,7 @@ if [ -n "$QLOGDIR" ]; then
 	LOG_FILE="$(dirname "$QLOGDIR")/client.log"
 	QUIC_GO_LOG_LEVEL="debug"
 else
-	QLOGDIR="/tmp"
+	QLOGDIR=""
 fi
 CLIENT_ARGS=""
 
