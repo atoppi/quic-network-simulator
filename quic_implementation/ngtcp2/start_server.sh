@@ -44,6 +44,4 @@ run_server() {
 	$SERVER_BIN $SERVER_ARGS $@ > $LOG_FILE 2>&1
 }
 
-if [ "$ROLE" = "server" ]; then
-	run_server $SERVER_HOST $SERVER_PORT /certs/cert.key /certs/cert.crt
-fi
+run_server $SERVER_HOST $SERVER_PORT /certs/cert.key /certs/cert.crt

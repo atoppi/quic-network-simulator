@@ -5,7 +5,7 @@ if [ -n "$QLOGDIR" ]; then
 	LOG_FILE="$(dirname "$QLOGDIR")/server.log"
 	QUIC_GO_LOG_LEVEL="debug"
 else
-	QLOGDIR="/tmp"
+	QLOGDIR=""
 fi
 ### unsupported
 SERVER_CC_ARGS=""
@@ -16,6 +16,4 @@ run_server() {
 	QUIC_GO_LOG_LEVEL=$QUIC_GO_LOG_LEVEL $SERVER_BIN $SERVER_ARGS $@ > $LOG_FILE 2>&1
 }
 
-if [ "$ROLE" = "server" ]; then
-	run_server
-fi
+run_server

@@ -1,5 +1,7 @@
 FROM martenseemann/quic-network-simulator-endpoint:latest
 
+ADD patches patches
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git gcc clang-12 make binutils autoconf automake autotools-dev libtool \
@@ -10,19 +12,11 @@ RUN apt-get update && \
     cd openssl && ./config --openssldir=/etc/ssl && make -j$(nproc) && make install_sw && cd .. && rm -rf openssl && \
     git clone --depth 1 https://github.com/ngtcp2/nghttp3 && \
     cd nghttp3 && autoreconf -i && \
-    ./configure --enable-lib-only \
-        CC=clang-12 \
-        CXX=clang++-12 \
-        LDFLAGS="-fsanitize=address,undefined -fno-sanitize-recover=undefined" \
-        CPPFLAGS="-fsanitize=address,undefined -fno-sanitize-recover=undefined -g3" && \
+    ./configure --enable-lib-only CC=clang-12 CXX=clang++-12 && \
     make -j$(nproc) && make install && cd .. && rm -rf nghttp3 && \
     git clone --depth 1 https://github.com/ngtcp2/ngtcp2 && \
-    cd ngtcp2 && autoreconf -i && \
-    ./configure \
-        CC=clang-12 \
-        CXX=clang++-12 \
-        LDFLAGS="-fsanitize=address,undefined -fno-sanitize-recover=undefined" \
-        CPPFLAGS="-fsanitize=address,undefined -fno-sanitize-recover=undefined -g3" && \
+    cd ngtcp2 && git apply ../patches/*.patch && autoreconf -i && \
+    ./configure CC=clang-12 CXX=clang++-12 && \
     make -j$(nproc) && make install && \
     cp examples/qtlsserver examples/qtlsclient examples/h09qtlsserver examples/h09qtlsclient /usr/local/bin && \
     cd .. && \

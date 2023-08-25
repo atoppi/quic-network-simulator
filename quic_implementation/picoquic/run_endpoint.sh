@@ -13,7 +13,7 @@ if [ "$ROLE" == "client" ]; then
 	/wait-for-it.sh sim:57832 -s -t 30
 	echo "Starting picoquic client ($TESTCASE)"
 	./start_client.sh
-else
+elif [ "$ROLE" == "server" ]; then
 	echo "Starting picoquic server ($TESTCASE)"
 	./start_server.sh
 fi

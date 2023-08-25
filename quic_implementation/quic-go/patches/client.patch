@@ -1,5 +1,5 @@
 diff --git a/interop/client/main.go b/interop/client/main.go
-index eaec9e67..80830156 100644
+index eaec9e67..454a4637 100644
 --- a/interop/client/main.go
 +++ b/interop/client/main.go
 @@ -29,13 +29,14 @@ var errUnsupported = errors.New("unsupported test case")
@@ -24,3 +24,15 @@ index eaec9e67..80830156 100644
  
  	keyLog, err := utils.GetSSLKeyLog()
  	if err != nil {
+@@ -69,7 +70,10 @@ func runTestcase(testcase string) error {
+ 	if err != nil {
+ 		return err
+ 	}
+-	quicConf := &quic.Config{Tracer: qlog.NewTracer(getLogWriter)}
++	quicConf := &quic.Config{Tracer: nil}
++	if getLogWriter != nil {
++		quicConf.Tracer = qlog.NewTracer(getLogWriter)
++	}
+ 
+ 	if testcase == "http3" {
+ 		r := &http3.RoundTripper{

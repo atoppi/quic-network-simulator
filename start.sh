@@ -28,24 +28,23 @@ monitor_node() {
     CONTAINER=$1
     OUT_FILE=$2
 
+    # timed wait for container
     END_TIME=$(( $(date +%s) + 5 ))
     IS_ACTIVE=""
-
-    while [ $(date +%s) -lt $END_TIME ]; do
+    while true; do
         IS_ACTIVE=$(docker ps | grep $CONTAINER)
         if [ ! -z "$IS_ACTIVE" ]; then
             break
-        else
-            sleep 0.5
         fi
+        if [ $(date +%s) -gt $END_TIME ]; then
+            exit 1
+        fi
+        sleep 0.1
     done
 
-    if [ -z "$IS_ACTIVE" ]; then
-        exit 1
-    else
-        echo "curr_time;curr_cpu;curr_mem" > "$OUT_FILE"
-        docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" | while IFS= read -r line; do if [ -z "$START_TIME" ]; then START_TIME=$(date +%s%N) ; CURR_TIME="$START_TIME" ; else CURR_TIME=$(date +%s%N); fi; printf '%.6f;%s\n' "$(( ($CURR_TIME - $START_TIME) ))e-9" "$line"; done >> "$OUT_FILE"
-    fi
+    echo "curr_time;abs_time_ms;curr_cpu;curr_mem" > "$OUT_FILE"
+    docker stats $CONTAINER --format "{{.CPUPerc}};{{.MemPerc}}" | stdbuf -oL cut -c8- | stdbuf -oL sed "s/%//g" |
+    while IFS= read -r line; do if [ -z "$START_TIME" ]; then START_TIME=$(date +%s%N) ; CURR_TIME="$START_TIME" ; else CURR_TIME=$(date +%s%N); fi; printf '%.6f;%d;%s\n' "$(( ($CURR_TIME - $START_TIME) ))e-9" "$(( $CURR_TIME / 1000000 ))" "$line"; done >> "$OUT_FILE"
 }
 
 print_summary() {

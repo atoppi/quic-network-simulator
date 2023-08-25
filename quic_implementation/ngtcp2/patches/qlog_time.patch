@@ -1,0 +1,30 @@
+diff --git a/lib/ngtcp2_qlog.c b/lib/ngtcp2_qlog.c
+index ba7c2804..13182f30 100644
+--- a/lib/ngtcp2_qlog.c
++++ b/lib/ngtcp2_qlog.c
+@@ -25,6 +25,7 @@
+ #include "ngtcp2_qlog.h"
+ 
+ #include <assert.h>
++#include <time.h>
+ 
+ #include "ngtcp2_str.h"
+ #include "ngtcp2_vec.h"
+@@ -188,9 +189,16 @@ static uint8_t *write_pair_cid_impl(uint8_t *p, const uint8_t *name,
+   { (uint8_t *)(S), sizeof((S)) - 1 }
+ 
+ static uint8_t *write_common_fields(uint8_t *p, const ngtcp2_cid *odcid) {
++  struct timespec tp;
++  clock_gettime(CLOCK_REALTIME, &tp);
++  uint64_t ref_ts_ms = tp.tv_sec * 1000L + (tp.tv_nsec + 500000L) / 1000000L;
++
+   p = write_verbatim(
+       p, "\"common_fields\":{\"protocol_type\":[\"QUIC\"],\"time_format\":"
+-         "\"relative\",\"reference_time\":0,\"group_id\":");
++         "\"relative\",\"reference_time\":");
++  p = write_number(p, ref_ts_ms);
++  p = write_verbatim(
++      p, ",\"group_id\":");
+   p = write_cid(p, odcid);
+   *p++ = '}';
+   return p;

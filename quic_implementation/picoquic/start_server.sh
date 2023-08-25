@@ -1,6 +1,6 @@
 SERVER_PORT=443
 
-SERVER_BIN="picoquic/picoquicdemo"
+SERVER_BIN="/picoquic/picoquicdemo"
 LOG_FILE="/dev/null"
 if [ -n "$QLOGDIR" ]; then
 	LOG_FILE="$(dirname "$QLOGDIR")/server.log"
@@ -39,15 +39,10 @@ run_server() {
 	echo $?
 }
 
-if [ "$ROLE" == "server" ]; then
-	run_server
-	if [ $? != 0 ]; then
-		RET=1
-		echo "Could not start picoquicdemo"
-	fi
-else
-	echo "Unexpected role: $ROLE"
+run_server
+if [ $? != 0 ]; then
 	RET=1
+	echo "Could not start picoquicdemo"
 fi
 
 exit $RET

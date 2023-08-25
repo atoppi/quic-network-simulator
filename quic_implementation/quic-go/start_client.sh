@@ -9,7 +9,7 @@ if [ -n "$QLOGDIR" ]; then
 	LOG_FILE="$(dirname "$QLOGDIR")/client.log"
 	QUIC_GO_LOG_LEVEL="debug"
 else
-	QLOGDIR="/tmp"
+	QLOGDIR=""
 fi
 CLIENT_ARGS=""
 
@@ -18,18 +18,16 @@ run_client() {
 	QUIC_GO_LOG_LEVEL=$QUIC_GO_LOG_LEVEL $CLIENT_BIN $CLIENT_ARGS $@ > $LOG_FILE 2>&1
 }
 
-if [ "$ROLE" = "client" ]; then
-	sleep 2
-	case "$TESTCASE" in
-	"zerortt")
-		REQUESTS=($REQUESTS $REQUESTS)
-		run_client $REQUESTS
-		;;
-	*)
-		run_client $REQUESTS
-		;;
-	esac
+sleep 2
+case "$TESTCASE" in
+"zerortt")
+	REQUESTS=($REQUESTS $REQUESTS)
+	run_client $REQUESTS
+	;;
+*)
+	run_client $REQUESTS
+	;;
+esac
 
-	sleep 5
-	echo "Client stopped"
-fi
+sleep 5
+echo "Client stopped"

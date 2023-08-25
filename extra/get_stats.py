@@ -5,6 +5,19 @@ import pathlib
 import sys
 import csv
 
+
+def is_sequential_json(qlog_path):
+    if qlog_path.suffix == ".sqlog":
+        return True
+    elif qlog_path.suffix == ".qlog":
+        with (open(qlog_path) as file):
+            try:
+                json.load(file)
+            except ValueError:
+                return True
+            return False
+
+
 client_results_path = pathlib.Path(sys.argv[1]).absolute()
 server_results_path = pathlib.Path(sys.argv[2]).absolute()
 
@@ -32,8 +45,6 @@ sent_count = 0
 recv_count = 0
 samples_rtt = 0
 sum_rtt = 0
-client_name = ""
-server_name = ""
 
 server_stats_csv_file_path = pathlib.Path(
     os.path.join(server_results_path, "server_rtt_cwnd.csv")
@@ -41,14 +52,12 @@ server_stats_csv_file_path = pathlib.Path(
 
 if client_qlog_path is not None and client_qlog_path.is_file():
     with open(client_qlog_path) as file_client:
-        if client_qlog_path.suffix == ".qlog":
+        if not is_sequential_json(client_qlog_path):
             data = json.load(file_client)
             is_picoquic = False
             if "title" in data and data["title"] == "picoquic":
                 is_picoquic = True
             trace = data["traces"][0]
-            if "vantage_point" in trace and "name" in trace["vantage_point"]:
-                client_name = trace["vantage_point"]["name"]
             events = trace["events"]
             for event in events:
                 if is_picoquic:
@@ -57,18 +66,12 @@ if client_qlog_path is not None and client_qlog_path.is_file():
                 else:
                     if "name" in event and "packet_received" in event["name"]:
                         recv_count += 1
-        elif client_qlog_path.suffix == ".sqlog":
+        else:
             while True:
                 line = file_client.readline().strip()
                 if not line:
                     break
                 event = json.loads(line)
-                if (
-                    "trace" in event
-                    and "vantage_point" in event["trace"]
-                    and "name" in event["trace"]["vantage_point"]
-                ):
-                    client_name = event["trace"]["vantage_point"]["name"]
                 if "name" in event and "packet_received" in event["name"]:
                     recv_count += 1
 
@@ -79,19 +82,20 @@ if server_qlog_path is not None and server_qlog_path.is_file():
     ):
         writer = csv.writer(csv_file, delimiter=";")
         # Print first row on csv
-        writer.writerow(["curr_time", "curr_cwnd", "curr_rtt_ms"])
+        writer.writerow(["curr_time", "abs_time_ms", "curr_cwnd", "curr_rtt_ms"])
         curr_rtt = 0
         curr_cwnd = 0
         first_time = 0
         curr_time = 0
-        if server_qlog_path.suffix == ".qlog":
+        ref_time = 0.0
+        if not is_sequential_json(server_qlog_path):
             data = json.load(file_server)
             is_picoquic = False
             if "title" in data and data["title"] == "picoquic":
                 is_picoquic = True
             trace = data["traces"][0]
-            if "vantage_point" in trace and "name" in trace["vantage_point"]:
-                server_name = trace["vantage_point"]["name"]
+            if "common_fields" in trace and "reference_time" in trace["common_fields"]:
+                ref_time = float(trace["common_fields"]["reference_time"])
             events = trace["events"]
             for event in events:
                 rtt_sampled = False
@@ -112,10 +116,12 @@ if server_qlog_path is not None and server_qlog_path.is_file():
                         if first_time == 0:
                             first_time = sample_time
                         curr_time = sample_time - first_time
-                        # Print curr_time, curr_cwnd, curr_rtt_ms on csv
+                        abs_time = ref_time + sample_time
+                        # Print curr_time, abs_time_ms, curr_cwnd, curr_rtt_ms on csv
                         writer.writerow(
                             [
                                 f"{curr_time/1000000:.6f}",
+                                f"{abs_time/1000:.0f}",
                                 curr_cwnd,
                                 f"{curr_rtt/1000:.3f}",
                             ]
@@ -139,24 +145,28 @@ if server_qlog_path is not None and server_qlog_path.is_file():
                             if first_time == 0:
                                 first_time = sample_time
                             curr_time = sample_time - first_time
-                            # Print curr_time, curr_cwnd, curr_rtt_ms on csv
+                            abs_time = ref_time + sample_time
+                            # Print curr_time, abs_time_ms, curr_cwnd, curr_rtt_ms on csv
                             writer.writerow(
                                 [
                                     f"{curr_time/1000:.6f}",
+                                    f"{abs_time:.0f}",
                                     curr_cwnd,
                                     f"{curr_rtt:.3f}",
                                 ]
                             )
             if is_picoquic:
                 sum_rtt = sum_rtt / 1000
-        elif server_qlog_path.suffix == ".sqlog":
+        else:
             while True:
                 line = file_server.readline().strip()
                 if not line:
                     break
                 event = json.loads(line)
-                if "trace" in event and "name" in event["trace"]["vantage_point"]:
-                    server_name = event["trace"]["vantage_point"]["name"]
+                if "trace" in event:
+                    trace = event["trace"]
+                    if "common_fields" in trace and "reference_time" in trace["common_fields"]:
+                        ref_time = float(trace["common_fields"]["reference_time"])
                 if "name" in event and "packet_sent" in event["name"]:
                     sent_count += 1
                 if "data" in event:
@@ -175,10 +185,12 @@ if server_qlog_path is not None and server_qlog_path.is_file():
                         if first_time == 0:
                             first_time = sample_time
                         curr_time = sample_time - first_time
+                        abs_time = ref_time + sample_time
                         # Print curr_time, curr_cwnd, curr_rtt_ms on csv
                         writer.writerow(
                             [
                                 f"{curr_time/1000:.6f}",
+                                f"{abs_time:.0f}",
                                 curr_cwnd,
                                 f"{curr_rtt:.3f}",
                             ]

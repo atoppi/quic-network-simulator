@@ -22,6 +22,11 @@ fi
 
 echo "Using scenario:" $SCENARIO
 
+# client
+tcpdump -U -i eth0 port 443 or port 5001 or port 5002 or port 5003 -w /logs/trace_node_left.pcap &
+# server
+tcpdump -U -i eth1 port 443 or port 5001 or port 5002 or port 5003 -w /logs/trace_node_right.pcap &
+
 eval ./scratch/"$SCENARIO &"
 
 PID=`jobs -p`
