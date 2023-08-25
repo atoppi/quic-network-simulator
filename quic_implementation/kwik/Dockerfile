@@ -17,8 +17,13 @@ RUN cp flupke/build/libs/flupke-plugin.jar /
 
 # Build kwik
 RUN git clone https://github.com/ptrd/kwik.git
-RUN cd kwik && git submodule update --init --recursive && ./gradlew build
-RUN cp kwik/build/libs/kwik.jar /
+WORKDIR /kwik
+ADD patches patches
+RUN git apply patches/*.patch
+RUN git submodule update --init --recursive
+RUN ./gradlew build
+RUN cp ./build/libs/kwik.jar /
+WORKDIR /
 
 COPY certs /certs
 

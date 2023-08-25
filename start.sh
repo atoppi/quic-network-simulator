@@ -4,7 +4,7 @@ trap "docker compose down > /dev/null 2>&1; exit" SIGINT SIGTERM
 
 export LC_ALL=C.UTF-8
 
-declare -a IMPLEMETATION=(aioquic ngtcp2 picoquic quic-go)
+declare -a IMPLEMETATION=(kwik)
 
 DEFAULT_TESTCASE=transfer
 DEFAULT_IPERF_ENABLE=n

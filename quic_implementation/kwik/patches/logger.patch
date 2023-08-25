@@ -1,0 +1,77 @@
+diff --git a/src/main/java/net/luminis/quic/run/InteropRunner.java b/src/main/java/net/luminis/quic/run/InteropRunner.java
+index e113c339..e2747ad9 100644
+--- a/src/main/java/net/luminis/quic/run/InteropRunner.java
++++ b/src/main/java/net/luminis/quic/run/InteropRunner.java
+@@ -22,7 +22,7 @@ import net.luminis.quic.*;
+ import net.luminis.quic.client.h09.Http09Client;
+ import net.luminis.quic.log.FileLogger;
+ import net.luminis.quic.log.Logger;
+-import net.luminis.quic.QuicStream;
++import net.luminis.quic.log.SysOutLogger;
+ 
+ import java.io.*;
+ import java.net.*;
+@@ -57,16 +57,20 @@ public class InteropRunner extends KwikCli {
+ 
+ 
+     public static void main(String[] args) {
+-        File logDir = new File("/logs");   // Interop runner runs in docker container and is expected to write logs to /logs
+-        String logFile = (logDir.exists()? "/logs/": "./") + "kwik_client.log";
+-        try {
+-            logger = new FileLogger(new File(logFile));
+-            logger.logInfo(true);
+-            logger.logWarning(true);
+-        } catch (IOException e) {
+-            System.out.println("Cannot open log file " + logFile);
+-            System.exit(1);
+-        }
++        // File logDir = new File("/logs");   // Interop runner runs in docker container and is expected to write logs to /logs
++        // String logFile = (logDir.exists()? "/logs/": "./") + "kwik_client.log";
++        // try {
++        //     logger = new FileLogger(new File(logFile));
++        //     logger.logInfo(true);
++        //     logger.logWarning(true);
++        // } catch (IOException e) {
++        //     System.out.println("Cannot open log file " + logFile);
++        //     System.exit(1);
++        // }
++        logger = new SysOutLogger();
++        logger.timeFormat(Logger.TimeFormat.Long);
++        logger.logWarning(true);
++        logger.logInfo(true);
+ 
+         if (args.length < 2) {
+             System.out.println("Expected at least 3 arguments: <downloadDir> <testcase> <URL>");
+diff --git a/src/main/java/net/luminis/quic/run/InteropServer.java b/src/main/java/net/luminis/quic/run/InteropServer.java
+index 9e252482..327c219e 100644
+--- a/src/main/java/net/luminis/quic/run/InteropServer.java
++++ b/src/main/java/net/luminis/quic/run/InteropServer.java
+@@ -64,19 +64,19 @@ public class InteropServer {
+             usageAndExit();
+         }
+ 
+-        Logger log;
+-        File logDir = new File("/logs");
+-        if (logDir.exists() && logDir.isDirectory() && logDir.canWrite()) {
+-            log = new FileLogger(new File(logDir, "kwikserver.log"));
+-        }
+-        else {
+-            log = new SysOutLogger();
+-        }
++        // Logger log;
++        // File logDir = new File("/logs");
++        // if (logDir.exists() && logDir.isDirectory() && logDir.canWrite()) {
++        //     log = new FileLogger(new File(logDir, "kwikserver.log"));
++        // }
++        // else {
++        //     log = new SysOutLogger();
++        // }
++        Logger log = new SysOutLogger();
+         log.timeFormat(Logger.TimeFormat.Long);
+         log.logWarning(true);
+         log.logInfo(true);
+ 
+-
+         File certificateFile = new File(args.get(0));
+         if (!certificateFile.exists()) {
+             System.err.println("Cannot open certificate file " + args.get(0));
