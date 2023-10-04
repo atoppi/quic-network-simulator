@@ -8,7 +8,7 @@ if [ -n "$QLOGDIR" ]; then
 	LOG_FILE="$(dirname "$QLOGDIR")/client.log"
 	LOG_ARGS="$LOG_ARGS --qlog-dir=$QLOGDIR"
 fi
-### cubic|reno|bbr|bbr2 default=cubic
+### cubic|reno|bbr default=cubic
 CLIENT_CC_ARGS="--cc cubic --initial-rtt 100ms"
 CLIENT_ARGS="--key=key_client.pem --cert=cert_client.pem --show-secret --no-quic-dump --no-http-dump --exit-on-all-streams-close $LOG_ARGS $CLIENT_CC_ARGS"
 
